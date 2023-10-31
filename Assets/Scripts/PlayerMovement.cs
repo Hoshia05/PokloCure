@@ -18,6 +18,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private GameObject _projectilePrefab;
 
+    private bool isInvulnerable = false;
+    private float _experience = 0;
+    private int _level = 1;
 
     [Header("캐릭스펙")]
     [SerializeField]
@@ -34,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("세팅")]
     [SerializeField]
     private float _cursorDistance;
+
 
     // Start is called before the first frame update
     void Start()
@@ -105,11 +109,31 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    public void GainEXP(float ExpValue)
+    {
+        _experience += ExpValue;
+
+        CheckLevelUp();
+
+
+    }
+
+    private void CheckLevelUp()
+    {
+        //todo
+    }
+
     public void TakeDamage(float damage)
     {
-        _characterHP -= damage;
+        if (!isInvulnerable)
+        {
+            StartCoroutine(InvulnerabilityCoroutine());
 
-        CheckDeath();
+            _characterHP -= damage;
+
+            CheckDeath();
+        }
+
     }
 
     void CheckDeath()
@@ -118,5 +142,15 @@ public class PlayerMovement : MonoBehaviour
         {
             //Death;
         }
+    }
+
+    IEnumerator InvulnerabilityCoroutine()
+    {
+        isInvulnerable = true;
+
+        yield return new WaitForSeconds(0.5f);
+
+        isInvulnerable = false;
+
     }
 }

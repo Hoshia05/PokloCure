@@ -12,6 +12,9 @@ public class EnemyScript : MonoBehaviour
 
     private Vector2 _enemyLineOfSight;
 
+    [SerializeField]
+    private GameObject _expItemPrefab;
+
     [Header("캐릭스펙")]
     [SerializeField]
     private float _movementSpeed;
@@ -77,7 +80,11 @@ public class EnemyScript : MonoBehaviour
     {
         if (_hp <= 0)
         {
+
+            Instantiate(_expItemPrefab, transform.position, Quaternion.identity);
+
             Destroy(gameObject);
+
             Debug.Log("Enemy ded");
         }
     }
