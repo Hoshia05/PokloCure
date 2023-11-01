@@ -94,8 +94,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1360219700710114151}
   - component: {fileID: 5534165642090980500}
+  - component: {fileID: 2908893155120491947}
   m_Layer: 0
-  m_Name: Sprite
+  m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,6 +169,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &2908893155120491947
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7037410354359110575}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7eacf55a8eb335d478d54072fb1bcc87, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8438766113470524038
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,7 +225,7 @@ Transform:
   - {fileID: 1360219700710114151}
   - {fileID: 1469714000465491702}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8424245305603009452
 MonoBehaviour:
@@ -262,8 +284,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 5534165642090980500}
+  _playerAnim: {fileID: 2908893155120491947}
   _cursor: {fileID: 6788090508172661848}
+  _projectilePrefab: {fileID: 0}
+  _characterMaxHP: 100
   _movementSpeed: 10
+  _attackMultiplier: 0
+  _criticalChance: 0
+  _attackCoolTime: 0
+  _defensePoints: 0
+  Weapons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  Items:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   _cursorDistance: 5
 --- !u!50 &3256312317566909451
 Rigidbody2D:

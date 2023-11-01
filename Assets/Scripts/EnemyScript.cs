@@ -64,7 +64,7 @@ public class EnemyScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             GameObject player = collision.gameObject;
-            PlayerMovement script = player.GetComponent<PlayerMovement>();
+            PlayerScript script = player.GetComponent<PlayerScript>();
             script.TakeDamage(15);
         }
     }

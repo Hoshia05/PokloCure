@@ -6,9 +6,23 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public static List<GameObject> EnemyList;
+    public List<GameObject> EnemyList;
 
-    
+    private CharacterBase _selectedCharacter;
+
+    public CharacterBase SelectedCharacter
+    {
+        get 
+        {
+            return _selectedCharacter;
+        }
+        private set
+        {
+            _selectedCharacter = value;
+        }
+    }
+
+    private static string _selectedCharacterName;
 
     private void Awake()
     {
