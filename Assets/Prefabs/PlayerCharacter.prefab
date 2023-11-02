@@ -203,9 +203,10 @@ GameObject:
   - component: {fileID: 8149691128580059410}
   - component: {fileID: 6969759973872466354}
   - component: {fileID: 3256312317566909451}
+  - component: {fileID: 3931579014649975054}
   m_Layer: 0
   m_Name: PlayerCharacter
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -225,7 +226,7 @@ Transform:
   - {fileID: 1360219700710114151}
   - {fileID: 1469714000465491702}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8424245305603009452
 MonoBehaviour:
@@ -283,15 +284,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d6f3c3db2d400046a07a1efcca6059b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _basicAttack: {fileID: 0}
   _spriteRenderer: {fileID: 5534165642090980500}
   _playerAnim: {fileID: 2908893155120491947}
   _cursor: {fileID: 6788090508172661848}
-  _projectilePrefab: {fileID: 0}
+  _projectilePrefab: {fileID: 429641142634744645, guid: 3e048b795c234d34fada5d32f3fbdbcd, type: 3}
+  _characterSO: {fileID: 11400000, guid: a367cd36c56dc6d4fb4213df3ab5b472, type: 2}
   _characterMaxHP: 100
   _movementSpeed: 10
   _attackMultiplier: 0
   _criticalChance: 0
-  _attackCoolTime: 0
+  _attackCoolTime: 0.5
   _defensePoints: 0
   Weapons:
   - {fileID: 0}
@@ -337,3 +340,38 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &3931579014649975054
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8438766113470524038}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.2}
+  serializedVersion: 2
+  m_Radius: 0.7

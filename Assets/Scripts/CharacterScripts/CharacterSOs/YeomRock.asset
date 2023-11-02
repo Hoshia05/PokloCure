@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 583199cfa19d6e348bf7155a23fdafc5, type: 3}
   m_Name: YeomRock
   m_EditorClassIdentifier: 
+  CharacterPortrait: {fileID: 21300000, guid: dbb35d3b015fd6b45aca52eaa076b2f0, type: 3}
   CharacterSprite: {fileID: 21300000, guid: dbb35d3b015fd6b45aca52eaa076b2f0, type: 3}
   AnimatorController: {fileID: 9100000, guid: 7eacf55a8eb335d478d54072fb1bcc87, type: 2}
   CharacterName: "\uC5FC\uB85D"

@@ -9,6 +9,7 @@ public class CharacterBase : ScriptableObject
     public const float _baseCooltime = 0.5f;
     public const float _baseCritical = 0.1f;
 
+    public Sprite CharacterPortrait;
     public Sprite CharacterSprite;
 
     public RuntimeAnimatorController AnimatorController;
