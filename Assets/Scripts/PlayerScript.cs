@@ -147,7 +147,7 @@ public class PlayerScript : MonoBehaviour
 
     IEnumerator StartAttacking()
     {
-        for(; ; )
+        while(true)
         {
             yield return new WaitForSeconds(_attackCoolTime);
             AttackAction();

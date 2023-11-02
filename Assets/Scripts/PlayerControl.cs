@@ -37,9 +37,6 @@ public class PlayerControl : MonoBehaviour
 
         Vector2 characterPosition = transform.position;
 
-        //Vector2 mousePosition2D = new Vector2(mousePosition.x, mousePosition.y);
-        //Vector2 shoulderPosition2D = new Vector2(shoulderPosition.x, shoulderPosition.y);
-
         PlayerLineOfSight = (mousePosition - characterPosition).normalized;
     }
 }
