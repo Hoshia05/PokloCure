@@ -8,6 +8,7 @@ public class CharacterBase : ScriptableObject
     public const float _baseSpeed = 10f;
     public const float _baseCooltime = 0.5f;
     public const float _baseCritical = 0.1f;
+    public const float _baseItemEatDistance = 5f;
 
     public Sprite CharacterPortrait;
     public Sprite CharacterSprite;

@@ -84,8 +84,6 @@ public class EnemyScript : MonoBehaviour
             Instantiate(_expItemPrefab, transform.position, Quaternion.identity);
 
             Destroy(gameObject);
-
-            Debug.Log("Enemy ded");
         }
     }
 }

@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExpItemScript : MonoBehaviour
+public class ExpItemScript : FieldItemBase
 {
-    [SerializeField]
     private float _expValue;
+
+    private void Start()
+    {
+        _expValue = Random.value * 10;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

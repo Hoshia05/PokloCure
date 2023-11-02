@@ -10,14 +10,11 @@ public class PlayerScript : MonoBehaviour
     private float _yVelocity;
     private bool isInvulnerable = false;
 
-    [SerializeField]
     private AttackProfile _basicAttack;
     [SerializeField]
     private SpriteRenderer _spriteRenderer;
     [SerializeField]
     private Animator _playerAnim;
-    [SerializeField]
-    private GameObject _cursor;
 
 
     [SerializeField]
@@ -26,8 +23,7 @@ public class PlayerScript : MonoBehaviour
     private float _experience = 0;
     private int _level = 1;
 
-    private float _thisLvlUp = 100;
-    private float _nextLvlUp = 100;
+    private float _expRequirement = 79;
 
     private float _characterCurrentHP;
 
@@ -52,6 +48,8 @@ public class PlayerScript : MonoBehaviour
     private float _attackCoolTime;
     [SerializeField]
     private float _defensePoints;
+    [SerializeField]
+    private float _itemEatDistance;
 
 
     [Header("소지품")]
@@ -62,6 +60,8 @@ public class PlayerScript : MonoBehaviour
 
     [Header("기타")]
     [SerializeField]
+    private GameObject _cursor;
+    [SerializeField]
     private float _cursorDistance;
 
     private void Awake()
@@ -69,7 +69,7 @@ public class PlayerScript : MonoBehaviour
         _controls = GetComponent<PlayerControl>();
         _rb = GetComponent<Rigidbody2D>();
 
-        InitializeWithSO(_characterSO);
+        //InitializeWithSO(_characterSO);
 
 
     }
@@ -86,6 +86,7 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        EatItemRadius();
         ApplyMovement();
         ApplyFlip();
         CursorUpdate();
@@ -100,6 +101,10 @@ public class PlayerScript : MonoBehaviour
 
     public void InitializeWithSO(CharacterBase SelectedCharacter)
     {
+        //글로벌 특정 수치
+        _itemEatDistance = CharacterBase._baseItemEatDistance;
+
+        //캐릭터 특정 수치들
         _movementSpeed = SelectedCharacter.SpeedMultiplier * CharacterBase._baseSpeed;
         _characterMaxHP = SelectedCharacter.Health;
         _characterCurrentHP = _characterMaxHP;
@@ -173,11 +178,12 @@ public class PlayerScript : MonoBehaviour
 
     private void CheckLevelUp()
     {
-        if( _experience >= _thisLvlUp)
+        if( _experience >= _expRequirement)
         {
             _level++;
-            _experience = _experience - _thisLvlUp;
-            ExperienceBar.Instance.LvlUp(_level, _nextLvlUp);
+            _experience = _experience - _expRequirement;
+            _expRequirement = MathRelated.GetNextExpRequirement(_level);
+            ExperienceBar.Instance.LvlUp(_level, _expRequirement);
 
         }
         ExperienceBar.Instance.SetEXP(_experience, _level);
@@ -218,5 +224,30 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    
+    public void EatItemRadius()
+    {
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, _itemEatDistance);
+
+        if(hitColliders.Length > 0 )
+        {
+            foreach(Collider2D collider in hitColliders)
+            {
+                if (collider.gameObject.CompareTag("FieldItem"))
+                {
+                    GameObject Target = collider.gameObject;
+                    FieldItemBase fieldItemBase = Target.GetComponent<FieldItemBase>();
+                    fieldItemBase.PickedByPlayer(transform);
+
+                }
+            }
+        }
+
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, _itemEatDistance);
+    }
+
 }

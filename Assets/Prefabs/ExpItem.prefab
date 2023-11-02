@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 2080361984404235723}
   m_Layer: 0
   m_Name: ExpItem
-  m_TagString: Untagged
+  m_TagString: FieldItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,7 +111,7 @@ Transform:
   m_GameObject: {fileID: 5710734456166026490}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9214406132206925751}
@@ -165,4 +165,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88f2706290ee93d4893c1942c34ba6c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _movementSpeed: 15
   _expValue: 40

@@ -7,7 +7,10 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public List<GameObject> EnemyList;
+    public GameObject PlayerCharacterPrefab;
 
+    [Header("µð¹ö±ë¿ë")]
+    [SerializeField]
     private CharacterBase _selectedCharacter;
 
     public CharacterBase SelectedCharacter
@@ -16,7 +19,7 @@ public class GameManager : MonoBehaviour
         {
             return _selectedCharacter;
         }
-        private set
+        set
         {
             _selectedCharacter = value;
         }
@@ -30,12 +33,6 @@ public class GameManager : MonoBehaviour
             Instance = this;
 
         DontDestroyOnLoad(gameObject);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 
 }
