@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -10,7 +11,7 @@ public class PlayerScript : MonoBehaviour
     private float _yVelocity;
     private bool isInvulnerable = false;
 
-    private AttackProfile _basicAttack;
+    //private AttackProfile _basicAttack;
     [SerializeField]
     private SpriteRenderer _spriteRenderer;
     [SerializeField]
@@ -53,10 +54,8 @@ public class PlayerScript : MonoBehaviour
 
 
     [Header("소지품")]
-    [SerializeField]
-    private GameObject[] Weapons = new GameObject[7];
-    [SerializeField]
-    private GameObject[] Items = new GameObject[7];
+    public List<ItemSkillBase> Weapons = new();
+    public List<ItemSkillBase> Items = new();
 
     [Header("기타")]
     [SerializeField]
@@ -184,9 +183,27 @@ public class PlayerScript : MonoBehaviour
             _experience = _experience - _expRequirement;
             _expRequirement = MathRelated.GetNextExpRequirement(_level);
             ExperienceBar.Instance.LvlUp(_level, _expRequirement);
+            StageManager.instance.LevelUpEvent();
 
         }
         ExperienceBar.Instance.SetEXP(_experience, _level);
+    }
+
+    public void ObtainItemSkill(ItemSkillBase item)
+    {
+        if(item.Type == ItemSkillType.SKILL)
+        {
+            //TODO:
+            //Upgrade Character Skill
+        }
+        else if(item.Type == ItemSkillType.WEAPON)
+        {
+            Weapons.Add(item);
+        }
+        else if(item.Type == ItemSkillType.ITEM)
+        {
+            Items.Add(item);
+        }
     }
 
     public void TakeDamage(float damage)

@@ -83,6 +83,8 @@ public class EnemyScript : MonoBehaviour
 
             Instantiate(_expItemPrefab, transform.position, Quaternion.identity);
 
+            StageManager.instance.UpdateKill();
+
             Destroy(gameObject);
         }
     }

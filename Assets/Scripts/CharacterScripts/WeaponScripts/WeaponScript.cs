@@ -2,20 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileScript : MonoBehaviour
+public abstract class WeaponScript : MonoBehaviour
 {
     // Start is called before the first frame update
-    private float _damage;
+    [SerializeField]
+    protected float _damage;
+    [SerializeField]
+    protected float _deathTime;
 
     void Start()
     {
-        Destroy(gameObject, 3f);
-        InitializeProjectile();
-    }
-
-    void InitializeProjectile()
-    {
-        _damage = 5.0f;
+        Destroy(gameObject, _deathTime);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -27,5 +24,4 @@ public class ProjectileScript : MonoBehaviour
             script.Damage(_damage);
         }
     }
-
 }

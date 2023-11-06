@@ -13,10 +13,26 @@ public class LvlUPListScript : MonoBehaviour
 
     private GameObject[] _itemList;
 
-    private void Awake()
+
+    [Header("µð¹ö±ë¿ë")]
+    [SerializeField]
+    private ItemSkillSO testSO;
+
+    public void CreateLvlUpList()
     {
         _itemList = new GameObject[_itemCount];
-    }
 
+        for(int i = 0; i < _itemCount; i++)
+        {
+            GameObject ListObject = Instantiate(_lvlUpChoicePrefab, _itemListBase.transform);
+            LvlUpChoiceScript lvlUpChoiceScript = ListObject.GetComponent<LvlUpChoiceScript>();
+
+            ItemSkillSO itemSkillSO = testSO; //get random
+            ItemSkillBase itemSkillData = new(itemSkillSO);
+
+            lvlUpChoiceScript.InitializeWithData(itemSkillData);
+
+        }
+    }
 
 }
