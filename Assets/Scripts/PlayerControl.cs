@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour
 {
+    public static PlayerControl Instance;
+
     private PlayerInput _inputActions;
 
     public Vector2 PlayerMovement;
@@ -14,6 +16,8 @@ public class PlayerControl : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        Instance = this;
+
         _inputActions = GetComponent<PlayerInput>();
         
         _inputActions.actions["Move"].performed += context => PlayerMovement = context.ReadValue<Vector2>();

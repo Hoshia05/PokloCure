@@ -13,7 +13,7 @@ public class ItemSkillSO : ScriptableObject
     public Sprite ItemIcon;
 
     public GameObject ItemPrefab;
-    public WeaponProfile WeaponProfile;
+    //public WeaponProfile WeaponProfile;
 
 
 }

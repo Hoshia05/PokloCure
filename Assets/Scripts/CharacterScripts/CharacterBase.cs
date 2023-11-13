@@ -14,7 +14,7 @@ public class CharacterBase : ScriptableObject
     public Sprite CharacterSprite;
 
     public RuntimeAnimatorController AnimatorController;
-    public WeaponProfile BasicWeaponProfile;
+    public GameObject BasicWeaponController;
 
     public string CharacterName;
 

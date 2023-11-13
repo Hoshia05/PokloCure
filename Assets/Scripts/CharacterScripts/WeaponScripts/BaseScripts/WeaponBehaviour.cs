@@ -2,17 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class WeaponScript : MonoBehaviour
+public class WeaponBehaviour : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField]
     protected float _damage;
-    [SerializeField]
     protected float _deathTime;
+    protected int _pierce;
 
-    void Start()
+    public void InitializeValue(float damage, float deathtime, int pierce)
     {
+        _damage = damage;
+        _deathTime = deathtime;
+        _pierce = pierce;
+
         Destroy(gameObject, _deathTime);
+    }
+
+    private void CheckPierce()
+    {
+        _pierce--;
+
+        if( _pierce <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -22,6 +35,7 @@ public abstract class WeaponScript : MonoBehaviour
             GameObject enemy = collision.gameObject;
             EnemyScript script = enemy.GetComponent<EnemyScript>();
             script.Damage(_damage);
+            CheckPierce();
         }
     }
 }

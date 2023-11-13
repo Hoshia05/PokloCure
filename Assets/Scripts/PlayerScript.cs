@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+    public static PlayerScript Instance;
+
+
     private PlayerControl _controls; 
     private Rigidbody2D _rb;
     private float _xVelocity;
@@ -53,6 +56,18 @@ public class PlayerScript : MonoBehaviour
     private float _itemEatDistance;
 
 
+    [SerializeField]
+    private GameObject _basicWeaponSlot;
+    private WeaponController _basicWeapon;
+    [SerializeField]
+    private GameObject _obtainedWeaponSlots;
+    private int _obtainedWeaponCount = 0;
+    [SerializeField]
+    private GameObject _obtainedItemSlots;
+    private int _obtainedItemCount = 0;
+
+
+
     [Header("소지품")]
     public List<ItemSkillBase> Weapons = new();
     public List<ItemSkillBase> Items = new();
@@ -65,6 +80,8 @@ public class PlayerScript : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
+
         _controls = GetComponent<PlayerControl>();
         _rb = GetComponent<Rigidbody2D>();
 
@@ -79,7 +96,7 @@ public class PlayerScript : MonoBehaviour
         ExperienceBar.Instance.InitializeEXP(100);
         HPBar.Instance.InitializeHPBar(_characterMaxHP);
 
-        StartCoroutine(StartAttacking());
+        //StartCoroutine(StartAttacking());
     }
 
     // Update is called once per frame
@@ -115,6 +132,8 @@ public class PlayerScript : MonoBehaviour
         _spriteRenderer.sprite = SelectedCharacter.CharacterSprite;
         _playerAnim.runtimeAnimatorController = SelectedCharacter.AnimatorController;
 
+        _basicWeaponSlot = Instantiate(SelectedCharacter.BasicWeaponController, _basicWeaponSlot.transform);
+        _basicWeapon = _basicWeaponSlot.GetComponent<WeaponController>();
     }
 
     void ApplyMovement()
