@@ -21,33 +21,36 @@ public class ItemSlotScript : MonoBehaviour
     
     public void UpdateItemSlot(PlayerScript currentPlayer)
     {
-        //List<ItemSkillBase> PlayerWeapons = currentPlayer.Weapons;
-        //List<ItemSkillBase> PlayerItems = currentPlayer.Items;
+        List<ItemController> PlayerWeapons = currentPlayer.Weapons;
+        List<ItemController> PlayerItems = currentPlayer.Items;
 
-        //for(int i = 0; i < PlayerWeapons.Count; i++)
-        //{
-        //    if (PlayerWeapons[i] != null)
-        //    {
-        //        Image ObjectImage = Weapons[i].GetComponent<Image>();
-        //        ObjectImage.sprite = PlayerWeapons[i].ItemIcon;
-        //    }
+        if(PlayerWeapons.Count > 0 )
+        {
+            for (int i = 0; i < PlayerWeapons.Count; i++)
+            {
+                if (PlayerWeapons[i] != null)
+                {
+                    Image ObjectImage = Weapons[i].GetComponent<Image>();
+                    ObjectImage.sprite = PlayerWeapons[i].ItemData.ItemImage;
+                }
 
-        //}
+            }
+        }
 
 
-        //if(PlayerItems[0] != null)
-        //{
-        //    for (int i = 0; i < PlayerWeapons.Count; i++)
-        //    {
-        //        if (PlayerItems[i] != null)
-        //        {
-        //            Image ObjectImage = Items[i].GetComponent<Image>();
-        //            ObjectImage.sprite = PlayerItems[i].ItemIcon;
-        //        }
-        //    }
-        //}
+        if (PlayerItems.Count > 0)
+        {
+            for (int i = 0; i < PlayerWeapons.Count; i++)
+            {
+                if (PlayerItems[i] != null)
+                {
+                    Image ObjectImage = Items[i].GetComponent<Image>();
+                    ObjectImage.sprite = PlayerItems[i].ItemData.ItemImage;
+                }
+            }
+        }
 
-        
+
     }
 
 }

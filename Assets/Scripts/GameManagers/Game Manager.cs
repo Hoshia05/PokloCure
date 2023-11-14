@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,9 +7,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public System.Random Rand = new();
     public List<GameObject> EnemyList;
+    public List<ItemSO> ItemList;
     public GameObject PlayerCharacterPrefab;
     public GameObject DamagePopUpPrefab;
+
 
     [Header("µð¹ö±ë¿ë")]
     [SerializeField]
@@ -34,6 +38,11 @@ public class GameManager : MonoBehaviour
             Instance = this;
 
         DontDestroyOnLoad(gameObject);
+    }
+
+    public ItemSO GetRandomItem()
+    {
+        return ItemList[Rand.Next(ItemList.Count)];
     }
 
 }

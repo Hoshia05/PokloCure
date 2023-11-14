@@ -20,12 +20,13 @@ public class LvlUpChoiceScript : MonoBehaviour
     private LvlUPListScript _parentList;
 
 
-    public void InitializeWithData(ItemSO ISData, LvlUPListScript ParentList)
+    public void InitializeWithData(ItemSO ISData, int NextLevel, LvlUPListScript ParentList)
     {
         _itemSkillData = ISData;
 
-        _itemName.text = ISData.ItemName;
-        _itemDescription.text = ISData.ItemDescription;
+
+        _itemName.text = $"{ISData.ItemName}  Lv.{NextLevel}";
+        _itemDescription.text = ISData.ItemDescription[NextLevel-1];
         _itemIcon.sprite = ISData.ItemImage;
         _type.text = ISData.ItemType.ToString();
         _parentList = ParentList;

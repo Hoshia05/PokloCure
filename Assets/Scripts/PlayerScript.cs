@@ -55,16 +55,28 @@ public class PlayerScript : MonoBehaviour
     [SerializeField]
     private float _itemEatDistance;
 
-
+    [Header("무기슬롯관련")]
     [SerializeField]
     private GameObject _basicWeaponSlot;
     private ItemController _basicWeapon;
     [SerializeField]
     private GameObject _obtainedWeaponSlots;
+    private List<ItemController> _weapons = new();
+    public List<ItemController> Weapons
+    {
+        get { return _weapons; }
+    }
     private int _obtainedWeaponCount = 0;
     [SerializeField]
     private GameObject _obtainedItemSlots;
+    private List<ItemController> _items = new();
+    public List<ItemController> Items
+    {
+        get { return _items; }
+    }
     private int _obtainedItemCount = 0;
+
+    private const int MAXSLOT = 7;
 
     [Header("기타")]
     [SerializeField]
@@ -162,24 +174,6 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    IEnumerator StartAttacking()
-    {
-        while(true)
-        {
-            yield return new WaitForSeconds(_attackCoolTime);
-            AttackAction();
-
-        }
-    }
-
-    void AttackAction()
-    {
-        GameObject projectile = Instantiate(_projectilePrefab, transform);
-        Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
-        projectileRB.AddForce(_controls.PlayerLineOfSight * 1000);
-
-    }
-
     public void GainEXP(float ExpValue)
     {
         _experience += ExpValue;
@@ -194,7 +188,6 @@ public class PlayerScript : MonoBehaviour
         {
             _level++;
             _experience = _experience - _expRequirement;
-            //_experience = 0;
             _expRequirement = MathRelated.GetNextExpRequirement(_level);
             ExperienceBar.Instance.LvlUp(_level, _expRequirement);
             StageManager.instance.LevelUpEvent();
@@ -203,22 +196,71 @@ public class PlayerScript : MonoBehaviour
         ExperienceBar.Instance.SetEXP(_experience, _level);
     }
 
+    public ItemController CheckItemPossession(ItemSO item)
+    {
+        if (_basicWeapon.ItemData == item)
+        {
+            return _basicWeapon;
+
+        }
+        else if (_weapons.Any(x => x.ItemData == item))
+        {
+            return _weapons.First(x => x.ItemData == item);
+
+        }
+        else if (_items.Any(x => x.ItemData == item))
+        {
+            return _items.First(x => x.ItemData == item);
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public int CheckItemPossessionLevel(ItemSO item)
+    {
+        ItemController itemController = CheckItemPossession(item);
+
+        if(itemController != null)
+        {
+            return itemController.CurrentWeaponLevel + 1;
+        }
+        else
+        {
+            return 1;
+        }
+
+    }
+
     public void ObtainItemSkill(ItemSO item)
     {
-        if (item.ItemType == ItemType.SKILL)
+        ItemController itemController = CheckItemPossession(item);
+        if (itemController != null)
         {
-            //TODO:
-            //Upgrade Character Skill
+            itemController.LevelUp();
         }
-        else if (item.ItemType == ItemType.WEAPON)
+        else
         {
-            GameObject NewWeapon = Instantiate(item.ControllerPrefab, _obtainedWeaponSlots.transform);
-            _obtainedWeaponCount++;
-        }
-        else if (item.ItemType == ItemType.ITEM)
-        {
-            GameObject NewItem = Instantiate(item.ControllerPrefab, _obtainedItemSlots.transform);
-            _obtainedItemCount++;
+            if (item.ItemType == ItemType.SKILL)
+            {
+                //TODO:
+                //Upgrade Character Skill
+            }
+            else if (item.ItemType == ItemType.WEAPON)
+            {
+                GameObject NewWeapon = Instantiate(item.ControllerPrefab, _obtainedWeaponSlots.transform);
+                ItemController newWeaponController = NewWeapon.GetComponent<ItemController>();
+                _weapons.Add(newWeaponController);
+                _obtainedWeaponCount++;
+            }
+            else if (item.ItemType == ItemType.ITEM)
+            {
+                GameObject NewItem = Instantiate(item.ControllerPrefab, _obtainedItemSlots.transform);
+                ItemController newItemController = NewItem.GetComponent<ItemController>();
+                _weapons.Add(newItemController);
+                _obtainedItemCount++;
+            }
         }
     }
 
@@ -241,7 +283,7 @@ public class PlayerScript : MonoBehaviour
     {
         if(_characterCurrentHP <= 0)
         {
-            //Death;
+            Destroy(gameObject);
         }
     }
 

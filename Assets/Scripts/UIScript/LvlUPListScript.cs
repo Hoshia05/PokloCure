@@ -13,11 +13,6 @@ public class LvlUPListScript : MonoBehaviour
 
     private GameObject[] _itemList;
 
-
-    [Header("µð¹ö±ë¿ë")]
-    [SerializeField]
-    private ItemSO testSO;
-
     public void CreateLvlUpList()
     {
         _itemList = new GameObject[_itemCount];
@@ -27,9 +22,21 @@ public class LvlUPListScript : MonoBehaviour
             GameObject ListObject = Instantiate(_lvlUpChoicePrefab, _itemListBase.transform);
             LvlUpChoiceScript lvlUpChoiceScript = ListObject.GetComponent<LvlUpChoiceScript>();
 
-            ItemSO itemSkillSO = testSO; //get random
+            //Get Random item
+            ItemSO itemSkillSO = GameManager.Instance.GetRandomItem();
 
-            lvlUpChoiceScript.InitializeWithData(itemSkillSO, this);
+            //Check if player already has it.
+            int nextLevel = PlayerScript.Instance.CheckItemPossessionLevel(itemSkillSO);
+
+            //if item is already max level, reroll until different one shows up.
+            while(nextLevel > itemSkillSO.ItemMaxLevel)
+            {
+                itemSkillSO = GameManager.Instance.GetRandomItem();
+
+                nextLevel = PlayerScript.Instance.CheckItemPossessionLevel(itemSkillSO);
+            }
+
+            lvlUpChoiceScript.InitializeWithData(itemSkillSO, nextLevel, this);
             _itemList[i] = ListObject;
 
         }

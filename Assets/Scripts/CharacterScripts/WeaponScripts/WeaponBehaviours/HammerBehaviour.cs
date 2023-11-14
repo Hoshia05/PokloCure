@@ -33,12 +33,6 @@ public class HammerBehaviour : ItemBehaviour
         _damage *= 1.2f;
     }
 
-    protected override void Level3Effect()
-    {
-        transform.localScale += new Vector3(0.2f, 0.2f, 0);
-        _damage *= 1.2f;
-    }
-
     protected override void Level4Effect()
     {
         transform.localScale += new Vector3(0.2f, 0.2f, 0);

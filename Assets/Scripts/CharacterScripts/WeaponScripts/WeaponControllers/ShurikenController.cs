@@ -9,10 +9,10 @@ public class ShurikenController : ItemController
     {
         base.Attack();
 
-        GameObject projectile = Instantiate(WeaponData.ItemPrefab, transform);
+        GameObject projectile = Instantiate(ItemData.ItemPrefab, transform);
         Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
         ItemBehaviour projectileBehaviour = projectileRB.GetComponent<ItemBehaviour>();
-        projectileBehaviour.InitializeValue(_currentDamage, WeaponData.Deathtime, _currentPierce, _currentSpeed, CurrentWeaponLevel);
+        projectileBehaviour.InitializeValue(_currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentWeaponLevel, _currentSizeScale);
         projectileRB.AddForce(PlayerControl.Instance.PlayerLineOfSight * 1000);
     }
 }

@@ -26,7 +26,7 @@ public class ItemBehaviour : MonoBehaviour
         _levelUPEffectsList.Add(Level7Effect);
     }
 
-    public void InitializeValue(float damage, float deathtime, int pierce, float speed, int level)
+    public void InitializeValue(float damage, float deathtime, int pierce, float speed, int level, float sizeScale)
     {
         _damage = damage;
         _deathTime = deathtime;
@@ -34,7 +34,9 @@ public class ItemBehaviour : MonoBehaviour
         _speed = speed;
         _itemLevel = level;
 
-        LevelEffectCheck();
+        transform.localScale += new Vector3(sizeScale - 1f, sizeScale - 1f, 0);
+
+        //LevelEffectCheck();
 
         Destroy(gameObject, _deathTime);
     }

@@ -13,12 +13,20 @@ MonoBehaviour:
   m_Name: ShurikenSO
   m_EditorClassIdentifier: 
   ItemName: "\uC218\uB9AC\uAC80"
-  ItemDescription: "\uC544\uC774\uC5D0\uC5D0 \uB2CC\uC790\uB09C\uB370"
+  ItemDescription:
+  - "\uC2E0\uADDC \uC124\uBA85"
+  - "\uCC44\uC6B8\uC608\uC815 2"
+  - "\uCC44\uC6B8\uC608\uC815 3"
+  - "\uCC44\uC6B8\uC608\uC815 4"
+  - "\uCC44\uC6B8\uC608\uC815 5"
+  - "\uCC44\uC6B8\uC608\uC815 6"
+  - "\uCC44\uC6B8\uC608\uC815 7"
   ItemType: 1
   ItemImage: {fileID: 21300000, guid: 8471485d074ecad4d83917c629e234f7, type: 3}
+  ItemMaxLevel: 7
   ControllerPrefab: {fileID: 3780977769202291255, guid: 8e046b3a1e077cb45841776e8854fdb8, type: 3}
   ItemPrefab: {fileID: 429641142634744645, guid: 3e048b795c234d34fada5d32f3fbdbcd, type: 3}
-  Damage: 4
+  Damage: 10
   Speed: 10
   CooldownDuration: 0.7
   Pierce: 1

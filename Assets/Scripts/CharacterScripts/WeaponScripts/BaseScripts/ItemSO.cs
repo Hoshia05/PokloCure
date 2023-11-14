@@ -1,13 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "ItemSO", menuName = "Scriptable Object/ItemSO")]
 public class ItemSO : ScriptableObject
 {
+
+    private GUID _guid = new GUID();
+
     public string ItemName;
-    public string ItemDescription;
+    public List<string> ItemDescription;
     public ItemType ItemType = ItemType.WEAPON;
     public Sprite ItemImage;
     public int ItemMaxLevel = 7;
@@ -19,6 +23,8 @@ public class ItemSO : ScriptableObject
     public float CooldownDuration;
     public int Pierce = 1;
     public float Deathtime = 4f;
+
+    public GUID GetGUID() { return _guid; }
 }
 
 public enum ItemType

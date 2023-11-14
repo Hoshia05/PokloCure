@@ -46,4 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyList:
   - {fileID: 6866567978285184781, guid: 24482696c81187c46a523a3f943f4753, type: 3}
+  ItemList:
+  - {fileID: 11400000, guid: c1f500a0f0d1afb4596d44a9f707e9ae, type: 2}
+  - {fileID: 11400000, guid: 284333abd3ed090409196d1e6acd9ec6, type: 2}
+  - {fileID: 11400000, guid: afae2633339fe7d418e8a1a4a1b88288, type: 2}
   PlayerCharacterPrefab: {fileID: 8438766113470524038, guid: 4b0804e9b0ab99e4cade03185f864d6d, type: 3}
+  DamagePopUpPrefab: {fileID: 5271240959729347560, guid: f69cb61873c2372468194f31debf07a1, type: 3}
+  _selectedCharacter: {fileID: 0}
