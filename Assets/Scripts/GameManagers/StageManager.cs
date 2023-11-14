@@ -137,7 +137,7 @@ public class StageManager : MonoBehaviour
         _levelUPUI.SetActive(false);
     }
 
-    public void GivePlayerItem(ItemSkillBase item)
+    public void GivePlayerItem(ItemSO item)
     {
         _currentPlayer.ObtainItemSkill(item);
         _itemSlotScript.UpdateItemSlot(_currentPlayer);

@@ -15,7 +15,7 @@ MonoBehaviour:
   CharacterPortrait: {fileID: 21300000, guid: dbb35d3b015fd6b45aca52eaa076b2f0, type: 3}
   CharacterSprite: {fileID: 21300000, guid: dbb35d3b015fd6b45aca52eaa076b2f0, type: 3}
   AnimatorController: {fileID: 9100000, guid: 7eacf55a8eb335d478d54072fb1bcc87, type: 2}
-  BasicWeaponController: {fileID: 3780977769202291255, guid: c2824ad90f7802f45a132fd250d9816a, type: 3}
+  BasicWeaponController: {fileID: 3780977769202291255, guid: 0879c6ba073901e4dbbdde74a00beb1a, type: 3}
   CharacterName: "\uC5FC\uB85D"
   Health: 50
   SpeedMultiplier: 1.5

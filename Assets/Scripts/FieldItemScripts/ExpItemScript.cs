@@ -6,9 +6,13 @@ public class ExpItemScript : FieldItemBase
 {
     private float _expValue;
 
+    public bool IsDebug;
+
     private void Start()
     {
         _expValue = Random.value * 10;
+        if (IsDebug)
+            _expValue *= 10;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

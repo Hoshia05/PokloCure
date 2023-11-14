@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SurikenBehaviour : WeaponBehaviour
+public class SurikenBehaviour : ItemBehaviour
 {
     private void Awake()
     {

@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 
     public List<GameObject> EnemyList;
     public GameObject PlayerCharacterPrefab;
+    public GameObject DamagePopUpPrefab;
 
     [Header("µð¹ö±ë¿ë")]
     [SerializeField]

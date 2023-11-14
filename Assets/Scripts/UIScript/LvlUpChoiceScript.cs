@@ -15,24 +15,27 @@ public class LvlUpChoiceScript : MonoBehaviour
     [SerializeField]
     private Image _itemIcon;
 
-    private ItemSkillBase _itemSkillData;
+    private ItemSO _itemSkillData;
+
+    private LvlUPListScript _parentList;
 
 
-
-    public void InitializeWithData(ItemSkillBase ISData)
+    public void InitializeWithData(ItemSO ISData, LvlUPListScript ParentList)
     {
         _itemSkillData = ISData;
 
         _itemName.text = ISData.ItemName;
         _itemDescription.text = ISData.ItemDescription;
-        _itemIcon.sprite = ISData.ItemIcon;
-        _type.text = ISData.Type.ToString();
+        _itemIcon.sprite = ISData.ItemImage;
+        _type.text = ISData.ItemType.ToString();
+        _parentList = ParentList;
     }
 
     public void SelectThisChoice()
     {
         StageManager.instance.GivePlayerItem(_itemSkillData);
         StageManager.instance.LevelUpEventEnd();
+        _parentList.DeleteList();
     }
 
 }

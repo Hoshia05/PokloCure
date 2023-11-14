@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - FieldItem
+  - ItemController
   layers:
   - Default
   - TransparentFX
@@ -42,4 +43,19 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 2794746307
+    locked: 0
+  - name: Item
+    uniqueID: 3001648583
+    locked: 0
+  - name: Player
+    uniqueID: 392522869
+    locked: 0
+  - name: Foreground
+    uniqueID: 3554498789
+    locked: 0
+  - name: UI
+    uniqueID: 1138441661
     locked: 0

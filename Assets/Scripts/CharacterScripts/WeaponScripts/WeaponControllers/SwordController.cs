@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwordController : WeaponController
+public class SwordController : ItemController
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void Attack()
     {
-        
-    }
+        base.Attack();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameObject projectile = Instantiate(WeaponData.ItemPrefab, transform);
+
+
+        ItemBehaviour projectileBehaviour = projectile.GetComponent<ItemBehaviour>();
+        projectileBehaviour.InitializeValue(_currentDamage, WeaponData.Deathtime, _currentPierce, _currentSpeed, CurrentWeaponLevel);
+
+        float angle = Mathf.Atan2(PlayerControl.Instance.PlayerLineOfSight.y, PlayerControl.Instance.PlayerLineOfSight.x) * Mathf.Rad2Deg;
+        projectile.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+
     }
 }

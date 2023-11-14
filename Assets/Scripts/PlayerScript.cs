@@ -58,19 +58,13 @@ public class PlayerScript : MonoBehaviour
 
     [SerializeField]
     private GameObject _basicWeaponSlot;
-    private WeaponController _basicWeapon;
+    private ItemController _basicWeapon;
     [SerializeField]
     private GameObject _obtainedWeaponSlots;
     private int _obtainedWeaponCount = 0;
     [SerializeField]
     private GameObject _obtainedItemSlots;
     private int _obtainedItemCount = 0;
-
-
-
-    [Header("소지품")]
-    public List<ItemSkillBase> Weapons = new();
-    public List<ItemSkillBase> Items = new();
 
     [Header("기타")]
     [SerializeField]
@@ -133,7 +127,7 @@ public class PlayerScript : MonoBehaviour
         _playerAnim.runtimeAnimatorController = SelectedCharacter.AnimatorController;
 
         _basicWeaponSlot = Instantiate(SelectedCharacter.BasicWeaponController, _basicWeaponSlot.transform);
-        _basicWeapon = _basicWeaponSlot.GetComponent<WeaponController>();
+        _basicWeapon = _basicWeaponSlot.GetComponent<ItemController>();
     }
 
     void ApplyMovement()
@@ -200,6 +194,7 @@ public class PlayerScript : MonoBehaviour
         {
             _level++;
             _experience = _experience - _expRequirement;
+            //_experience = 0;
             _expRequirement = MathRelated.GetNextExpRequirement(_level);
             ExperienceBar.Instance.LvlUp(_level, _expRequirement);
             StageManager.instance.LevelUpEvent();
@@ -208,20 +203,22 @@ public class PlayerScript : MonoBehaviour
         ExperienceBar.Instance.SetEXP(_experience, _level);
     }
 
-    public void ObtainItemSkill(ItemSkillBase item)
+    public void ObtainItemSkill(ItemSO item)
     {
-        if(item.Type == ItemSkillType.SKILL)
+        if (item.ItemType == ItemType.SKILL)
         {
             //TODO:
             //Upgrade Character Skill
         }
-        else if(item.Type == ItemSkillType.WEAPON)
+        else if (item.ItemType == ItemType.WEAPON)
         {
-            Weapons.Add(item);
+            GameObject NewWeapon = Instantiate(item.ControllerPrefab, _obtainedWeaponSlots.transform);
+            _obtainedWeaponCount++;
         }
-        else if(item.Type == ItemSkillType.ITEM)
+        else if (item.ItemType == ItemType.ITEM)
         {
-            Items.Add(item);
+            GameObject NewItem = Instantiate(item.ControllerPrefab, _obtainedItemSlots.transform);
+            _obtainedItemCount++;
         }
     }
 
