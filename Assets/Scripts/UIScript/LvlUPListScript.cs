@@ -24,25 +24,30 @@ public class LvlUPListScript : MonoBehaviour
         for (int i = 0; i < _itemCount; i++)
         {
             //제외 리스트가 총 리스트랑 같으면(= 가능한 모든 아이템이 제외되면) 그냥 그만 만들기
-            if (!GameManager.Instance.ItemList.Except(exemptList).Any())
+            //버그 고쳐어어ㅓ
+            //if (!GameManager.Instance.ItemList.Except(exemptList).Any())
+            if(GameManager.Instance.ItemList.Count == exemptList.Count)
                 break;
 
             GameObject ListObject = Instantiate(_lvlUpChoicePrefab, _itemListBase.transform);
             LvlUpChoiceScript lvlUpChoiceScript = ListObject.GetComponent<LvlUpChoiceScript>();
 
-            //Get Random item
-            ItemSO itemSkillSO = GameManager.Instance.GetRandomItem();
-
-            //Check if player already has it.
-            int nextLevel = PlayerScript.Instance.CheckItemPossessionLevel(itemSkillSO);
+            ItemSO itemSkillSO;
+            int nextLevel;
 
             //if item is already max level, reroll until different one shows up.
-            while(nextLevel > itemSkillSO.ItemMaxLevel || exemptList.Contains(itemSkillSO))
+            do
             {
+                //Get Random item
                 itemSkillSO = GameManager.Instance.GetRandomItem();
 
+                //Check if player already has it.
                 nextLevel = PlayerScript.Instance.CheckItemPossessionLevel(itemSkillSO);
-            }
+
+                if (nextLevel > itemSkillSO.ItemMaxLevel)
+                    exemptList.Add(itemSkillSO);
+
+            } while (exemptList.Contains(itemSkillSO));
 
             lvlUpChoiceScript.InitializeWithData(itemSkillSO, nextLevel, this);
             _itemList[i] = ListObject;

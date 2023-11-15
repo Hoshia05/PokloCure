@@ -15,9 +15,12 @@ MonoBehaviour:
   EnemyPortrait: {fileID: 21300000, guid: 2d7faf8b9ba826a478cd641ce7087d70, type: 3}
   EnemySprite: {fileID: 21300000, guid: 2d7faf8b9ba826a478cd641ce7087d70, type: 3}
   AnimatorController: {fileID: 0}
+  BasicWeaponController: {fileID: 0}
   EnemyName: "\uADFC\uC811\uB808\uBAAC\uB3D9\uC790"
   EnemyDescription: "\uAD8C\uD22C\uD558\uACE0\uC2F6\uB2E4\uB808"
-  Health: 50
+  EnemyType: 0
+  HP: 40
   SpeedMultiplier: 1
-  AttackMultiplier: 1
+  BodyDamage: 10
+  AttackCooltime: 0.5
   CriticalChance: 0.01

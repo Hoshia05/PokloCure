@@ -26,7 +26,7 @@ MonoBehaviour:
   ItemMaxLevel: 7
   ControllerPrefab: {fileID: 3780977769202291255, guid: 8e046b3a1e077cb45841776e8854fdb8, type: 3}
   ItemPrefab: {fileID: 429641142634744645, guid: 3e048b795c234d34fada5d32f3fbdbcd, type: 3}
-  Damage: 10
+  DamageMultiplier: 1
   Speed: 10
   CooldownDuration: 0.7
   Pierce: 1

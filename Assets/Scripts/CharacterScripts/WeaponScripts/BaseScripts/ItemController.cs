@@ -31,7 +31,7 @@ public class ItemController : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Awake()
     {
-        _currentDamage = RoundValue(ItemData.Damage * PlayerScript.Instance.AttackMultiplier);
+        _currentDamage = RoundValue(ItemSO.BaseDamage * ItemData.DamageMultiplier * PlayerScript.Instance.AttackMultiplier);
         _currentSpeed = ItemData.Speed;
         _currentCooldownDuration = ItemData.CooldownDuration;
         _currentPierce = ItemData.Pierce;

@@ -96,8 +96,10 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float rawDamage)
     {
+        float damage = DamageVariance(rawDamage);
+
         _currentMaxHP -= damage;
 
         //적 피격 모션 : 간단하게 한 0.3초 동안 빨갛게 되기
@@ -119,8 +121,11 @@ public class EnemyScript : MonoBehaviour
 
     }
 
-    public void TakeCriticalDamage(float damage)
+    public void TakeCriticalDamage(float rawDamage)
     {
+
+        float damage = DamageVariance(rawDamage);
+
         _currentMaxHP -= damage;
 
         //적 피격 모션 : 간단하게 한 0.3초 동안 빨갛게 되기
@@ -185,6 +190,18 @@ public class EnemyScript : MonoBehaviour
         Instantiate(_expItemPrefab, transform.position, Quaternion.identity);
 
         Destroy(gameObject);
+
+    }
+
+    private float DamageVariance(float damage)
+    {
+        float minDamage = damage - 2;
+        float maxDamage = damage + 2;
+
+        float range = maxDamage - minDamage;
+        double sample = GameManager.Instance.Rand.NextDouble();
+
+        return ItemController.RoundValue((range * (float)sample) + minDamage);
 
     }
 
