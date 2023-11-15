@@ -7,7 +7,6 @@ public class PlayerScript : MonoBehaviour
 {
     public static PlayerScript Instance;
 
-
     private PlayerControl _controls; 
     private Rigidbody2D _rb;
     private float _xVelocity;
@@ -24,12 +23,10 @@ public class PlayerScript : MonoBehaviour
     [SerializeField]
     private GameObject _projectilePrefab;
 
-    private float _experience = 0;
+    //경험치 관련
+    private float _currentExperience = 0;
     private int _level = 1;
-
     private float _expRequirement = 79;
-
-    private float _characterCurrentHP;
 
 
     [Header("디버깅용")]
@@ -37,14 +34,19 @@ public class PlayerScript : MonoBehaviour
     private CharacterBase _characterSO;
 
     [Header("캐릭스펙")]
-    [SerializeField]
-    private float _characterMaxHP;
-    [SerializeField]
-    private float _movementSpeed;
-    [SerializeField]
+    private float _currentCharacterMaxHP;
+    private float _characterCurrentHP;
+    private float _currentMovementSpeed;
     private float _attackMultiplier;
-    [SerializeField]
-    private float _criticalChance;
+    public float AttackMultiplier
+    {
+        get
+        {
+            return _attackMultiplier;
+        }
+    }
+    private float _currentCriticalChance;
+    private float _currentCriticalDamage;
 
 
     [Header("숨겨진 수치들")]
@@ -61,16 +63,18 @@ public class PlayerScript : MonoBehaviour
     private ItemController _basicWeapon;
     [SerializeField]
     private GameObject _obtainedWeaponSlots;
-    private List<ItemController> _weapons = new();
-    public List<ItemController> Weapons
+
+    private Dictionary<ItemSO, ItemController> _weapons = new();
+    public Dictionary<ItemSO, ItemController> Weapons
     {
         get { return _weapons; }
     }
     private int _obtainedWeaponCount = 0;
+
     [SerializeField]
     private GameObject _obtainedItemSlots;
-    private List<ItemController> _items = new();
-    public List<ItemController> Items
+    private Dictionary<ItemSO, ItemController> _items = new();
+    public Dictionary<ItemSO, ItemController> Items
     {
         get { return _items; }
     }
@@ -91,7 +95,7 @@ public class PlayerScript : MonoBehaviour
         _controls = GetComponent<PlayerControl>();
         _rb = GetComponent<Rigidbody2D>();
 
-        //InitializeWithSO(_characterSO);
+        InitializeFromGM();
 
 
     }
@@ -100,9 +104,8 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         ExperienceBar.Instance.InitializeEXP(100);
-        HPBar.Instance.InitializeHPBar(_characterMaxHP);
+        HPBar.Instance.InitializeHPBar(_currentCharacterMaxHP);
 
-        //StartCoroutine(StartAttacking());
     }
 
     // Update is called once per frame
@@ -127,13 +130,14 @@ public class PlayerScript : MonoBehaviour
         _itemEatDistance = CharacterBase._baseItemEatDistance;
 
         //캐릭터 특정 수치들
-        _movementSpeed = SelectedCharacter.SpeedMultiplier * CharacterBase._baseSpeed;
-        _characterMaxHP = SelectedCharacter.Health;
-        _characterCurrentHP = _characterMaxHP;
+        _currentMovementSpeed = SelectedCharacter.SpeedMultiplier * CharacterBase._baseSpeed;
+        _currentCharacterMaxHP = SelectedCharacter.Health;
+        _characterCurrentHP = _currentCharacterMaxHP;
         _attackMultiplier = SelectedCharacter.AttackMultiplier;
-        _criticalChance = SelectedCharacter.CriticalChance;
+        _currentCriticalChance = SelectedCharacter.CriticalChance;
+        _currentCriticalDamage = CharacterBase._baseCritDamage;
 
-        _defensePoints = SelectedCharacter.DefensePoints;
+        //_defensePoints = SelectedCharacter.DefensePoints;
 
         _spriteRenderer.sprite = SelectedCharacter.CharacterSprite;
         _playerAnim.runtimeAnimatorController = SelectedCharacter.AnimatorController;
@@ -149,8 +153,8 @@ public class PlayerScript : MonoBehaviour
         else
             _playerAnim.SetBool("Move", false);
 
-        _xVelocity = _controls.PlayerMovement.x * _movementSpeed;
-        _yVelocity = _controls.PlayerMovement.y * _movementSpeed;
+        _xVelocity = _controls.PlayerMovement.x * _currentMovementSpeed;
+        _yVelocity = _controls.PlayerMovement.y * _currentMovementSpeed;
 
         _rb.velocity = new Vector2(_xVelocity, _yVelocity);
     }
@@ -176,7 +180,7 @@ public class PlayerScript : MonoBehaviour
 
     public void GainEXP(float ExpValue)
     {
-        _experience += ExpValue;
+        _currentExperience += ExpValue;
 
         CheckLevelUp();
 
@@ -184,16 +188,16 @@ public class PlayerScript : MonoBehaviour
 
     private void CheckLevelUp()
     {
-        if( _experience >= _expRequirement)
+        if( _currentExperience >= _expRequirement)
         {
             _level++;
-            _experience = _experience - _expRequirement;
+            _currentExperience = _currentExperience - _expRequirement;
             _expRequirement = MathRelated.GetNextExpRequirement(_level);
             ExperienceBar.Instance.LvlUp(_level, _expRequirement);
             StageManager.instance.LevelUpEvent();
 
         }
-        ExperienceBar.Instance.SetEXP(_experience, _level);
+        ExperienceBar.Instance.SetEXP(_currentExperience, _level);
     }
 
     public ItemController CheckItemPossession(ItemSO item)
@@ -203,14 +207,14 @@ public class PlayerScript : MonoBehaviour
             return _basicWeapon;
 
         }
-        else if (_weapons.Any(x => x.ItemData == item))
+        else if (_weapons.ContainsKey(item))
         {
-            return _weapons.First(x => x.ItemData == item);
+            return _weapons[item];
 
         }
-        else if (_items.Any(x => x.ItemData == item))
+        else if (_items.ContainsKey(item))
         {
-            return _items.First(x => x.ItemData == item);
+            return _items[item];
         }
         else
         {
@@ -251,17 +255,32 @@ public class PlayerScript : MonoBehaviour
             {
                 GameObject NewWeapon = Instantiate(item.ControllerPrefab, _obtainedWeaponSlots.transform);
                 ItemController newWeaponController = NewWeapon.GetComponent<ItemController>();
-                _weapons.Add(newWeaponController);
+                _weapons.Add(item, newWeaponController);
                 _obtainedWeaponCount++;
             }
             else if (item.ItemType == ItemType.ITEM)
             {
                 GameObject NewItem = Instantiate(item.ControllerPrefab, _obtainedItemSlots.transform);
                 ItemController newItemController = NewItem.GetComponent<ItemController>();
-                _weapons.Add(newItemController);
+                _items.Add(item, newItemController);
                 _obtainedItemCount++;
             }
         }
+    }
+
+    public bool CriticalCheck()
+    {
+        int checkNum = (int)(_currentCriticalChance * 100);
+
+        if(GameManager.Instance.Rand.Next(0, 100) < checkNum)
+            return true;
+        else
+            return false;
+    }
+
+    public float GetCritDamage(float baseDamage)
+    {
+        return ItemController.RoundValue(baseDamage * _currentCriticalDamage);
     }
 
     public void TakeDamage(float damage)

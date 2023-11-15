@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,17 +22,18 @@ public class ItemSlotScript : MonoBehaviour
     
     public void UpdateItemSlot(PlayerScript currentPlayer)
     {
-        List<ItemController> PlayerWeapons = currentPlayer.Weapons;
-        List<ItemController> PlayerItems = currentPlayer.Items;
+        //List<ItemController> PlayerWeapons = currentPlayer.Weapons;
+        Dictionary<ItemSO,ItemController> PlayerWeapons = currentPlayer.Weapons;
+        Dictionary<ItemSO, ItemController> PlayerItems = currentPlayer.Items;
 
         if(PlayerWeapons.Count > 0 )
         {
             for (int i = 0; i < PlayerWeapons.Count; i++)
             {
-                if (PlayerWeapons[i] != null)
+                if (PlayerWeapons.ElementAt(i).Key != null)
                 {
                     Image ObjectImage = Weapons[i].GetComponent<Image>();
-                    ObjectImage.sprite = PlayerWeapons[i].ItemData.ItemImage;
+                    ObjectImage.sprite = PlayerWeapons.ElementAt(i).Value.ItemData.ItemImage;
                 }
 
             }
@@ -40,12 +42,12 @@ public class ItemSlotScript : MonoBehaviour
 
         if (PlayerItems.Count > 0)
         {
-            for (int i = 0; i < PlayerWeapons.Count; i++)
+            for (int i = 0; i < PlayerItems.Count; i++)
             {
-                if (PlayerItems[i] != null)
+                if (PlayerItems.ElementAt(i).Key != null)
                 {
                     Image ObjectImage = Items[i].GetComponent<Image>();
-                    ObjectImage.sprite = PlayerItems[i].ItemData.ItemImage;
+                    ObjectImage.sprite = PlayerItems.ElementAt(i).Value.ItemData.ItemImage;
                 }
             }
         }

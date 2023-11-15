@@ -417,7 +417,7 @@ MonoBehaviour:
   _projectilePrefab: {fileID: 429641142634744645, guid: 3e048b795c234d34fada5d32f3fbdbcd, type: 3}
   _characterSO: {fileID: 11400000, guid: a367cd36c56dc6d4fb4213df3ab5b472, type: 2}
   _characterMaxHP: 100
-  _movementSpeed: 10
+  _movementSpeed: 5
   _attackMultiplier: 0
   _criticalChance: 0
   _attackCoolTime: 0.5

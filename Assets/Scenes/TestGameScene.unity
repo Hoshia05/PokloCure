@@ -72420,6 +72420,10 @@ PrefabInstance:
       value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 7497525255776810005, guid: 7ee05e53749572c4eb380d3673ec2c57, type: 3}
+      propertyPath: EnemyPrefab
+      value: 
+      objectReference: {fileID: 6866567978285184781, guid: 24482696c81187c46a523a3f943f4753, type: 3}
+    - target: {fileID: 7497525255776810005, guid: 7ee05e53749572c4eb380d3673ec2c57, type: 3}
       propertyPath: DamagePopUpPrefab
       value: 
       objectReference: {fileID: 5271240959729347560, guid: f69cb61873c2372468194f31debf07a1, type: 3}
@@ -72427,6 +72431,14 @@ PrefabInstance:
       propertyPath: _selectedCharacter
       value: 
       objectReference: {fileID: 11400000, guid: a367cd36c56dc6d4fb4213df3ab5b472, type: 2}
+    - target: {fileID: 7497525255776810005, guid: 7ee05e53749572c4eb380d3673ec2c57, type: 3}
+      propertyPath: EnemyList.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 64488e8cc052b4e47b66e38c1fabe90f, type: 2}
+    - target: {fileID: 7497525255776810005, guid: 7ee05e53749572c4eb380d3673ec2c57, type: 3}
+      propertyPath: CriticalDamagePopUpPrefab
+      value: 
+      objectReference: {fileID: 5271240959729347560, guid: c88895a7a31c4f14699e99770f1c51a9, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

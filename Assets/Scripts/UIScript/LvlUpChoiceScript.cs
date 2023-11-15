@@ -24,8 +24,9 @@ public class LvlUpChoiceScript : MonoBehaviour
     {
         _itemSkillData = ISData;
 
+        string nextLevelText = NextLevel == ISData.ItemMaxLevel ? "MAX" : NextLevel.ToString();
 
-        _itemName.text = $"{ISData.ItemName}  Lv.{NextLevel}";
+        _itemName.text = $"{ISData.ItemName}  Lv.{nextLevelText}";
         _itemDescription.text = ISData.ItemDescription[NextLevel-1];
         _itemIcon.sprite = ISData.ItemImage;
         _type.text = ISData.ItemType.ToString();

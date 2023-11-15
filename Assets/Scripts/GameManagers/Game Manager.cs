@@ -8,10 +8,13 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public System.Random Rand = new();
-    public List<GameObject> EnemyList;
+    public GameObject EnemyPrefab;
+    public List<EnemyBase> EnemyList;
     public List<ItemSO> ItemList;
     public GameObject PlayerCharacterPrefab;
+
     public GameObject DamagePopUpPrefab;
+    public GameObject CriticalDamagePopUpPrefab;
 
 
     [Header("µð¹ö±ë¿ë")]

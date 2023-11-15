@@ -57,7 +57,17 @@ public class ItemBehaviour : MonoBehaviour
         {
             GameObject enemy = collision.gameObject;
             EnemyScript script = enemy.GetComponent<EnemyScript>();
-            script.TakeDamage(_damage);
+
+            //크리티컬 체크
+            if (PlayerScript.Instance.CriticalCheck())
+            {
+                script.TakeCriticalDamage(PlayerScript.Instance.GetCritDamage(_damage));
+            }
+            else
+            {
+                script.TakeDamage(_damage);
+            }
+
             CheckPierce();
         }
     }

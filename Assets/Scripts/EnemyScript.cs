@@ -15,28 +15,34 @@ public class EnemyScript : MonoBehaviour
     private Vector2 _enemyLineOfSight;
 
     [SerializeField]
+    private EnemyBase _enemyData;
+
+    [SerializeField]
     private GameObject _expItemPrefab;
 
     [Header("캐릭스펙")]
+    private float _currentMovementSpeed;
+    private float _currentAttackCoolTime;
+    private float _currentMaxHP;
+    private float _currentBodyDamage;
+    private float _currentCriticalChance;
+    private EnemyType _enemyType;
+    //private int _enemyLevel = 1;
+
+
+    [Header("무기슬롯관련")]
     [SerializeField]
-    private float _movementSpeed;
-    [SerializeField]
-    private float _attackCoolTime;
-    [SerializeField]
-    private float _defensePoints;
-    [SerializeField]
-    private float _hp;
-    [SerializeField]
-    private float _attackMultiplier;
+    private GameObject _weaponSlot;
 
     [SerializeField]
     private SpriteRenderer _spriteRenderer;
+    [SerializeField]
+    private Animator _enemyAnim; //Not now...
 
 
-    private void Awake()
+    private void Start()
     {
         _playerCharacter = GameObject.FindGameObjectWithTag("Player");
-        _hp = 9;
     }
 
     // Update is called once per frame
@@ -47,9 +53,28 @@ public class EnemyScript : MonoBehaviour
         UpdateLOS();
     }
 
+    public void InitializeWithSO(EnemyBase EnemyData)
+    {
+        //캐릭터 특정 수치들
+        _currentMovementSpeed = EnemyData.SpeedMultiplier * EnemyBase._baseSpeed;
+        _currentMaxHP = EnemyData.HP;
+        _currentBodyDamage = EnemyData.BodyDamage;
+        _currentCriticalChance = EnemyData.CriticalChance;
+
+        _spriteRenderer.sprite = EnemyData.EnemySprite;
+
+
+        if (EnemyData.AnimatorController != null)
+            _enemyAnim.runtimeAnimatorController = EnemyData.AnimatorController;
+
+        if (EnemyData.BasicWeaponController != null)
+            _weaponSlot = Instantiate(EnemyData.BasicWeaponController, _weaponSlot.transform);
+    }
+
+
     void Movement()
     {
-        float step = _movementSpeed * Time.deltaTime;
+        float step = _currentMovementSpeed * Time.deltaTime;
         transform.position = Vector2.MoveTowards(transform.position, _playerCharacter.transform.position, step);
 
     }
@@ -67,13 +92,13 @@ public class EnemyScript : MonoBehaviour
         {
             GameObject player = collision.gameObject;
             PlayerScript script = player.GetComponent<PlayerScript>();
-            script.TakeDamage(15);
+            script.TakeDamage(_currentBodyDamage);
         }
     }
 
     public void TakeDamage(float damage)
     {
-        _hp -= damage;
+        _currentMaxHP -= damage;
 
         //적 피격 모션 : 간단하게 한 0.3초 동안 빨갛게 되기
         StartCoroutine(HitAnimation());
@@ -90,10 +115,30 @@ public class EnemyScript : MonoBehaviour
 
         Destroy(DamagePopUp, 0.5f);
         
-
-
         CheckDeath();
 
+    }
+
+    public void TakeCriticalDamage(float damage)
+    {
+        _currentMaxHP -= damage;
+
+        //적 피격 모션 : 간단하게 한 0.3초 동안 빨갛게 되기
+        StartCoroutine(HitAnimation());
+
+        //위에 데미지 뜨는 애니메이션
+        GameObject DamagePopUp = Instantiate(GameManager.Instance.CriticalDamagePopUpPrefab, transform);
+        TextMeshProUGUI tmp = DamagePopUp.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        tmp.text = damage.ToString();
+
+        Rigidbody2D tmpRB = tmp.GetComponent<Rigidbody2D>();
+
+        Vector2 direction = new Vector2(UnityEngine.Random.Range(-1, 1), 1);
+        tmpRB.AddForce(direction * 200);
+
+        Destroy(DamagePopUp, 0.5f);
+
+        CheckDeath();
     }
 
     private IEnumerator HitAnimation()
@@ -105,7 +150,7 @@ public class EnemyScript : MonoBehaviour
 
     public void CheckDeath()
     {
-        if (_hp <= 0)
+        if (_currentMaxHP <= 0)
         {
             StartCoroutine(KillEnemy());
         }
@@ -117,7 +162,7 @@ public class EnemyScript : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
 
-        _movementSpeed = 0;
+        _currentMovementSpeed = 0;
         Collider2D coll = GetComponent<Collider2D>();
         coll.enabled = false;
         Color originalColor = _spriteRenderer.color;

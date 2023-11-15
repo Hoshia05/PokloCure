@@ -40,7 +40,7 @@ public class StageManager : MonoBehaviour
     private int _killCount = 0;
 
     [SerializeField]
-    private List<GameObject> _enemyList;
+    private List<EnemyBase> _enemyList;
 
     private void Awake()
     {
@@ -73,7 +73,6 @@ public class StageManager : MonoBehaviour
     {
         GameObject playerCharacter = Instantiate(GameManager.Instance.PlayerCharacterPrefab, _characterSpawnPoint.position, Quaternion.identity);
         _currentPlayer = playerCharacter.GetComponent<PlayerScript>();
-        _currentPlayer.InitializeWithSO(GameManager.Instance.SelectedCharacter);
 
         _characterThumbnail.sprite = GameManager.Instance.SelectedCharacter.CharacterPortrait;
         _virtualCamera.Follow = playerCharacter.transform;
@@ -95,9 +94,11 @@ public class StageManager : MonoBehaviour
 
         System.Random random = new();
 
-        GameObject randomEnemy = _enemyList[random.Next(0, _enemyList.Count)];
+        EnemyBase randomEnemy = _enemyList[random.Next(0, _enemyList.Count)];
 
-        Instantiate(randomEnemy, randomPoint, Quaternion.identity);
+        GameObject newEnemy = Instantiate(GameManager.Instance.EnemyPrefab, randomPoint, Quaternion.identity);
+        EnemyScript enemyScript = newEnemy.GetComponent<EnemyScript>();
+        enemyScript.InitializeWithSO(randomEnemy);
     }
 
     IEnumerator TimerUpdateCoroutine()

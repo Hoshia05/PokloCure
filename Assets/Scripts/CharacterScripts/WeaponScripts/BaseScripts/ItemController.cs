@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,7 +31,7 @@ public class ItemController : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Awake()
     {
-        _currentDamage = ItemData.Damage;
+        _currentDamage = RoundValue(ItemData.Damage * PlayerScript.Instance.AttackMultiplier);
         _currentSpeed = ItemData.Speed;
         _currentCooldownDuration = ItemData.CooldownDuration;
         _currentPierce = ItemData.Pierce;
@@ -67,6 +68,7 @@ public class ItemController : MonoBehaviour
     {
         _currentWeaponLevel++;
         _levelUPEffectsList[_currentWeaponLevel - 1]();
+        CheckAttackRound();
     }
 
     //protected virtual void LevelEffectCheck()
@@ -98,5 +100,18 @@ public class ItemController : MonoBehaviour
     }
     protected virtual void Level7Effect()
     {
+    }
+
+    public void CheckAttackRound()
+    {
+        if(_currentDamage % 1 != 0)
+        {
+            _currentDamage = RoundValue(_currentDamage);
+        }
+    }
+
+    public static float RoundValue(float value)
+    {
+        return (float)Math.Round(value,0);
     }
 }

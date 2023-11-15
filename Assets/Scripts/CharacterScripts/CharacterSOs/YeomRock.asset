@@ -17,8 +17,8 @@ MonoBehaviour:
   AnimatorController: {fileID: 9100000, guid: 7eacf55a8eb335d478d54072fb1bcc87, type: 2}
   BasicWeaponController: {fileID: 3780977769202291255, guid: 8e046b3a1e077cb45841776e8854fdb8, type: 3}
   CharacterName: "\uC5FC\uB85D"
+  CharacterDescription: 
   Health: 50
-  SpeedMultiplier: 1.5
-  AttackMultiplier: 1
+  SpeedMultiplier: 1
+  AttackMultiplier: 1.2
   CriticalChance: 0.1
-  DefensePoints: 5
