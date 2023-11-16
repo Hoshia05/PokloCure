@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class FieldItemBase : MonoBehaviour
 {
-    // Update is called once per frame
     private float _movementSpeed = 20f;
 
     private bool isPicked = false;

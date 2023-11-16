@@ -186,6 +186,14 @@ public class PlayerScript : MonoBehaviour
 
     }
 
+    public void HealHP(float HealValue, bool IsBasicBurger)
+    {
+        _characterCurrentHP += IsBasicBurger ? _currentCharacterMaxHP * 0.2f : HealValue;
+
+        if (_characterCurrentHP > _currentCharacterMaxHP)
+            _characterCurrentHP = _currentCharacterMaxHP;
+    }
+
     private void CheckLevelUp()
     {
         if( _currentExperience >= _expRequirement)
