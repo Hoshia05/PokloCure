@@ -37,14 +37,16 @@ public class ItemSlotScript : MonoBehaviour
                     ObjectImage.sprite = PlayerWeapons.ElementAt(i).Value.ItemData.ItemImage;
 
                     TextMeshProUGUI lvlText = Weapons[i].GetComponentInChildren<TextMeshProUGUI>();
-                    //lvlText.text = 
+
+                    string currentWeaponLevel = PlayerWeapons.ElementAt(i).Value.CurrentWeaponLevel.ToString();
+                    lvlText.text = $"Lv.{currentWeaponLevel}";
                 }
 
             }
         }
 
 
-        if (PlayerItems.Count > 0)
+        if (PlayerItems.Count > 0) 
         {
             for (int i = 0; i < PlayerItems.Count; i++)
             {
@@ -52,6 +54,12 @@ public class ItemSlotScript : MonoBehaviour
                 {
                     Image ObjectImage = Items[i].GetComponent<Image>();
                     ObjectImage.sprite = PlayerItems.ElementAt(i).Value.ItemData.ItemImage;
+
+
+                    TextMeshProUGUI lvlText = Items[i].GetComponentInChildren<TextMeshProUGUI>();
+
+                    string currentItemLevel = PlayerItems.ElementAt(i).Value.CurrentWeaponLevel.ToString();
+                    lvlText.text = $"Lv.{currentItemLevel}";
                 }
             }
         }

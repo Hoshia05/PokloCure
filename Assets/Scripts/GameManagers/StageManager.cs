@@ -25,6 +25,9 @@ public class StageManager : MonoBehaviour
     private GameObject _levelUPUI;
     private LvlUPListScript _lvlUpListScript;
     [SerializeField]
+    private GameObject _BoxItemUI;
+    private BoxItemUIScript _boxItemUIScript;
+    [SerializeField]
     private TextMeshProUGUI _timer;
     [SerializeField]
     private TextMeshProUGUI _killCountText;
@@ -50,9 +53,11 @@ public class StageManager : MonoBehaviour
         max = _spawnArea.bounds.max;
 
         _lvlUpListScript = _levelUPUI.GetComponent<LvlUPListScript>();
+        _boxItemUIScript = _BoxItemUI.GetComponent<BoxItemUIScript>();
 
         _killCountText.text = _killCount.ToString();
         _levelUPUI.SetActive(false);
+        _BoxItemUI.SetActive(false);
     }
 
     private void Start()
@@ -139,6 +144,13 @@ public class StageManager : MonoBehaviour
     {
         Time.timeScale = 1;
         _levelUPUI.SetActive(false);
+    }
+
+    public void FieldBoxEvent()
+    {
+        Time.timeScale = 0;
+        _BoxItemUI.SetActive(true);
+        _boxItemUIScript.InitializeUI();
     }
 
     public void GivePlayerItem(ItemSO item)

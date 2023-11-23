@@ -10,7 +10,7 @@ public class FieldItemBase : MonoBehaviour
     private bool isPicked = false;
     private Transform _playerTransform;
 
-    private void Update()
+    protected virtual void Update()
     {
         TransformToPlayer();
     }

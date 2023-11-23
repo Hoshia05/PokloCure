@@ -4,11 +4,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HPBar : MonoBehaviour
+public class UIHPBar : MonoBehaviour
 {
-    public static HPBar Instance;
+    public static UIHPBar Instance;
 
     private Slider _hpSlider;
+    [SerializeField]
+    private TextMeshProUGUI _hpText;
 
     // Start is called before the first frame update
     void Awake()
@@ -24,19 +26,24 @@ public class HPBar : MonoBehaviour
     {
         _hpSlider.maxValue = initialHP;
         _hpSlider.value = initialHP;
-        UIHPBar.Instance.InitializeHPBar(initialHP);
+        UpdateHPText();
     }
 
+    // Update is called once per frame
     public void UpdateHP(float HPValue)
     {
         _hpSlider.value = HPValue;
-        UIHPBar.Instance.UpdateHP(HPValue);
+        UpdateHPText();
     }
 
     public void UpdateMaxHP(float newMaxHP)
     {
         _hpSlider.maxValue = newMaxHP;
-        UIHPBar.Instance.UpdateMaxHP(newMaxHP);
+        UpdateHPText();
     }
 
+    private void UpdateHPText()
+    {
+        _hpText.text = $"{(int)_hpSlider.value} / {(int)_hpSlider.maxValue}";
+    }
 }

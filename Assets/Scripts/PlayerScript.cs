@@ -18,7 +18,10 @@ public class PlayerScript : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     [SerializeField]
     private Animator _playerAnim;
+    [SerializeField]
+    private HPBar _hpBar;
 
+    private Coroutine _HPBarDisappearCoroutine;
 
     [SerializeField]
     private GameObject _projectilePrefab;
@@ -97,7 +100,6 @@ public class PlayerScript : MonoBehaviour
 
         InitializeFromGM();
 
-
     }
 
     // Start is called before the first frame update
@@ -105,6 +107,8 @@ public class PlayerScript : MonoBehaviour
     {
         ExperienceBar.Instance.InitializeEXP(100);
         HPBar.Instance.InitializeHPBar(_currentCharacterMaxHP);
+
+        _hpBar.gameObject.SetActive(false);
 
     }
 
@@ -186,12 +190,31 @@ public class PlayerScript : MonoBehaviour
 
     }
 
+    private void CheckFull()
+    {
+        if(_currentCharacterMaxHP >= _characterCurrentHP)
+        {
+            _HPBarDisappearCoroutine = StartCoroutine(DisappearHealthBar());
+        }
+    }
+
+    private IEnumerator DisappearHealthBar()
+    {
+        yield return new WaitForSeconds(2f);
+
+        _hpBar.gameObject.SetActive(false);
+    }
+
     public void HealHP(float HealValue, bool IsBasicBurger)
     {
         _characterCurrentHP += IsBasicBurger ? _currentCharacterMaxHP * 0.2f : HealValue;
 
         if (_characterCurrentHP > _currentCharacterMaxHP)
             _characterCurrentHP = _currentCharacterMaxHP;
+
+        CheckFull();
+
+        HPBar.Instance.UpdateHP(_characterCurrentHP);
     }
 
     private void CheckLevelUp()
@@ -300,6 +323,11 @@ public class PlayerScript : MonoBehaviour
             _characterCurrentHP -= damage;
 
             HPBar.Instance.UpdateHP(_characterCurrentHP);
+
+            if (_HPBarDisappearCoroutine != null)
+                StopCoroutine(_HPBarDisappearCoroutine);
+
+            _hpBar.gameObject.SetActive(true);
 
             CheckDeath();
         }
