@@ -187,10 +187,30 @@ public class EnemyScript : MonoBehaviour
 
         _spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
 
-        Instantiate(_expItemPrefab, transform.position, Quaternion.identity);
+
+
+        Instantiate(_expItemPrefab, RandomNearPosition(), Quaternion.identity);
+
+        //버거소환
+        CreateBurger();
 
         Destroy(gameObject);
 
+    }
+
+    private Vector2 RandomNearPosition()
+    {
+        return new Vector2(transform.position.x + GameManager.Instance.Rand.Next(1, 10) * 0.1f, transform.position.y + GameManager.Instance.Rand.Next(1, 10) * 0.1f);
+    }
+
+    private void CreateBurger()
+    {
+        int randval = GameManager.Instance.Rand.Next(1, 100);
+
+        if(randval <= 5) 
+        {
+            Instantiate(GameManager.Instance.BurgerPrefab, RandomNearPosition(), Quaternion.identity);
+        }
     }
 
     private float DamageVariance(float damage)

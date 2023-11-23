@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,8 +16,9 @@ public class GameManager : MonoBehaviour
     public GameObject DamagePopUpPrefab;
     public GameObject CriticalDamagePopUpPrefab;
 
+    public GameObject BurgerPrefab;
 
-    [Header("µð¹ö±ë¿ë")]
+    [Header("ë””ë²„ê·¸ìš©")]
     [SerializeField]
     private CharacterBase _selectedCharacter;
 

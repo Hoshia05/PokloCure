@@ -54,4 +54,5 @@ MonoBehaviour:
   PlayerCharacterPrefab: {fileID: 8438766113470524038, guid: 4b0804e9b0ab99e4cade03185f864d6d, type: 3}
   DamagePopUpPrefab: {fileID: 5271240959729347560, guid: f69cb61873c2372468194f31debf07a1, type: 3}
   CriticalDamagePopUpPrefab: {fileID: 5271240959729347560, guid: c88895a7a31c4f14699e99770f1c51a9, type: 3}
+  BurgerPrefab: {fileID: 5710734456166026490, guid: 86488bbf00decb84ca160741f62b89b9, type: 3}
   _selectedCharacter: {fileID: 11400000, guid: a367cd36c56dc6d4fb4213df3ab5b472, type: 2}

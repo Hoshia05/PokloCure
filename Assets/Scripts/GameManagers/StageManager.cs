@@ -1,4 +1,4 @@
-using Cinemachine;
+﻿using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -90,6 +90,9 @@ public class StageManager : MonoBehaviour
 
     private void RandomEnemySpawn()
     {
+        //TODO:
+        //적이 캐릭터 중심으로 원형으로 소환
+
         Vector2 randomPoint = new Vector2(UnityEngine.Random.Range(min.x, max.x), UnityEngine.Random.Range(min.y, max.y));
 
         System.Random random = new();

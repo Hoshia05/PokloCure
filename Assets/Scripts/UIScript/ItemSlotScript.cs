@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,6 +35,9 @@ public class ItemSlotScript : MonoBehaviour
                 {
                     Image ObjectImage = Weapons[i].GetComponent<Image>();
                     ObjectImage.sprite = PlayerWeapons.ElementAt(i).Value.ItemData.ItemImage;
+
+                    TextMeshProUGUI lvlText = Weapons[i].GetComponentInChildren<TextMeshProUGUI>();
+                    //lvlText.text = 
                 }
 
             }
