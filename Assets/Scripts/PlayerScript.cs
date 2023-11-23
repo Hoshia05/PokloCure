@@ -7,7 +7,6 @@ public class PlayerScript : MonoBehaviour
 {
     public static PlayerScript Instance;
 
-    private PlayerControl _controls; 
     private Rigidbody2D _rb;
     private float _xVelocity;
     private float _yVelocity;
@@ -95,7 +94,6 @@ public class PlayerScript : MonoBehaviour
     {
         Instance = this;
 
-        _controls = GetComponent<PlayerControl>();
         _rb = GetComponent<Rigidbody2D>();
 
         InitializeFromGM();
@@ -152,27 +150,27 @@ public class PlayerScript : MonoBehaviour
 
     void ApplyMovement()
     {
-        if (_controls.PlayerMovement != Vector2.zero)
+        if (PlayerControl.Instance.PlayerMovement != Vector2.zero)
             _playerAnim.SetBool("Move", true);
         else
             _playerAnim.SetBool("Move", false);
 
-        _xVelocity = _controls.PlayerMovement.x * _currentMovementSpeed;
-        _yVelocity = _controls.PlayerMovement.y * _currentMovementSpeed;
+        _xVelocity = PlayerControl.Instance.PlayerMovement.x * _currentMovementSpeed;
+        _yVelocity = PlayerControl.Instance.PlayerMovement.y * _currentMovementSpeed;
 
         _rb.velocity = new Vector2(_xVelocity, _yVelocity);
     }
 
     void CursorUpdate()
     {
-        Vector2 cursorVector = _controls.PlayerLineOfSight * _cursorDistance;
+        Vector2 cursorVector = PlayerControl.Instance.PlayerLineOfSight * _cursorDistance;
 
         _cursor.transform.position = (Vector2)transform.position + cursorVector;
     }
 
     void ApplyFlip()
     {
-        if(_controls.PlayerLineOfSight.x >= 0)
+        if(PlayerControl.Instance.PlayerLineOfSight.x >= 0)
         {
             _spriteRenderer.flipX = true;
         }

@@ -15,33 +15,33 @@ public class HammerController : ItemController
 
     protected override void Level2Effect()
     {
-        _currentSizeScale *= 1.2f;
-        _currentDamage *= 1.2f;
+        IncreaseDamagePercentage(0.2f);
+        IncreaseSizePercentage(0.2f);
     }
 
     protected override void Level3Effect()
     {
-        _currentCooldownDuration *= 0.8f;
+        DecreaseCooldownPercentage(0.2f);
     }
 
     protected override void Level4Effect()
     {
-        _currentSizeScale *= 1.2f;
-        _currentDamage *= 1.33f;
+        IncreaseDamagePercentage(0.33f);
+        IncreaseSizePercentage(0.2f);
     }
     protected override void Level5Effect()
     {
-        _currentPierce = 9999;
-        _currentDeathtime += 1f;
+        SetPierceLimit(9999);
+        IncreaseDeathTime(1f);
     }
     protected override void Level6Effect()
     {
-        _currentSizeScale *= 1.5f;
+        IncreaseSizePercentage(0.5f);
     }
 
     protected override void Level7Effect()
     {
-        _currentDamage *= 1.5f;
+        IncreaseDamagePercentage(0.5f);
     }
 
 }

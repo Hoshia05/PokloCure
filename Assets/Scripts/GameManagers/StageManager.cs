@@ -153,6 +153,12 @@ public class StageManager : MonoBehaviour
         _boxItemUIScript.InitializeUI();
     }
 
+    public void EndBoxUI()
+    {
+        Time.timeScale = 1;
+        _BoxItemUI.SetActive(false);
+    }
+
     public void GivePlayerItem(ItemSO item)
     {
         _currentPlayer.ObtainItemSkill(item);

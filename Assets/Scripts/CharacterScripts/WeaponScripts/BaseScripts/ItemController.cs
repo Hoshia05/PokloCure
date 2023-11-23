@@ -71,14 +71,6 @@ public class ItemController : MonoBehaviour
         CheckAttackRound();
     }
 
-    //protected virtual void LevelEffectCheck()
-    //{
-    //    for (int i = _currentWeaponLevel - 1; i < _levelUPEffectsList.Count; i++)
-    //    {
-    //        _levelUPEffectsList[i]();
-    //    }
-    //}
-
     protected virtual void Level1Effect()
     {
 
@@ -114,4 +106,32 @@ public class ItemController : MonoBehaviour
     {
         return (float)Math.Round(value,0);
     }
+
+    //General stat increases
+
+    public void IncreaseDamagePercentage(float amount)
+    {
+        _currentDamage *= 1f + amount;
+    }
+
+    public void IncreaseSizePercentage(float amount)
+    {
+        _currentSizeScale *= 1f + amount;
+    }
+
+    public void DecreaseCooldownPercentage(float amount)
+    {
+        _currentCooldownDuration *= 1f - amount;
+    }
+
+    public void IncreaseDeathTime(float amount)
+    {
+        _currentDeathtime += amount;
+    }
+
+    public void SetPierceLimit(int amount)
+    {
+        _currentPierce = amount;
+    }
+
 }
