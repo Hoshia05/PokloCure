@@ -23,6 +23,6 @@ public class CharacterBase : ScriptableObject
     public float Health = 100f;
     public float SpeedMultiplier = 1f;
     public float AttackMultiplier = 1f;
-    public float CriticalChance = 0.01f;
+    public float CriticalMultiplier = 0.01f;
 
 }

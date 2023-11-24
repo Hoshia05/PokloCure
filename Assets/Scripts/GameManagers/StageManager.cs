@@ -20,6 +20,8 @@ public class StageManager : MonoBehaviour
 
     [Header("Within Prefab")]
     [SerializeField]
+    private GameObject _darkScreen;
+    [SerializeField]
     private Image _characterThumbnail;
     [SerializeField]
     private GameObject _levelUPUI;
@@ -27,6 +29,8 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     private GameObject _BoxItemUI;
     private BoxItemUIScript _boxItemUIScript;
+    [SerializeField]
+    private GameObject _CharacterInfoUI;
     [SerializeField]
     private TextMeshProUGUI _timer;
     [SerializeField]
@@ -55,9 +59,17 @@ public class StageManager : MonoBehaviour
         _lvlUpListScript = _levelUPUI.GetComponent<LvlUPListScript>();
         _boxItemUIScript = _BoxItemUI.GetComponent<BoxItemUIScript>();
 
+
+        _darkScreen.SetActive(true);
+        _levelUPUI.SetActive(true);
+        _BoxItemUI.SetActive(true);
+        _CharacterInfoUI.SetActive(true);
+
         _killCountText.text = _killCount.ToString();
+        _darkScreen.SetActive(false);
         _levelUPUI.SetActive(false);
         _BoxItemUI.SetActive(false);
+        _CharacterInfoUI.SetActive(false);
     }
 
     private void Start()
@@ -136,6 +148,8 @@ public class StageManager : MonoBehaviour
     public void LevelUpEvent()
     {
         Time.timeScale = 0;
+        OpenCharacterInfoUI();
+        _darkScreen.SetActive(true);
         _levelUPUI.SetActive(true);
         _lvlUpListScript.CreateLvlUpList();
     }
@@ -143,12 +157,15 @@ public class StageManager : MonoBehaviour
     public void LevelUpEventEnd()
     {
         Time.timeScale = 1;
+        CloseCharacterInfoUI();
         _levelUPUI.SetActive(false);
+        _darkScreen.SetActive(false);
     }
 
     public void FieldBoxEvent()
     {
         Time.timeScale = 0;
+        _darkScreen.SetActive(true);
         _BoxItemUI.SetActive(true);
         _boxItemUIScript.InitializeUI();
     }
@@ -157,6 +174,18 @@ public class StageManager : MonoBehaviour
     {
         Time.timeScale = 1;
         _BoxItemUI.SetActive(false);
+        _darkScreen.SetActive(false);
+    }
+
+    public void OpenCharacterInfoUI()
+    {
+        _CharacterInfoUI.SetActive(true);
+        PlayerScript.Instance.UpdateInfoUI();
+    }
+
+    public void CloseCharacterInfoUI()
+    {
+        _CharacterInfoUI.SetActive(false);
     }
 
     public void GivePlayerItem(ItemSO item)

@@ -38,7 +38,8 @@ public class PlayerScript : MonoBehaviour
     [Header("캐릭스펙")]
     private float _currentCharacterMaxHP;
     private float _characterCurrentHP;
-    private float _currentMovementSpeed;
+    private float _currentSpeedMultiplier = 0;
+    private float _currentMovementSpeed => _currentSpeedMultiplier * CharacterBase._baseSpeed;
     private float _attackMultiplier;
     public float AttackMultiplier
     {
@@ -47,9 +48,11 @@ public class PlayerScript : MonoBehaviour
             return _attackMultiplier;
         }
     }
-    private float _currentCriticalChance;
+    private float _currentCriticalMultiplier;
+    private float _currentCriticalChance => _currentCriticalMultiplier + CharacterBase._baseCriticalChance;
     private float _currentCriticalDamage;
 
+    private CharacterBase _selectedCharacter;
 
     [Header("숨겨진 수치들")]
     [SerializeField]
@@ -57,7 +60,8 @@ public class PlayerScript : MonoBehaviour
     [SerializeField]
     private float _defensePoints;
     [SerializeField]
-    private float _itemEatDistance;
+    private float _eatDistanceMultiplier = 1f;
+    private float _itemEatDistance => CharacterBase._baseItemEatDistance * _eatDistanceMultiplier;
 
     [Header("무기슬롯관련")]
     [SerializeField]
@@ -121,22 +125,24 @@ public class PlayerScript : MonoBehaviour
     
     public void InitializeFromGM()
     {
-        CharacterBase SelectedCharacter = GameManager.Instance.SelectedCharacter;
+        _selectedCharacter = GameManager.Instance.SelectedCharacter;
 
-        InitializeWithSO(SelectedCharacter);
+        InitializeWithSO(_selectedCharacter);
+
     }
 
     public void InitializeWithSO(CharacterBase SelectedCharacter)
     {
         //글로벌 특정 수치
-        _itemEatDistance = CharacterBase._baseItemEatDistance;
+        //_itemEatDistance = CharacterBase._baseItemEatDistance;
 
         //캐릭터 특정 수치들
-        _currentMovementSpeed = SelectedCharacter.SpeedMultiplier * CharacterBase._baseSpeed;
+        _currentSpeedMultiplier = SelectedCharacter.SpeedMultiplier;
+        //_currentMovementSpeed = _currentSpeedMultiplier * CharacterBase._baseSpeed;
         _currentCharacterMaxHP = SelectedCharacter.Health;
         _characterCurrentHP = _currentCharacterMaxHP;
         _attackMultiplier = SelectedCharacter.AttackMultiplier;
-        _currentCriticalChance = SelectedCharacter.CriticalChance;
+        _currentCriticalMultiplier = SelectedCharacter.CriticalMultiplier;
         _currentCriticalDamage = CharacterBase._baseCritDamage;
 
         //_defensePoints = SelectedCharacter.DefensePoints;
@@ -146,6 +152,20 @@ public class PlayerScript : MonoBehaviour
 
         _basicWeaponSlot = Instantiate(SelectedCharacter.BasicWeaponController, _basicWeaponSlot.transform);
         _basicWeapon = _basicWeaponSlot.GetComponent<ItemController>();
+
+        UpdateInfoUI();
+    }
+
+    public void UpdateInfoUI()
+    {
+        CharacterInfoUIScript.Instance.SetCharacterPortrait(_selectedCharacter.CharacterPortrait);
+        CharacterInfoUIScript.Instance.SetCharacterName(_selectedCharacter.CharacterName);
+        CharacterInfoUIScript.Instance.SetHP(_characterCurrentHP, _currentCharacterMaxHP);
+        CharacterInfoUIScript.Instance.SetAtk(_attackMultiplier);
+        CharacterInfoUIScript.Instance.SetSpd(_currentSpeedMultiplier);
+        CharacterInfoUIScript.Instance.SetCrt(_currentCriticalMultiplier);
+        CharacterInfoUIScript.Instance.SetPickup(_eatDistanceMultiplier);
+        CharacterInfoUIScript.Instance.SetHaste(_eatDistanceMultiplier);
     }
 
     void ApplyMovement()

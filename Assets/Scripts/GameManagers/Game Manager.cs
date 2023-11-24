@@ -34,8 +34,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private static string _selectedCharacterName;
-
     private void Awake()
     {
         if(Instance == null)

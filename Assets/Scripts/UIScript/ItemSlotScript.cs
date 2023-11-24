@@ -36,6 +36,8 @@ public class ItemSlotScript : MonoBehaviour
                     Image ObjectImage = Weapons[i].GetComponent<Image>();
                     ObjectImage.sprite = PlayerWeapons.ElementAt(i).Value.ItemData.ItemImage;
 
+                    ObjectImage.color += new Color(0f, 0f, 0f, 1f);
+
                     TextMeshProUGUI lvlText = Weapons[i].GetComponentInChildren<TextMeshProUGUI>();
 
                     string currentWeaponLevel = PlayerWeapons.ElementAt(i).Value.CurrentWeaponLevel.ToString();
@@ -55,6 +57,7 @@ public class ItemSlotScript : MonoBehaviour
                     Image ObjectImage = Items[i].GetComponent<Image>();
                     ObjectImage.sprite = PlayerItems.ElementAt(i).Value.ItemData.ItemImage;
 
+                    ObjectImage.color += new Color(0f, 0f, 0f, 1f);
 
                     TextMeshProUGUI lvlText = Items[i].GetComponentInChildren<TextMeshProUGUI>();
 

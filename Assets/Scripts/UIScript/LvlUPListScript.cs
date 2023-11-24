@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LvlUPListScript : MonoBehaviour
 {
-    private const int _itemCount = 4;
+    private const int _itemMaxCount = 4;
 
     [SerializeField]
     private GameObject _lvlUpChoicePrefab;
@@ -18,22 +18,18 @@ public class LvlUPListScript : MonoBehaviour
 
     public void CreateLvlUpList()
     {
-        _itemList = new GameObject[_itemCount];
+        _itemList = new GameObject[_itemMaxCount];
         exemptList = new();
 
-        for (int i = 0; i < _itemCount; i++)
+        ItemSO itemSkillSO;
+        int nextLevel;
+
+        for (int i = 0; i < _itemMaxCount; i++)
         {
             //제외 리스트가 총 리스트랑 같으면(= 가능한 모든 아이템이 제외되면) 그냥 그만 만들기
             //버그 고쳐어어ㅓ
             //if (!GameManager.Instance.ItemList.Except(exemptList).Any())
-            if(GameManager.Instance.ItemList.Count == exemptList.Count)
-                break;
-
-            GameObject ListObject = Instantiate(_lvlUpChoicePrefab, _itemListBase.transform);
-            LvlUpChoiceScript lvlUpChoiceScript = ListObject.GetComponent<LvlUpChoiceScript>();
-
-            ItemSO itemSkillSO;
-            int nextLevel;
+            
 
             //if item is already max level, reroll until different one shows up.
             do
@@ -47,7 +43,16 @@ public class LvlUPListScript : MonoBehaviour
                 if (nextLevel > itemSkillSO.ItemMaxLevel)
                     exemptList.Add(itemSkillSO);
 
+                if (exemptList.Count >= GameManager.Instance.ItemList.Count)
+                    break;
+
             } while (exemptList.Contains(itemSkillSO));
+
+            if (exemptList.Count >= GameManager.Instance.ItemList.Count)
+                break;
+
+            GameObject ListObject = Instantiate(_lvlUpChoicePrefab, _itemListBase.transform);
+            LvlUpChoiceScript lvlUpChoiceScript = ListObject.GetComponent<LvlUpChoiceScript>();
 
             lvlUpChoiceScript.InitializeWithData(itemSkillSO, nextLevel, this);
             _itemList[i] = ListObject;
