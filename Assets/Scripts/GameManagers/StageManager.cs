@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +13,7 @@ public class StageManager : MonoBehaviour
 
     [Header("Stage Specific")]
     [SerializeField]
-    private BoxCollider2D _spawnArea;
+    private Collider2D _spawnArea;
     [SerializeField]
     private CinemachineVirtualCamera _virtualCamera;
     [SerializeField]
@@ -38,7 +39,11 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     private ItemSlotScript _itemSlotScript;
 
+    private EnemySpawnManager _spawnManager;
+
     private PlayerScript _currentPlayer;
+
+    public PlayerScript CurrentPlayer { get { return _currentPlayer; } }
 
     private Vector2 min;
     private Vector2 max;
@@ -55,6 +60,10 @@ public class StageManager : MonoBehaviour
 
         min = _spawnArea.bounds.min;
         max = _spawnArea.bounds.max;
+
+        _spawnManager = GetComponent<EnemySpawnManager>();
+
+        _spawnManager.InitializeMinMax(min, max);
 
         _lvlUpListScript = _levelUPUI.GetComponent<LvlUPListScript>();
         _boxItemUIScript = _BoxItemUI.GetComponent<BoxItemUIScript>();
@@ -99,17 +108,14 @@ public class StageManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(0.5f);
-            RandomEnemySpawn();
+            yield return new WaitForSeconds(5f);
+            RandomCircleSpawn();
         }
 
     }
 
     private void RandomEnemySpawn()
     {
-        //TODO:
-        //적이 캐릭터 중심으로 원형으로 소환
-
         Vector2 randomPoint = new Vector2(UnityEngine.Random.Range(min.x, max.x), UnityEngine.Random.Range(min.y, max.y));
 
         System.Random random = new();
@@ -120,6 +126,18 @@ public class StageManager : MonoBehaviour
         EnemyScript enemyScript = newEnemy.GetComponent<EnemyScript>();
         enemyScript.InitializeWithSO(randomEnemy);
     }
+
+    private void RandomCircleSpawn()
+    {
+        Vector2 randomPoint = new Vector2(UnityEngine.Random.Range(min.x, max.x), UnityEngine.Random.Range(min.y, max.y));
+
+        System.Random random = new();
+
+        EnemyBase randomEnemy = _enemyList[random.Next(0, _enemyList.Count)];
+
+        _spawnManager.CircleSpawn(randomEnemy, 30, 10);
+    }
+
 
     IEnumerator TimerUpdateCoroutine()
     {

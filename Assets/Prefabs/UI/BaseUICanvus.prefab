@@ -4975,6 +4975,7 @@ GameObject:
   - component: {fileID: 8292811743170079306}
   - component: {fileID: 8369602014240051939}
   - component: {fileID: 7114813351588435122}
+  - component: {fileID: 4800785151461608958}
   m_Layer: 5
   m_Name: BaseUICanvus
   m_TagString: Untagged
@@ -5095,6 +5096,18 @@ MonoBehaviour:
   _itemSlotScript: {fileID: 2539653358074118537}
   _enemyList:
   - {fileID: 6866567978285184781, guid: 24482696c81187c46a523a3f943f4753, type: 3}
+--- !u!114 &4800785151461608958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5321043086602390687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1d7f75ae4d8b8a4a9b394a83559ecb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5321601313631868929
 GameObject:
   m_ObjectHideFlags: 0
