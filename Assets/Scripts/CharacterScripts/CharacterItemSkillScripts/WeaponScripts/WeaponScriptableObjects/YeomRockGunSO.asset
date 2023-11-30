@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae12a9c1cc1fff94aa39ed35c196fe83, type: 3}
+  m_Name: YeomRockGunSO
+  m_EditorClassIdentifier: 
+  ItemName: "\uC5FC\uB85D\uAD8C\uCD1D"
+  ItemDescription:
+  - "\uC870\uC900 \uC704\uCE58\uB85C \uCD1D\uC54C\uC744 3\uBC1C \uBC1C\uC0AC\uD569\uB2C8\uB2E4"
+  - "\uCD1D\uC54C\uC744 1\uBC1C \uB354 \uBC1C\uC0AC\uD569\uB2C8\uB2E4"
+  - "\uACF5\uACA9 \uBC1C\uC0AC \uAC04\uACA9\uC774 20% \uAC10\uC18C\uD569\uB2C8\uB2E4"
+  - "\uCD1D\uC54C\uC758 \uC704\uB825\uC774 20% \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  - "\uCD1D\uC54C\uC758 \uD06C\uAE30\uAC00 30% \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  - "\uCD1D\uC54C\uC758 \uC704\uB825\uC774 20% \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  - "\uCD1D\uC54C\uC744 2\uBC1C \uB354 \uBC1C\uC0AC\uD558\uBA70 \uAD00\uD1B5\uD0C4\uC73C\uB85C
+    \uD0C4\uC885\uC744 \uBCC0\uACBD\uD569\uB2C8\uB2E4"
+  ItemType: 1
+  ItemImage: {fileID: 21300000, guid: a3550049f1e867b47a7037be5eff1fef, type: 3}
+  ItemMaxLevel: 7
+  characterLabel: 1
+  ControllerPrefab: {fileID: 0}
+  ProjectileItemPrefab: {fileID: 429641142634744645, guid: a995eeea6128666428be48b4e27a9974, type: 3}
+  ControllerScript: {fileID: 11500000, guid: 374c8141d4173da4ab31cdbcd5f27fc3, type: 3}
+  DamageMultiplier: 1
+  Speed: 0
+  CooldownDuration: 2
+  Pierce: 2
+  Deathtime: 4
+  ProjectileNum: 3

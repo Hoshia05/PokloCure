@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -40,12 +42,12 @@ public class PlayerScript : MonoBehaviour
     private float _characterCurrentHP;
     private float _currentSpeedMultiplier = 0;
     private float _currentMovementSpeed => _currentSpeedMultiplier * CharacterBase._baseSpeed;
-    private float _attackMultiplier;
-    public float AttackMultiplier
+    private float _currentAttackMultiplier;
+    public float CurrentAttackMultiplier
     {
         get
         {
-            return _attackMultiplier;
+            return _currentAttackMultiplier;
         }
     }
     private float _currentCriticalMultiplier;
@@ -86,7 +88,20 @@ public class PlayerScript : MonoBehaviour
     }
     private int _obtainedItemCount = 0;
 
+    [SerializeField]
+    private GameObject _skillSlots;
+    private Dictionary<ItemSO, ItemController> _skills = new();
+    public Dictionary<ItemSO, ItemController> Skills
+    {
+        get { return _skills; }
+    }
+
     private const int MAXSLOT = 7;
+
+    [Header("이벤트")]
+    [HideInInspector]
+    public UnityEvent onEatBurger;
+    public UnityEvent onStatChange;
 
     [Header("기타")]
     [SerializeField]
@@ -141,7 +156,7 @@ public class PlayerScript : MonoBehaviour
         //_currentMovementSpeed = _currentSpeedMultiplier * CharacterBase._baseSpeed;
         _currentCharacterMaxHP = SelectedCharacter.Health;
         _characterCurrentHP = _currentCharacterMaxHP;
-        _attackMultiplier = SelectedCharacter.AttackMultiplier;
+        _currentAttackMultiplier = SelectedCharacter.AttackMultiplier;
         _currentCriticalMultiplier = SelectedCharacter.CriticalMultiplier;
         _currentCriticalDamage = CharacterBase._baseCritDamage;
 
@@ -161,7 +176,7 @@ public class PlayerScript : MonoBehaviour
         CharacterInfoUIScript.Instance.SetCharacterPortrait(_selectedCharacter.CharacterPortrait);
         CharacterInfoUIScript.Instance.SetCharacterName(_selectedCharacter.CharacterName);
         CharacterInfoUIScript.Instance.SetHP(_characterCurrentHP, _currentCharacterMaxHP);
-        CharacterInfoUIScript.Instance.SetAtk(_attackMultiplier);
+        CharacterInfoUIScript.Instance.SetAtk(_currentAttackMultiplier);
         CharacterInfoUIScript.Instance.SetSpd(_currentSpeedMultiplier);
         CharacterInfoUIScript.Instance.SetCrt(_currentCriticalMultiplier);
         CharacterInfoUIScript.Instance.SetPickup(_eatDistanceMultiplier);
@@ -225,7 +240,16 @@ public class PlayerScript : MonoBehaviour
 
     public void HealHP(float HealValue, bool IsBasicBurger)
     {
-        _characterCurrentHP += IsBasicBurger ? _currentCharacterMaxHP * 0.2f : HealValue;
+        if (IsBasicBurger)
+        {
+            _characterCurrentHP += _currentCharacterMaxHP * 0.2f;
+            onEatBurger.Invoke();
+        }
+        else
+        {
+            _characterCurrentHP += HealValue;
+        }
+
 
         if (_characterCurrentHP > _currentCharacterMaxHP)
             _characterCurrentHP = _currentCharacterMaxHP;
@@ -233,6 +257,12 @@ public class PlayerScript : MonoBehaviour
         CheckFull();
 
         HPBar.Instance.UpdateHP(_characterCurrentHP);
+    }
+
+    public void AttackStatChange(float buffValue)
+    {
+        _currentAttackMultiplier = _currentAttackMultiplier + buffValue;
+        onStatChange.Invoke();
     }
 
     private void CheckLevelUp()
@@ -254,16 +284,18 @@ public class PlayerScript : MonoBehaviour
         if (_basicWeapon.ItemData == item)
         {
             return _basicWeapon;
-
         }
         else if (_weapons.ContainsKey(item))
         {
             return _weapons[item];
-
         }
         else if (_items.ContainsKey(item))
         {
             return _items[item];
+        }
+        else if (_skills.ContainsKey(item))
+        {
+            return _skills[item];
         }
         else
         {
@@ -299,11 +331,24 @@ public class PlayerScript : MonoBehaviour
             {
                 //TODO:
                 //Upgrade Character Skill
+                GameObject NewWeapon = Instantiate(item.ControllerPrefab, _obtainedWeaponSlots.transform);
+                ItemController newSkillController = NewWeapon.GetComponent<ItemController>();
+                _skills.Add(item, newSkillController);
             }
             else if (item.ItemType == ItemType.WEAPON)
             {
                 GameObject NewWeapon = Instantiate(item.ControllerPrefab, _obtainedWeaponSlots.transform);
                 ItemController newWeaponController = NewWeapon.GetComponent<ItemController>();
+
+                //GameObject NewWeapon = new GameObject(item.ItemName);
+                //NewWeapon.transform.SetParent(_obtainedWeaponSlots.transform);
+
+                //var type = item.ControllerScript.GetType();
+
+                //NewWeapon.AddComponent(typeof(item.ControllerScript));
+                //ItemController newWeaponController = NewWeapon.GetComponent<ItemController>();
+                //newWeaponController.SetWithSO(item);
+
                 _weapons.Add(item, newWeaponController);
                 _obtainedWeaponCount++;
             }

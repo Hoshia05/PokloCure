@@ -134,6 +134,37 @@ Transform:
   m_Father: {fileID: 3435203823413746949}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3760086531203995649
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7967998215039560848}
+  m_Layer: 0
+  m_Name: Skills
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7967998215039560848
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3760086531203995649}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3435203823413746949}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4468829955391795324
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,6 +256,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8079516467986208159}
+  - {fileID: 7967998215039560848}
   - {fileID: 1565646156437501351}
   - {fileID: 6561103749339131422}
   m_Father: {fileID: 7375911810734498312}
@@ -523,10 +555,11 @@ MonoBehaviour:
   _characterSO: {fileID: 11400000, guid: a367cd36c56dc6d4fb4213df3ab5b472, type: 2}
   _attackCoolTime: 0.5
   _defensePoints: 0
-  _itemEatDistance: 0
+  _eatDistanceMultiplier: 1
   _basicWeaponSlot: {fileID: 5884235535917834310}
   _obtainedWeaponSlots: {fileID: 4468829955391795324}
   _obtainedItemSlots: {fileID: 3060975074466163126}
+  _skillSlots: {fileID: 0}
   _cursor: {fileID: 6788090508172661848}
   _cursorDistance: 5
 --- !u!50 &3256312317566909451
