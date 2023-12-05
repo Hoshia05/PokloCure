@@ -45,6 +45,7 @@ public class EnemySpawnManager: MonoBehaviour
             GameObject newEnemy = Instantiate(GameManager.Instance.EnemyPrefab, spawnPosition, Quaternion.identity);
             EnemyScript enemyScript = newEnemy.GetComponent<EnemyScript>();
             enemyScript.InitializeWithSO(enemyData);
+            StageManager.instance.CurrentEnemyCount++;
         }
 
     }

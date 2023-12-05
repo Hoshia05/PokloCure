@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -18,6 +19,8 @@ public class StageManager : MonoBehaviour
     private CinemachineVirtualCamera _virtualCamera;
     [SerializeField]
     private Transform _characterSpawnPoint;
+    [SerializeField]
+    private EnemySpawnProfileSO _spawnProfile;
 
     [Header("Within Prefab")]
     [SerializeField]
@@ -37,6 +40,8 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _killCountText;
     [SerializeField]
+    private TextMeshProUGUI _coinCountText;
+    [SerializeField]
     private ItemSlotScript _itemSlotScript;
 
     private EnemySpawnManager _spawnManager;
@@ -50,6 +55,15 @@ public class StageManager : MonoBehaviour
 
     private float _currentTime = 0f;
     private int _killCount = 0;
+    private int _coinCount = 0;
+
+    private int _currentEnemyCount = 0;
+
+    public int CurrentEnemyCount 
+    { 
+      get { return _currentEnemyCount; } 
+      set { _currentEnemyCount = value; }
+    }
 
     [SerializeField]
     private List<EnemyBase> _enemyList;
@@ -75,6 +89,7 @@ public class StageManager : MonoBehaviour
         _CharacterInfoUI.SetActive(true);
 
         _killCountText.text = _killCount.ToString();
+        _coinCountText.text = _coinCount.ToString();
         _darkScreen.SetActive(false);
         _levelUPUI.SetActive(false);
         _BoxItemUI.SetActive(false);
@@ -108,10 +123,23 @@ public class StageManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(5f);
-            RandomCircleSpawn();
+
+            float waitTime = GameManager.Instance.Rand.Next(1, 7);
+            yield return new WaitForSeconds(waitTime);
+            if (_currentEnemyCount < 200)
+            {
+                RandomCircleSpawn();
+            }
+            
         }
 
+    }
+
+    private List<EnemyBase> GetSpawnableEnemies()
+    {
+        List<EnemyBase> spawnableEnemies = _spawnProfile.enemies.Where(x => x.StartTime < _currentTime &&  _currentTime < x.EndTime).Select(x => x.EnemyData).ToList();
+
+        return spawnableEnemies;
     }
 
     private void RandomEnemySpawn()
@@ -131,13 +159,16 @@ public class StageManager : MonoBehaviour
     {
         Vector2 randomPoint = new Vector2(UnityEngine.Random.Range(min.x, max.x), UnityEngine.Random.Range(min.y, max.y));
 
-        System.Random random = new();
+        List<EnemyBase> EnemyPossibleList = GetSpawnableEnemies();
 
-        EnemyBase randomEnemy = _enemyList[random.Next(0, _enemyList.Count)];
+        if (EnemyPossibleList.Count == 0)
+            return;
 
-        _spawnManager.CircleSpawn(randomEnemy, 30, 10);
+        foreach (EnemyBase enemyData in EnemyPossibleList)
+        {
+            _spawnManager.CircleSpawn(enemyData, 30, 10);
+        }
     }
-
 
     IEnumerator TimerUpdateCoroutine()
     {
@@ -210,5 +241,11 @@ public class StageManager : MonoBehaviour
     {
         _currentPlayer.ObtainItemSkill(item);
         _itemSlotScript.UpdateItemSlot(_currentPlayer);
+    }
+
+    public void GainCoins(int coinValue)
+    {
+        _coinCount += coinValue;
+        _coinCountText.text = _coinCount.ToString();
     }
 }

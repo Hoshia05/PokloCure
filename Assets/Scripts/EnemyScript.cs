@@ -11,6 +11,7 @@ public class EnemyScript : MonoBehaviour
 
     private GameObject _playerCharacter;
     private Vector2 _playerPosition;
+    private Rigidbody2D _rb;
 
     private Vector2 _enemyLineOfSight;
 
@@ -39,6 +40,10 @@ public class EnemyScript : MonoBehaviour
     [SerializeField]
     private Animator _enemyAnim; //Not now...
 
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody2D>();
+    }
 
     private void Start()
     {
@@ -164,12 +169,12 @@ public class EnemyScript : MonoBehaviour
     private IEnumerator KillEnemy()
     {
         StageManager.instance.UpdateKill();
+        Collider2D coll = GetComponent<Collider2D>();
+        coll.enabled = false;
 
         yield return new WaitForSeconds(0.1f);
 
         _currentMovementSpeed = 0;
-        Collider2D coll = GetComponent<Collider2D>();
-        coll.enabled = false;
         Color originalColor = _spriteRenderer.color;
 
         float elapsedTime = 0f;
@@ -192,9 +197,12 @@ public class EnemyScript : MonoBehaviour
         Instantiate(_expItemPrefab, RandomNearPosition(), Quaternion.identity);
 
         //버거소환
-        CreateBurger();
+        DropBurger();
+        //다이아소환
+        DropDiamond();
 
         Destroy(gameObject);
+        StageManager.instance.CurrentEnemyCount--;
 
     }
 
@@ -203,13 +211,23 @@ public class EnemyScript : MonoBehaviour
         return new Vector2(transform.position.x + GameManager.Instance.Rand.Next(1, 10) * 0.1f, transform.position.y + GameManager.Instance.Rand.Next(1, 10) * 0.1f);
     }
 
-    private void CreateBurger()
+    private void DropBurger()
     {
         int randval = GameManager.Instance.Rand.Next(1, 100);
 
         if(randval <= 5) 
         {
             Instantiate(GameManager.Instance.BurgerPrefab, RandomNearPosition(), Quaternion.identity);
+        }
+    }
+
+    private void DropDiamond()
+    {
+        int randval = GameManager.Instance.Rand.Next(1, 90);
+
+        if (randval <= 1)
+        {
+            Instantiate(GameManager.Instance.DiamondPrefab, RandomNearPosition(), Quaternion.identity);
         }
     }
 
@@ -223,6 +241,20 @@ public class EnemyScript : MonoBehaviour
 
         return ItemController.RoundValue((range * (float)sample) + minDamage);
 
+    }
+
+    public void Launch(Vector2 LaunchVector)
+    {
+        StartCoroutine(LaunchCoroutine(LaunchVector));
+    }
+
+    IEnumerator LaunchCoroutine(Vector2 LaunchVector)
+    {
+        _rb.AddForce(LaunchVector, ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(0.1f);
+
+        _rb.velocity = Vector2.zero;
     }
 
 }

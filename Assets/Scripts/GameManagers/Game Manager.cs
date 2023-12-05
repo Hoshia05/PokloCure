@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public GameObject CriticalDamagePopUpPrefab;
 
     public GameObject BurgerPrefab;
+    public GameObject DiamondPrefab;
 
     [Header("디버그용")]
     [SerializeField]
