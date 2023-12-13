@@ -15,6 +15,11 @@ public class ExpItemScript : FieldItemBase
             _expValue *= 10;
     }
 
+    public void SetExpValue(float expValue)
+    {
+        _expValue = expValue;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))

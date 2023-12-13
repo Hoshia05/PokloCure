@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efa97230004be834aadba4c8af4dbe8d, type: 3}
+  m_Name: MegaLemonDongja
+  m_EditorClassIdentifier: 
+  EnemyPortrait: {fileID: 21300000, guid: 2d7faf8b9ba826a478cd641ce7087d70, type: 3}
+  EnemySprite: {fileID: 21300000, guid: 2d7faf8b9ba826a478cd641ce7087d70, type: 3}
+  AnimatorController: {fileID: 0}
+  BasicWeaponController: {fileID: 0}
+  EnemyName: "\uBA54\uAC00\uB3D9\uC790"
+  EnemyDescription: "\uCCAB \uBBF8\uB2C8\uBCF4\uC2A4"
+  isBossEnemy: 1
+  EnemyType: 0
+  HP: 600
+  SpeedMultiplier: 0.5
+  BodyDamage: 6
+  AttackCooltime: 0.5
+  CriticalChance: 0
+  DropEXP: 150

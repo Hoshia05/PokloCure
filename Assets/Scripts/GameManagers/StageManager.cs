@@ -21,6 +21,7 @@ public class StageManager : MonoBehaviour
     private Transform _characterSpawnPoint;
     [SerializeField]
     private EnemySpawnProfileSO _spawnProfile;
+    private List<SpawnInfo> _bossSpawnInfo;
 
     [Header("Within Prefab")]
     [SerializeField]
@@ -59,6 +60,10 @@ public class StageManager : MonoBehaviour
 
     private int _currentEnemyCount = 0;
 
+    private bool _summoningBoss = false;
+
+    public List<ItemSO> ItemExemptList;
+
     public int CurrentEnemyCount 
     { 
       get { return _currentEnemyCount; } 
@@ -82,7 +87,6 @@ public class StageManager : MonoBehaviour
         _lvlUpListScript = _levelUPUI.GetComponent<LvlUPListScript>();
         _boxItemUIScript = _BoxItemUI.GetComponent<BoxItemUIScript>();
 
-
         _darkScreen.SetActive(true);
         _levelUPUI.SetActive(true);
         _BoxItemUI.SetActive(true);
@@ -94,6 +98,10 @@ public class StageManager : MonoBehaviour
         _levelUPUI.SetActive(false);
         _BoxItemUI.SetActive(false);
         _CharacterInfoUI.SetActive(false);
+
+        _bossSpawnInfo = _spawnProfile.enemies.Where(x => x.EnemyData.isBossEnemy).ToList();
+
+        ItemExemptList = new();
     }
 
     private void Start()
@@ -103,11 +111,28 @@ public class StageManager : MonoBehaviour
         SpawnPlayerCharacter();
         StartCoroutine(EnemySpawnCoroutine());
         StartCoroutine(TimerUpdateCoroutine());
+
+        SetupItemExemptList();
     }
 
     private void Update()
     {
         _currentTime += Time.deltaTime;
+
+        BossSpawn();
+
+    }
+
+    private void SetupItemExemptList()
+    {
+        List<ItemSO> itemList = GameManager.Instance.ItemList;
+
+        foreach (ItemSO item in itemList)
+        {
+            if(item.characterLabel != _currentPlayer.CharacterLabel && item.characterLabel != CharacterDistinct.NONE)
+                ItemExemptList.Add(item);
+        }
+
     }
 
     private void SpawnPlayerCharacter()
@@ -123,14 +148,33 @@ public class StageManager : MonoBehaviour
     {
         while (true)
         {
-
             float waitTime = GameManager.Instance.Rand.Next(1, 7);
             yield return new WaitForSeconds(waitTime);
             if (_currentEnemyCount < 200)
             {
                 RandomCircleSpawn();
             }
-            
+
+        }
+    }
+
+    private void BossSpawn()
+    {
+        if (_bossSpawnInfo.Count == 0 || _summoningBoss == true)
+            return;
+
+        SpawnInfo NextBoss = _bossSpawnInfo.First();
+
+        float Spawntime = NextBoss.StartTime; 
+
+        if(Math.Abs(Spawntime - _currentTime) < 0.5f)
+        {
+            _summoningBoss = true;
+
+            _spawnManager.SpawnBossEnemy(NextBoss.EnemyData, 30);
+            _bossSpawnInfo.Remove(NextBoss);
+
+            _summoningBoss = false;
         }
 
     }

@@ -10,6 +10,9 @@ public class SpawnInfo
     public EnemyBase EnemyData;
     public float StartTime;
     public float EndTime;
+
+    private bool _isBoss => EnemyData.isBossEnemy;
+
 }
 
 [CreateAssetMenu(fileName = "Unassigned SpawnProfile", menuName = "Scriptable Object/StageSpawnProfile")]

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawnManager: MonoBehaviour 
+public class EnemySpawnManager : MonoBehaviour 
 {
     private Vector2 _min;
     private Vector2 _max;
@@ -48,6 +48,37 @@ public class EnemySpawnManager: MonoBehaviour
             StageManager.instance.CurrentEnemyCount++;
         }
 
+    }
+
+    public void SpawnBossEnemy(EnemyBase enemyData, float radius)
+    {
+        Vector2 SpawnPosition;
+
+        SpawnPosition = GetRandomPositionInRadius(radius);
+
+        while (!CheckIfIsInBounds(SpawnPosition))
+        {
+            SpawnPosition = GetRandomPositionInRadius(radius);
+        }
+
+        GameObject BossEnemy = Instantiate(GameManager.Instance.BossPrefab, SpawnPosition, Quaternion.identity);
+        EnemyScript enemyScript = BossEnemy.GetComponent<BossScript>();
+        enemyScript.InitializeWithSO(enemyData);
+        StageManager.instance.CurrentEnemyCount++;
+
+    }
+
+    public Vector2 GetRandomPositionInRadius(float radius)
+    {
+        PlayerScript playerScript = StageManager.instance.CurrentPlayer;
+        Vector2 playerPosition = playerScript.transform.position;
+
+        float currentDegree = 360 / (GameManager.Instance.Rand.Next(0, 360));
+
+        float xPosition = playerPosition.x + radius * Mathf.Cos(currentDegree);
+        float yPosition = playerPosition.y + radius * Mathf.Sin(currentDegree);
+
+       return new Vector2(xPosition, yPosition);
     }
 
     public bool CheckIfIsInBounds(Vector2 position)

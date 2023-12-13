@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -9,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     public System.Random Rand = new();
     public GameObject EnemyPrefab;
+    public GameObject BossPrefab;
     public List<EnemyBase> EnemyList;
     public List<ItemSO> ItemList;
     public GameObject PlayerCharacterPrefab;
@@ -18,6 +20,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject BurgerPrefab;
     public GameObject DiamondPrefab;
+    public GameObject TreasureBoxPrefab;
+    public GameObject ExpItemPrefab;
 
     [Header("디버그용")]
     [SerializeField]
@@ -43,9 +47,14 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public ItemSO GetRandomItem()
+    public ItemSO GetRandomItem(List<ItemSO> exemptList = null)
     {
-        return ItemList[Rand.Next(ItemList.Count)];
+        if (!ItemList.Except(exemptList).Any())
+            return null;
+
+        List<ItemSO> possibleItemList = ItemList.Except(exemptList).ToList();
+
+        return possibleItemList[Rand.Next(possibleItemList.Count)];
     }
 
 }

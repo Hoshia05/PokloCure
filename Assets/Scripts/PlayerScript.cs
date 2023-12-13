@@ -53,6 +53,11 @@ public class PlayerScript : MonoBehaviour
     private float _currentCriticalMultiplier;
     private float _currentCriticalChance => _currentCriticalMultiplier + CharacterBase._baseCriticalChance;
     private float _currentCriticalDamage;
+    private CharacterDistinct _characterLabel;
+    public CharacterDistinct CharacterLabel
+    {
+        get { return _characterLabel; }
+    }
 
     private CharacterBase _selectedCharacter;
 
@@ -159,6 +164,7 @@ public class PlayerScript : MonoBehaviour
         _currentAttackMultiplier = SelectedCharacter.AttackMultiplier;
         _currentCriticalMultiplier = SelectedCharacter.CriticalMultiplier;
         _currentCriticalDamage = CharacterBase._baseCritDamage;
+        _characterLabel = SelectedCharacter.characterLabel;
 
         //_defensePoints = SelectedCharacter.DefensePoints;
 

@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyPrefab: {fileID: 6866567978285184781, guid: 24482696c81187c46a523a3f943f4753, type: 3}
+  BossPrefab: {fileID: 6866567978285184781, guid: 88822052681175f47ba798d893ab2ab5, type: 3}
   EnemyList:
   - {fileID: 11400000, guid: 64488e8cc052b4e47b66e38c1fabe90f, type: 2}
   ItemList:
@@ -55,4 +56,6 @@ MonoBehaviour:
   DamagePopUpPrefab: {fileID: 5271240959729347560, guid: f69cb61873c2372468194f31debf07a1, type: 3}
   CriticalDamagePopUpPrefab: {fileID: 5271240959729347560, guid: c88895a7a31c4f14699e99770f1c51a9, type: 3}
   BurgerPrefab: {fileID: 5710734456166026490, guid: 86488bbf00decb84ca160741f62b89b9, type: 3}
+  DiamondPrefab: {fileID: 5710734456166026490, guid: 45580285e8559dd408a2ff8884b2f40d, type: 3}
+  TreasureBoxPrefab: {fileID: 8764263367731458104, guid: d4d2f2f414d321247944ad4b8838c8f6, type: 3}
   _selectedCharacter: {fileID: 11400000, guid: a367cd36c56dc6d4fb4213df3ab5b472, type: 2}

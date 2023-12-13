@@ -61,47 +61,47 @@ public class BoxItemUIScript : MonoBehaviour
         _pulledItemDict = new();
     }
 
-    public void PullRandomItem()
-    {
-        exemptList = new();
+    //public void PullRandomItem()
+    //{
+    //    exemptList = new();
 
-        ItemSO itemSkillSO;
-        int nextLevel;
+    //    ItemSO itemSkillSO;
+    //    int nextLevel;
 
-        for(int i = 0; i < ItemNum; i++)
-        {
-            do
-            {
-                //Get Random item
-                itemSkillSO = GameManager.Instance.GetRandomItem();
+    //    for(int i = 0; i < ItemNum; i++)
+    //    {
+    //        do
+    //        {
+    //            //Get Random item
+    //            itemSkillSO = GameManager.Instance.GetRandomItem();
 
-                //Check if player already has it.
-                nextLevel = PlayerScript.Instance.CheckItemPossessionLevel(itemSkillSO);
+    //            //Check if player already has it.
+    //            nextLevel = PlayerScript.Instance.CheckItemPossessionLevel(itemSkillSO);
 
-                if (nextLevel > itemSkillSO.ItemMaxLevel)
-                    exemptList.Add(itemSkillSO);
+    //            if (nextLevel > itemSkillSO.ItemMaxLevel)
+    //                exemptList.Add(itemSkillSO);
 
-            } while (exemptList.Contains(itemSkillSO));
+    //        } while (exemptList.Contains(itemSkillSO));
 
-            _pulledItemDict.Add(itemSkillSO, nextLevel);
-            exemptList.Add(itemSkillSO);
+    //        _pulledItemDict.Add(itemSkillSO, nextLevel);
+    //        exemptList.Add(itemSkillSO);
 
-            _itemPositions[i].SetActive(true);
+    //        _itemPositions[i].SetActive(true);
                 
 
-            Image ItemImage = _itemPositions[i].GetComponent<Image>();
-            ItemImage.sprite = itemSkillSO.ItemImage;
+    //        Image ItemImage = _itemPositions[i].GetComponent<Image>();
+    //        ItemImage.sprite = itemSkillSO.ItemImage;
 
-        }
+    //    }
 
         
-        _descriptionWindow.SetActive(true);
-        _openButton.SetActive(false);
-        _takeButton.SetActive(true);
-        _dropButton.SetActive(true);
+    //    _descriptionWindow.SetActive(true);
+    //    _openButton.SetActive(false);
+    //    _takeButton.SetActive(true);
+    //    _dropButton.SetActive(true);
 
-        UpdateDescription(_pulledItemDict.ElementAt(_itemIndex));
-    }
+    //    UpdateDescription(_pulledItemDict.ElementAt(_itemIndex));
+    //}
 
     public void UpdateDescription(KeyValuePair<ItemSO, int> itemData)
     {

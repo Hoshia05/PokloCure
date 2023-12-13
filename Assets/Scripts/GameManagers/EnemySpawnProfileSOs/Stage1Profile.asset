@@ -18,4 +18,13 @@ MonoBehaviour:
     EndTime: 180
   - EnemyData: {fileID: 11400000, guid: b9140f77bbc135b4381585d52ed5d3ca, type: 2}
     StartTime: 30
-    EndTime: 360
+    EndTime: 300
+  - EnemyData: {fileID: 11400000, guid: 215b8724f483c744fbdb890ec638e82b, type: 2}
+    StartTime: 120
+    EndTime: 120
+  - EnemyData: {fileID: 11400000, guid: fafa6d45aaaac0243b2487ae32c84e77, type: 2}
+    StartTime: 180
+    EndTime: 300
+  - EnemyData: {fileID: 11400000, guid: 01d0de1920742b644a34eda165421847, type: 2}
+    StartTime: 240
+    EndTime: 240
