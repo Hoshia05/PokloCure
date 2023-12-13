@@ -52,10 +52,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c1f500a0f0d1afb4596d44a9f707e9ae, type: 2}
   - {fileID: 11400000, guid: 284333abd3ed090409196d1e6acd9ec6, type: 2}
   - {fileID: 11400000, guid: afae2633339fe7d418e8a1a4a1b88288, type: 2}
+  - {fileID: 11400000, guid: 2549f215c46eba34d9c5956b60eeee6b, type: 2}
+  - {fileID: 11400000, guid: 9efcb5cab07367e4e8b072fdff3314c7, type: 2}
+  - {fileID: 11400000, guid: dc6f63c680223864f8ba4eb1795eff6c, type: 2}
+  - {fileID: 11400000, guid: 17ef1ce5c8f51e644bcecefca87e9133, type: 2}
   PlayerCharacterPrefab: {fileID: 8438766113470524038, guid: 4b0804e9b0ab99e4cade03185f864d6d, type: 3}
   DamagePopUpPrefab: {fileID: 5271240959729347560, guid: f69cb61873c2372468194f31debf07a1, type: 3}
   CriticalDamagePopUpPrefab: {fileID: 5271240959729347560, guid: c88895a7a31c4f14699e99770f1c51a9, type: 3}
   BurgerPrefab: {fileID: 5710734456166026490, guid: 86488bbf00decb84ca160741f62b89b9, type: 3}
   DiamondPrefab: {fileID: 5710734456166026490, guid: 45580285e8559dd408a2ff8884b2f40d, type: 3}
   TreasureBoxPrefab: {fileID: 8764263367731458104, guid: d4d2f2f414d321247944ad4b8838c8f6, type: 3}
+  ExpItemPrefab: {fileID: 5710734456166026490, guid: 813449b9b6085284c808b2fa3b7d97c5, type: 3}
   _selectedCharacter: {fileID: 11400000, guid: a367cd36c56dc6d4fb4213df3ab5b472, type: 2}

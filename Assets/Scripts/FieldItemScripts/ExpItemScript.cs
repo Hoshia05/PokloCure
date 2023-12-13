@@ -4,16 +4,10 @@ using UnityEngine;
 
 public class ExpItemScript : FieldItemBase
 {
-    private float _expValue;
+    [SerializeField]
+    private float _expValue = 0;
 
     public bool IsDebug;
-
-    private void Start()
-    {
-        _expValue = Random.value * 10;
-        if (IsDebug)
-            _expValue *= 10;
-    }
 
     public void SetExpValue(float expValue)
     {

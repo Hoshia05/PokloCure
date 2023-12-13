@@ -75,7 +75,7 @@ public class ItemController : MonoBehaviour
     {
         _currentDamage = RoundValue(ItemSO.BaseDamage * ItemData.DamageMultiplier * PlayerScript.Instance.CurrentAttackMultiplier);
         _currentSpeed = ItemData.Speed;
-        _currentCooldownDuration = ItemData.CooldownDuration;
+        _currentCooldownDuration = ItemData.CooldownDuration * PlayerScript.Instance.CurrentHasteMultiplier;
         _currentPierce = ItemData.Pierce;
         _currentDeathtime = ItemData.Deathtime;
     }
@@ -100,6 +100,12 @@ public class ItemController : MonoBehaviour
         _currentWeaponLevel++;
         _levelUPEffectsList[_currentWeaponLevel - 1]();
         CheckAttackRound();
+        LevelUpEffect();
+    }
+
+    protected virtual void LevelUpEffect()
+    {
+
     }
 
     protected virtual void OnDestroy()

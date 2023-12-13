@@ -10,6 +10,7 @@ public class CharacterBase : ScriptableObject
     public const float _baseCriticalChance = 0.01f;
     public const float _baseCritDamage = 2f;
     public const float _baseItemEatDistance = 5f;
+    public const float _baseHaste = 1f;
 
     public Sprite CharacterPortrait;
     public Sprite CharacterSprite;

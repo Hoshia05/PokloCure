@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -19,7 +19,7 @@ public class LvlUPListScript : MonoBehaviour
     public void CreateLvlUpList()
     {
         _itemList = new GameObject[_itemMaxCount];
-        exemptList = StageManager.instance.ItemExemptList;
+        exemptList = new List<ItemSO>(StageManager.instance.ItemExemptList);
 
         int count = 0;
         
@@ -34,7 +34,7 @@ public class LvlUPListScript : MonoBehaviour
 
             int nextLevel = PlayerScript.Instance.CheckItemPossessionLevel(itemSkillSO);
 
-            //¹ú½á ¸¸·¾ÀÌ¶ó¸é
+            //ì´ë¯¸ ë§Œë ™ì¸ ê²½ìš°
             if (nextLevel > itemSkillSO.ItemMaxLevel)
             {
                 exemptList.Add(itemSkillSO);
@@ -46,9 +46,11 @@ public class LvlUPListScript : MonoBehaviour
 
             lvlUpChoiceScript.InitializeWithData(itemSkillSO, nextLevel, this);
             _itemList[count] = ListObject;
+            exemptList.Add(itemSkillSO);
             count++;
         }
 
+        exemptList = new();
 
 
         //ItemSO itemSkillSO;
@@ -57,8 +59,8 @@ public class LvlUPListScript : MonoBehaviour
 
         //for (int i = 0; i < _itemMaxCount; i++)
         //{
-        //    //Á¦¿Ü ¸®½ºÆ®°¡ ÃÑ ¸®½ºÆ®¶û °°À¸¸é(= °¡´ÉÇÑ ¸ðµç ¾ÆÀÌÅÛÀÌ Á¦¿ÜµÇ¸é) ±×³É ±×¸¸ ¸¸µé±â
-        //    //¹ö±× °íÃÄ¾î¾î¤Ã
+        //    //ÃÂ¦Â¿Ãœ Â¸Â®Â½ÂºÃ†Â®Â°Â¡ ÃƒÃ‘ Â¸Â®Â½ÂºÃ†Â®Â¶Ã» Â°Â°Ã€Â¸Â¸Ã©(= Â°Â¡Â´Ã‰Ã‡Ã‘ Â¸Ã°ÂµÃ§ Â¾Ã†Ã€ÃŒÃ…Ã›Ã€ÃŒ ÃÂ¦Â¿ÃœÂµÃ‡Â¸Ã©) Â±Ã—Â³Ã‰ Â±Ã—Â¸Â¸ Â¸Â¸ÂµÃ©Â±Ã¢
+        //    //Â¹Ã¶Â±Ã— Â°Ã­ÃƒÃ„Â¾Ã®Â¾Ã®Â¤Ãƒ
         //    //if (!GameManager.Instance.ItemList.Except(exemptList).Any())
 
         //    itemSkillSO = GameManager.Instance.GetRandomItem(exemptList);
@@ -80,19 +82,19 @@ public class LvlUPListScript : MonoBehaviour
         //    //    //Check if player already has it.
         //    //    nextLevel = PlayerScript.Instance.CheckItemPossessionLevel(itemSkillSO);
 
-        //    //    //º¸À¯ÇÏ°í ÀÖÁö¸¸ ÀÌ¹Ì ¸¸·¾ »óÅÂ
+        //    //    //ÂºÂ¸Ã€Â¯Ã‡ÃÂ°Ã­ Ã€Ã–ÃÃ¶Â¸Â¸ Ã€ÃŒÂ¹ÃŒ Â¸Â¸Â·Â¾ Â»Ã³Ã…Ã‚
         //    //    if(nextLevel > itemSkillSO.ItemMaxLevel)
         //    //    {
         //    //        exemptList.Add(itemSkillSO);
         //    //    }
 
-        //    //    //ÀÌ¹Ì ¸ðµç ¾ÆÀÌÅÛÀÌ Á¦¿Ü¸®½ºÆ®¿¡ Æ÷ÇÔµÇ¾î ÀÖ¾î¼­ ´õÀÌ»ó ¸®½ºÆ®¿¡ ³ÖÀ» ¼ö ÀÖ´Â°Ô ¾ø´Â »óÅÂ
+        //    //    //Ã€ÃŒÂ¹ÃŒ Â¸Ã°ÂµÃ§ Â¾Ã†Ã€ÃŒÃ…Ã›Ã€ÃŒ ÃÂ¦Â¿ÃœÂ¸Â®Â½ÂºÃ†Â®Â¿Â¡ Ã†Ã·Ã‡Ã”ÂµÃ‡Â¾Ã® Ã€Ã–Â¾Ã®Â¼Â­ Â´ÃµÃ€ÃŒÂ»Ã³ Â¸Â®Â½ÂºÃ†Â®Â¿Â¡ Â³Ã–Ã€Â» Â¼Ã¶ Ã€Ã–Â´Ã‚Â°Ã” Â¾Ã¸Â´Ã‚ Â»Ã³Ã…Ã‚
         //    //    if (exemptList.Count >= GameManager.Instance.ItemList.Count)
         //    //        break;
 
         //    //} 
 
-        //    //ÀÌ¹Ì ¸ðµç ¾ÆÀÌÅÛÀÌ Á¦¿Ü¸®½ºÆ®¿¡ Æ÷ÇÔµÇ¾î ÀÖ¾î¼­ ´õÀÌ»ó ¸®½ºÆ®¿¡ ³ÖÀ» ¼ö ÀÖ´Â°Ô ¾ø´Â »óÅÂ
+        //    //Ã€ÃŒÂ¹ÃŒ Â¸Ã°ÂµÃ§ Â¾Ã†Ã€ÃŒÃ…Ã›Ã€ÃŒ ÃÂ¦Â¿ÃœÂ¸Â®Â½ÂºÃ†Â®Â¿Â¡ Ã†Ã·Ã‡Ã”ÂµÃ‡Â¾Ã® Ã€Ã–Â¾Ã®Â¼Â­ Â´ÃµÃ€ÃŒÂ»Ã³ Â¸Â®Â½ÂºÃ†Â®Â¿Â¡ Â³Ã–Ã€Â» Â¼Ã¶ Ã€Ã–Â´Ã‚Â°Ã” Â¾Ã¸Â´Ã‚ Â»Ã³Ã…Ã‚
         //    //if (exemptList.Count >= GameManager.Instance.ItemList.Count)
         //    //    break;
 

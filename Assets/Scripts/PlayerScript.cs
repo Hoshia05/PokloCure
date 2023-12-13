@@ -38,17 +38,26 @@ public class PlayerScript : MonoBehaviour
     private CharacterBase _characterSO;
 
     [Header("캐릭스펙")]
+
+    private float _baseMaxHP;
+    private float _baseSpeedMultiplier;
+    private float _baseAttackMultiplier;
+    private float _baseCriticalMultiplier;
+    private float _baseCriticalDamage;
+    private float _baseHasteMultiplier;
+
     private float _currentCharacterMaxHP;
+    public float CurrentCharacterMaxHP
+    {
+        get { return _currentCharacterMaxHP; }
+    }
     private float _characterCurrentHP;
     private float _currentSpeedMultiplier = 0;
     private float _currentMovementSpeed => _currentSpeedMultiplier * CharacterBase._baseSpeed;
     private float _currentAttackMultiplier;
     public float CurrentAttackMultiplier
     {
-        get
-        {
-            return _currentAttackMultiplier;
-        }
+        get => _currentAttackMultiplier;
     }
     private float _currentCriticalMultiplier;
     private float _currentCriticalChance => _currentCriticalMultiplier + CharacterBase._baseCriticalChance;
@@ -58,6 +67,14 @@ public class PlayerScript : MonoBehaviour
     {
         get { return _characterLabel; }
     }
+    private float _currentHasteMultiplier;
+    public float CurrentHasteMultiplier
+    {
+        get => _currentHasteMultiplier;
+    }
+
+    //버프 관리용 Dictionary
+    public Dictionary<ItemController, BuffObject> BuffDictionary = new();
 
     private CharacterBase _selectedCharacter;
 
@@ -107,12 +124,19 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector]
     public UnityEvent onEatBurger;
     public UnityEvent onStatChange;
+    public UnityEvent onMaxHPChange;
+
+    public delegate T DamageTakenDelegate<T>();
+    public event DamageTakenDelegate<bool> OnDamageTakenBool;
 
     [Header("기타")]
     [SerializeField]
     private GameObject _cursor;
     [SerializeField]
     private float _cursorDistance;
+
+    public Coroutine DamageCoroutine;
+
 
     private void Awake()
     {
@@ -157,13 +181,15 @@ public class PlayerScript : MonoBehaviour
         //_itemEatDistance = CharacterBase._baseItemEatDistance;
 
         //캐릭터 특정 수치들
-        _currentSpeedMultiplier = SelectedCharacter.SpeedMultiplier;
+        _baseSpeedMultiplier = _currentSpeedMultiplier = SelectedCharacter.SpeedMultiplier;
         //_currentMovementSpeed = _currentSpeedMultiplier * CharacterBase._baseSpeed;
-        _currentCharacterMaxHP = SelectedCharacter.Health;
-        _characterCurrentHP = _currentCharacterMaxHP;
-        _currentAttackMultiplier = SelectedCharacter.AttackMultiplier;
-        _currentCriticalMultiplier = SelectedCharacter.CriticalMultiplier;
-        _currentCriticalDamage = CharacterBase._baseCritDamage;
+        _baseMaxHP = _currentCharacterMaxHP = _characterCurrentHP = SelectedCharacter.Health;
+        _baseAttackMultiplier = _currentAttackMultiplier = SelectedCharacter.AttackMultiplier;
+        _baseCriticalMultiplier = _currentCriticalMultiplier = SelectedCharacter.CriticalMultiplier;
+        _baseCriticalDamage = _currentCriticalDamage = CharacterBase._baseCritDamage;
+        _baseHasteMultiplier = CharacterBase._baseHaste;
+
+
         _characterLabel = SelectedCharacter.characterLabel;
 
         //_defensePoints = SelectedCharacter.DefensePoints;
@@ -265,8 +291,53 @@ public class PlayerScript : MonoBehaviour
         HPBar.Instance.UpdateHP(_characterCurrentHP);
     }
 
-    public void AttackStatChange(float buffValue)
+
+    public void UpdateBuffDictionary(ItemController itemController, BuffObject buffInfo)
     {
+        BuffObject buffResult;
+
+        bool contains = BuffDictionary.TryGetValue(itemController, out buffResult);
+        
+        if (contains)
+        {
+            BuffDictionary[itemController] = buffInfo;
+        }
+        else
+        {
+            BuffDictionary.Add(itemController, buffInfo);
+        }
+
+        ApplyBuffs();
+    }
+
+    private void ApplyBuffs()
+    {
+        _currentAttackMultiplier = _baseAttackMultiplier;
+        _currentCharacterMaxHP = _baseMaxHP;
+        _currentSpeedMultiplier = _baseSpeedMultiplier;
+        _currentCriticalMultiplier = _baseCriticalMultiplier;
+        _currentCriticalDamage = _baseCriticalDamage;
+        _currentHasteMultiplier = _baseHasteMultiplier;
+
+        foreach(BuffObject buff in BuffDictionary.Values)
+        {
+            _currentCharacterMaxHP += buff.HPBuff;
+            _currentAttackMultiplier += buff.AttackMultiplierBuff;
+            _currentSpeedMultiplier += buff.SpeedMultiplierBuff;
+            _currentCriticalMultiplier += buff.CritMultiplierBuff;
+            _currentCriticalDamage += buff.CritDamageBuff;
+            _currentHasteMultiplier -= buff.HasteMultiplierBuff;
+        }
+
+        onMaxHPChange.Invoke();
+        HPBar.Instance.UpdateMaxHP(_currentCharacterMaxHP);
+        onStatChange.Invoke();
+
+    }
+
+    public void AttackStatChange(float buffValue, float PreviousIncrement = 0)
+    {
+        _currentAttackMultiplier = _currentAttackMultiplier - PreviousIncrement;
         _currentAttackMultiplier = _currentAttackMultiplier + buffValue;
         onStatChange.Invoke();
     }
@@ -387,40 +458,62 @@ public class PlayerScript : MonoBehaviour
     {
         if (!isInvulnerable)
         {
-            StartCoroutine(InvulnerabilityCoroutine());
 
-            _characterCurrentHP -= damage;
+            bool DamageNegation = ResolveDamageNegation(OnDamageTakenBool);
 
-            HPBar.Instance.UpdateHP(_characterCurrentHP);
-
-            if (_HPBarDisappearCoroutine != null)
-                StopCoroutine(_HPBarDisappearCoroutine);
-
-            _hpBar.gameObject.SetActive(true);
-
-            CheckDeath();
+            if (!DamageNegation)
+            {
+                DamageCoroutine = StartCoroutine(TakeDamageCoroutine(damage));
+            }
         }
 
     }
 
-    void CheckDeath()
+    private bool ResolveDamageNegation(DamageTakenDelegate<bool> OnDamageTakenBool)
     {
-        if(_characterCurrentHP <= 0)
+        if (OnDamageTakenBool != null)
         {
-            Destroy(gameObject);
+            foreach (DamageTakenDelegate<bool> handler in OnDamageTakenBool.GetInvocationList())
+            {
+                bool feedback = handler.Invoke();
+
+                if (feedback)
+                    return true;
+            }
         }
+        return false;
     }
 
-    IEnumerator InvulnerabilityCoroutine()
+
+    IEnumerator TakeDamageCoroutine(float damage)
     {
         isInvulnerable = true;
         _playerAnim.SetTrigger("hurt");
+
+        _characterCurrentHP -= damage;
+
+        HPBar.Instance.UpdateHP(_characterCurrentHP);
+
+        if (_HPBarDisappearCoroutine != null)
+            StopCoroutine(_HPBarDisappearCoroutine);
+
+        _hpBar.gameObject.SetActive(true);
+
+        CheckDeath();
 
         yield return new WaitForSeconds(0.5f);
 
         isInvulnerable = false;
         _playerAnim.SetTrigger("hurtEnd");
 
+    }
+
+    void CheckDeath()
+    {
+        if (_characterCurrentHP <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void EatItemRadius()
