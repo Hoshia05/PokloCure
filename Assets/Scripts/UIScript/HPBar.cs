@@ -18,6 +18,8 @@ public class HPBar : MonoBehaviour
         _hpSlider = GetComponent<Slider>();
 
         _hpSlider.minValue = 0;
+
+        PlayerScript.Instance.onMaxHPChange.AddListener(UpdateMaxHP);
     }
 
     public void InitializeHPBar(float initialHP)

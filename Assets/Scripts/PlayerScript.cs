@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -40,6 +41,10 @@ public class PlayerScript : MonoBehaviour
     [Header("캐릭스펙")]
 
     private float _baseMaxHP;
+    public float BaseMaxHP
+    {
+        get => _baseMaxHP;
+    }
     private float _baseSpeedMultiplier;
     private float _baseAttackMultiplier;
     private float _baseCriticalMultiplier;
@@ -49,7 +54,7 @@ public class PlayerScript : MonoBehaviour
     private float _currentCharacterMaxHP;
     public float CurrentCharacterMaxHP
     {
-        get { return _currentCharacterMaxHP; }
+        get => _currentCharacterMaxHP; 
     }
     private float _characterCurrentHP;
     private float _currentSpeedMultiplier = 0;
@@ -65,7 +70,7 @@ public class PlayerScript : MonoBehaviour
     private CharacterDistinct _characterLabel;
     public CharacterDistinct CharacterLabel
     {
-        get { return _characterLabel; }
+        get => _characterLabel; 
     }
     private float _currentHasteMultiplier;
     public float CurrentHasteMultiplier
@@ -124,10 +129,11 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector]
     public UnityEvent onEatBurger;
     public UnityEvent onStatChange;
-    public UnityEvent onMaxHPChange;
+    public UnityEvent<float> onMaxHPChange;
 
     public delegate T DamageTakenDelegate<T>();
     public event DamageTakenDelegate<bool> OnDamageTakenBool;
+    public UnityEvent onTakeDamage;
 
     [Header("기타")]
     [SerializeField]
@@ -187,7 +193,7 @@ public class PlayerScript : MonoBehaviour
         _baseAttackMultiplier = _currentAttackMultiplier = SelectedCharacter.AttackMultiplier;
         _baseCriticalMultiplier = _currentCriticalMultiplier = SelectedCharacter.CriticalMultiplier;
         _baseCriticalDamage = _currentCriticalDamage = CharacterBase._baseCritDamage;
-        _baseHasteMultiplier = CharacterBase._baseHaste;
+        _baseHasteMultiplier = _currentHasteMultiplier = CharacterBase._baseHaste;
 
 
         _characterLabel = SelectedCharacter.characterLabel;
@@ -329,10 +335,9 @@ public class PlayerScript : MonoBehaviour
             _currentHasteMultiplier -= buff.HasteMultiplierBuff;
         }
 
-        onMaxHPChange.Invoke();
-        HPBar.Instance.UpdateMaxHP(_currentCharacterMaxHP);
-        onStatChange.Invoke();
 
+        onMaxHPChange.Invoke(CurrentCharacterMaxHP);
+        onStatChange.Invoke();
     }
 
     public void AttackStatChange(float buffValue, float PreviousIncrement = 0)
@@ -406,34 +411,47 @@ public class PlayerScript : MonoBehaviour
         {
             if (item.ItemType == ItemType.SKILL)
             {
-                //TODO:
-                //Upgrade Character Skill
-                GameObject NewWeapon = Instantiate(item.ControllerPrefab, _obtainedWeaponSlots.transform);
-                ItemController newSkillController = NewWeapon.GetComponent<ItemController>();
-                _skills.Add(item, newSkillController);
+                GameObject NewSkill = new GameObject(item.ItemName);
+                NewSkill.transform.parent = _skillSlots.transform;
+                NewSkill.transform.localPosition = Vector3.zero;
+
+                System.Type scriptType = (item.ControllerScript as MonoScript).GetClass();
+                ItemController controllerScript = NewSkill.AddComponent(scriptType) as ItemController;
+                controllerScript.SetWithSO(item);
+
+                //GameObject NewSkill = Instantiate(item.ControllerPrefab, _skillSlots.transform);
+                //ItemController newSkillController = NewSkill.GetComponent<ItemController>();
+                _skills.Add(item, controllerScript);
             }
             else if (item.ItemType == ItemType.WEAPON)
             {
-                GameObject NewWeapon = Instantiate(item.ControllerPrefab, _obtainedWeaponSlots.transform);
-                ItemController newWeaponController = NewWeapon.GetComponent<ItemController>();
+                GameObject NewWeapon = new GameObject(item.ItemName);
+                NewWeapon.transform.parent = _obtainedWeaponSlots.transform;
+                NewWeapon.transform.localPosition = Vector3.zero;
 
-                //GameObject NewWeapon = new GameObject(item.ItemName);
-                //NewWeapon.transform.SetParent(_obtainedWeaponSlots.transform);
-
-                //var type = item.ControllerScript.GetType();
-
-                //NewWeapon.AddComponent(typeof(item.ControllerScript));
-                //ItemController newWeaponController = NewWeapon.GetComponent<ItemController>();
-                //newWeaponController.SetWithSO(item);
-
-                _weapons.Add(item, newWeaponController);
+                System.Type scriptType = (item.ControllerScript as MonoScript).GetClass();
+                ItemController controllerScript = NewWeapon.AddComponent(scriptType) as ItemController;
+                controllerScript.SetWithSO(item);
                 _obtainedWeaponCount++;
+
+
+                //GameObject NewWeapon = Instantiate(item.ControllerPrefab, _obtainedWeaponSlots.transform);
+                //ItemController newWeaponController = NewWeapon.GetComponent<ItemController>();
+                _weapons.Add(item, controllerScript);
             }
             else if (item.ItemType == ItemType.ITEM)
             {
-                GameObject NewItem = Instantiate(item.ControllerPrefab, _obtainedItemSlots.transform);
-                ItemController newItemController = NewItem.GetComponent<ItemController>();
-                _items.Add(item, newItemController);
+                GameObject NewItem = new GameObject(item.ItemName);
+                NewItem.transform.parent = _obtainedItemSlots.transform;
+                NewItem.transform.localPosition = Vector3.zero;
+
+                System.Type scriptType = (item.ControllerScript as MonoScript).GetClass();
+                ItemController controllerScript = NewItem.AddComponent(scriptType) as ItemController;
+                controllerScript.SetWithSO(item);
+
+                //GameObject NewItem = Instantiate(item.ControllerPrefab, _obtainedItemSlots.transform);
+                //ItemController newItemController = NewItem.GetComponent<ItemController>();
+                _items.Add(item, controllerScript);
                 _obtainedItemCount++;
             }
         }
@@ -463,6 +481,8 @@ public class PlayerScript : MonoBehaviour
 
             if (!DamageNegation)
             {
+                onTakeDamage.Invoke();
+
                 DamageCoroutine = StartCoroutine(TakeDamageCoroutine(damage));
             }
         }

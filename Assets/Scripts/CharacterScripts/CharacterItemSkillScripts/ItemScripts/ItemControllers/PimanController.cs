@@ -7,37 +7,43 @@ public class PimanController : ItemController
     private float _hpGain = 15f;
     private float _perPointGain = 6f;
 
-    private BuffObject _buff;
+    private float _previousMaxHP = 0;
 
     private void Start()
     {
-        PlayerScript.Instance.onMaxHPChange.AddListener(ApplyStats);
+        PlayerScript.Instance.onMaxHPChange.AddListener(ApplyAttackBuff);
 
-        _buff = new();
-
-
-        ApplyStats();
+        ApplyHPBuff();
 
     }
 
     protected override void LevelUpEffect()
     {
-        ApplyStats();
+        ApplyHPBuff();
     }
 
-    private void ApplyStats()
+    private void ApplyHPBuff()
     {
         _buff.HPBuff = _hpGain;
-        _buff.AttackMultiplierBuff = CalculateAttackGain();
+        UpdateBuff();
+    }
 
-        PlayerScript.Instance.UpdateBuffDictionary(this, _buff);
+    private void ApplyAttackBuff(float newMaxHP)
+    {
+        if (newMaxHP == _previousMaxHP)
+            return;
+
+        _previousMaxHP = newMaxHP;
+
+        _buff.AttackMultiplierBuff = CalculateAttackGain(newMaxHP);
+
+        UpdateBuff();
+
     }
 
 
-    private float CalculateAttackGain()
+    private float CalculateAttackGain(float CurrentMaxHP)
     {
-        float CurrentMaxHP = PlayerScript.Instance.CurrentCharacterMaxHP;
-
         int ATKIncrementValuePercentage = (int)(CurrentMaxHP / _perPointGain);
 
         return ATKIncrementValuePercentage / 100f;

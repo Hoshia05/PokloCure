@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemController : MonoBehaviour
+public class ItemController : MonoBehaviour, IItemController
 {
     public ItemSO ItemData;
 
@@ -22,6 +22,8 @@ public class ItemController : MonoBehaviour
     protected delegate void LevelUPEffects();
     protected List<LevelUPEffects> _levelUPEffectsList;
 
+    protected BuffObject _buff = new();
+
     public int CurrentWeaponLevel
     {
         get { return _currentWeaponLevel; }
@@ -31,28 +33,13 @@ public class ItemController : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Awake()
     {
-        _currentDamage = RoundValue(ItemSO.BaseDamage * ItemData.DamageMultiplier * PlayerScript.Instance.CurrentAttackMultiplier);
-        _currentSpeed = ItemData.Speed;
-        _currentCooldownDuration = ItemData.CooldownDuration;
-        _currentPierce = ItemData.Pierce;
-        _currentDeathtime = ItemData.Deathtime;
-        _projectileNum = ItemData.ProjectileNum;
-
-        _currentCooldown = 0.1f;
-
-        PlayerScript.Instance.onStatChange.AddListener(ApplyStats);
-
-        _levelUPEffectsList = new List<LevelUPEffects>();
-        _levelUPEffectsList.Add(Level1Effect);
-        _levelUPEffectsList.Add(Level2Effect);
-        _levelUPEffectsList.Add(Level3Effect);
-        _levelUPEffectsList.Add(Level4Effect);
-        _levelUPEffectsList.Add(Level5Effect);
-        _levelUPEffectsList.Add(Level6Effect);
-        _levelUPEffectsList.Add(Level7Effect);
+        if(ItemData != null)
+        {
+            SetWithSO(ItemData);
+        }
     }
 
-    public virtual void SetWithSO(ItemSO itemData)
+    public void SetWithSO(ItemSO itemData)
     {
         ItemData = itemData;
 
@@ -78,6 +65,7 @@ public class ItemController : MonoBehaviour
         _currentCooldownDuration = ItemData.CooldownDuration * PlayerScript.Instance.CurrentHasteMultiplier;
         _currentPierce = ItemData.Pierce;
         _currentDeathtime = ItemData.Deathtime;
+        _projectileNum = ItemData.ProjectileNum;
     }
 
     // Update is called once per frame
@@ -174,6 +162,11 @@ public class ItemController : MonoBehaviour
     public void SetPierceLimit(int amount)
     {
         _currentPierce = amount;
+    }
+
+    public void UpdateBuff()
+    {
+        PlayerScript.Instance.UpdateBuffDictionary(this, _buff);
     }
 
 }

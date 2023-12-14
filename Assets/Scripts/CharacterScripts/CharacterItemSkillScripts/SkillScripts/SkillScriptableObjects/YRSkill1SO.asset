@@ -29,7 +29,7 @@ MonoBehaviour:
   characterLabel: 1
   ControllerPrefab: {fileID: 3780977769202291255, guid: 684c06e80ef25124da0a5f407cb2ccf6, type: 3}
   ProjectileItemPrefab: {fileID: 0}
-  ControllerScript: {fileID: 0}
+  ControllerScript: {fileID: 11500000, guid: 5e62a1ef6c11b9444b9d423513425ce0, type: 3}
   DamageMultiplier: 1
   Speed: 0
   CooldownDuration: 0

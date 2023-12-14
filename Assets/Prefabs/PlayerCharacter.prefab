@@ -559,7 +559,16 @@ MonoBehaviour:
   _basicWeaponSlot: {fileID: 5884235535917834310}
   _obtainedWeaponSlots: {fileID: 4468829955391795324}
   _obtainedItemSlots: {fileID: 3060975074466163126}
-  _skillSlots: {fileID: 0}
+  _skillSlots: {fileID: 3760086531203995649}
+  onEatBurger:
+    m_PersistentCalls:
+      m_Calls: []
+  onStatChange:
+    m_PersistentCalls:
+      m_Calls: []
+  onMaxHPChange:
+    m_PersistentCalls:
+      m_Calls: []
   _cursor: {fileID: 6788090508172661848}
   _cursorDistance: 5
 --- !u!50 &3256312317566909451

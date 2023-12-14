@@ -5,14 +5,14 @@ using UnityEngine;
 public class YRSkill1Controller : ItemController
 {
     private float buffValue = 0.05f;
-    private float buffTime = 5f;
+    private float buffTime = 15f;
 
     private int _maxStack = 3;
     private int _currentStack = 0;
 
     private float _launchForce = 10f;
 
-    protected override void Awake()
+    protected virtual void Awake()
     {
         base.Awake();
 
@@ -32,13 +32,18 @@ public class YRSkill1Controller : ItemController
     IEnumerator BurgerBuff()
     {
         _currentStack++;
-        float currentBuffValue = buffValue;
-        PlayerScript.Instance.AttackStatChange(currentBuffValue);
+
+        _buff.AttackMultiplierBuff = buffValue * _currentStack;
+
+        PlayerScript.Instance.UpdateBuffDictionary(this, _buff);
 
         yield return new WaitForSeconds(buffTime);
 
-        PlayerScript.Instance.AttackStatChange(-currentBuffValue);
         _currentStack--;
+
+        _buff.AttackMultiplierBuff = buffValue * _currentStack;
+
+        PlayerScript.Instance.UpdateBuffDictionary(this, _buff);
     }
 
     private void BurgerShockwave()
@@ -86,6 +91,6 @@ public class YRSkill1Controller : ItemController
     protected override void Level3Effect()
     {
         buffValue = 0.1f;
-        _launchForce = 50f;
+        _launchForce = 40f;
     }
 }
