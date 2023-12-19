@@ -42,7 +42,6 @@ public class PlayerControl : MonoBehaviour
     {
         if(Instance != null)
         {
-            //Vector2 inputmousePosition = Mouse.current.position.ReadValue();
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(inputmousePosition.x, inputmousePosition.y, Camera.main.nearClipPlane));
             Vector2 characterPosition = transform.position;
             PlayerLineOfSight = (mousePosition - characterPosition).normalized;

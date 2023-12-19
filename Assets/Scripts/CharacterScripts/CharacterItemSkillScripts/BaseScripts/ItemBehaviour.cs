@@ -9,6 +9,7 @@ public class ItemBehaviour : MonoBehaviour
     protected float _deathTime;
     protected int _pierce;
     protected float _speed;
+    protected float _knockback;
 
     protected int _itemLevel;
 
@@ -26,13 +27,14 @@ public class ItemBehaviour : MonoBehaviour
         _levelUPEffectsList.Add(Level7Effect);
     }
 
-    public void InitializeValue(float damage, float deathtime, int pierce, float speed, int level, float sizeScale)
+    public void InitializeValue(float damage, float deathtime, int pierce, float speed, int level, float sizeScale, float knockback)
     {
         _damage = damage;
         _deathTime = deathtime;
         _pierce = pierce;
         _speed = speed;
         _itemLevel = level;
+        _knockback = knockback;
 
         transform.localScale += new Vector3(sizeScale - 1f, sizeScale - 1f, 0);
 
@@ -66,6 +68,11 @@ public class ItemBehaviour : MonoBehaviour
             else
             {
                 script.TakeDamage(_damage);
+            }
+
+            if(_knockback != 0)
+            {
+                //do knockback
             }
 
             CheckPierce();

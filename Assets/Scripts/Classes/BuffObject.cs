@@ -10,15 +10,23 @@ public class BuffObject
     public float HasteMultiplierBuff = 0;
     public float CritMultiplierBuff = 0;
     public float CritDamageBuff = 0;
+    public float DamageReductionPercentage = 0;
+    public float DamageReductionValue = 0;
+
+    public float AttackSizeBuff = 0;
+    public float KnockBackBuff = 0;
+    public float EatDistanceMultiplier = 0;
+
+
 
     public BuffObject()
     {
-        HPBuff = 0;
-        AttackMultiplierBuff = 0;
-        SpeedMultiplierBuff = 0;
-        HasteMultiplierBuff = 0;
-        CritMultiplierBuff = 0;
-        CritDamageBuff = 0;
+        //HPBuff = 0;
+        //AttackMultiplierBuff = 0;
+        //SpeedMultiplierBuff = 0;
+        //HasteMultiplierBuff = 0;
+        //CritMultiplierBuff = 0;
+        //CritDamageBuff = 0;
     }
 
 }

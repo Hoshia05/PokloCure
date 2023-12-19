@@ -16,7 +16,7 @@ public class ItemSO : ScriptableObject
     public int ItemMaxLevel = 7;
     public CharacterDistinct characterLabel = CharacterDistinct.NONE;
 
-    public GameObject ControllerPrefab;
+    //public GameObject ControllerPrefab;
     public GameObject ProjectileItemPrefab;
 
     public Object ControllerScript;
@@ -27,6 +27,7 @@ public class ItemSO : ScriptableObject
     public int Pierce = 1;
     public float Deathtime = 4f;
     public int ProjectileNum = 1;
+    public float KnockbackValue = 0f;
 }
 
 public enum ItemType

@@ -17,6 +17,14 @@ public class ItemController : MonoBehaviour, IItemController
     protected int _currentWeaponLevel = 1;
     protected float _currentSizeScale = 1;
 
+    protected float _currentKnockbackValue = 1;
+
+    protected float _localDamageBuff = 1f;
+    protected float _localSpeedBuff = 1f;
+    protected float _localSizeBuff = 1f;
+    protected float _localCooldownBuff = 1f;
+    protected float _localDeathTimebuff = 0;
+
     protected int _projectileNum = 1;
 
     protected delegate void LevelUPEffects();
@@ -37,6 +45,8 @@ public class ItemController : MonoBehaviour, IItemController
         {
             SetWithSO(ItemData);
         }
+
+        PlayerScript.Instance.onStatChange.AddListener(ApplyStats);
     }
 
     public void SetWithSO(ItemSO itemData)
@@ -60,12 +70,14 @@ public class ItemController : MonoBehaviour, IItemController
 
     private void ApplyStats()
     {
-        _currentDamage = RoundValue(ItemSO.BaseDamage * ItemData.DamageMultiplier * PlayerScript.Instance.CurrentAttackMultiplier);
+        _currentDamage = RoundValue(ItemSO.BaseDamage * ItemData.DamageMultiplier * _localDamageBuff  *  PlayerScript.Instance.CurrentAttackMultiplier);
+        _currentSizeScale = _localSizeBuff * PlayerScript.Instance.CurrentAttackSizeBuff;
         _currentSpeed = ItemData.Speed;
-        _currentCooldownDuration = ItemData.CooldownDuration * PlayerScript.Instance.CurrentHasteMultiplier;
+        _currentCooldownDuration = ItemData.CooldownDuration * _localCooldownBuff * PlayerScript.Instance.CurrentHasteMultiplier;
         _currentPierce = ItemData.Pierce;
-        _currentDeathtime = ItemData.Deathtime;
+        _currentDeathtime = ItemData.Deathtime + _localDeathTimebuff;
         _projectileNum = ItemData.ProjectileNum;
+        _currentKnockbackValue = ItemData.KnockbackValue * PlayerScript.Instance.CurrentKnockbackBuff;
     }
 
     // Update is called once per frame
@@ -124,6 +136,8 @@ public class ItemController : MonoBehaviour, IItemController
     {
     }
 
+    //math
+
     public void CheckAttackRound()
     {
         if(_currentDamage % 1 != 0)
@@ -141,22 +155,25 @@ public class ItemController : MonoBehaviour, IItemController
 
     public void IncreaseDamagePercentage(float amount)
     {
-        _currentDamage *= 1f + amount;
+        _localDamageBuff *= 1f + amount;
     }
 
     public void IncreaseSizePercentage(float amount)
     {
-        _currentSizeScale *= 1f + amount;
+        //_currentSizeScale *= 1f + amount;
+        _localSizeBuff *= 1f + amount;
     }
 
     public void DecreaseCooldownPercentage(float amount)
     {
-        _currentCooldownDuration *= 1f - amount;
+        //_currentCooldownDuration *= 1f - amount;
+        _localCooldownBuff *= 1f - amount;
     }
 
     public void IncreaseDeathTime(float amount)
     {
-        _currentDeathtime += amount;
+        //_currentDeathtime += amount;
+        _localDeathTimebuff += amount;
     }
 
     public void SetPierceLimit(int amount)

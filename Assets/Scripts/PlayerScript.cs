@@ -40,17 +40,6 @@ public class PlayerScript : MonoBehaviour
 
     [Header("캐릭스펙")]
 
-    private float _baseMaxHP;
-    public float BaseMaxHP
-    {
-        get => _baseMaxHP;
-    }
-    private float _baseSpeedMultiplier;
-    private float _baseAttackMultiplier;
-    private float _baseCriticalMultiplier;
-    private float _baseCriticalDamage;
-    private float _baseHasteMultiplier;
-
     private float _currentCharacterMaxHP;
     public float CurrentCharacterMaxHP
     {
@@ -77,6 +66,25 @@ public class PlayerScript : MonoBehaviour
     {
         get => _currentHasteMultiplier;
     }
+    private float _currentDamageReducePercentage;
+    private float _currentDamageReduceValue;
+
+    private float _currentAttackSizeBuff;
+    public float CurrentAttackSizeBuff
+    {
+        get => _currentAttackSizeBuff;
+    }
+
+    private float _currentKnockbackBuff;
+    public float CurrentKnockbackBuff
+    {
+        get => _currentKnockbackBuff;
+    }
+
+    private float _eatDistanceMultiplier;
+
+    //실드
+    private float _shield;
 
     //버프 관리용 Dictionary
     public Dictionary<ItemController, BuffObject> BuffDictionary = new();
@@ -88,8 +96,6 @@ public class PlayerScript : MonoBehaviour
     private float _attackCoolTime;
     [SerializeField]
     private float _defensePoints;
-    [SerializeField]
-    private float _eatDistanceMultiplier = 1f;
     private float _itemEatDistance => CharacterBase._baseItemEatDistance * _eatDistanceMultiplier;
 
     [Header("무기슬롯관련")]
@@ -131,6 +137,7 @@ public class PlayerScript : MonoBehaviour
     public UnityEvent onStatChange;
     public UnityEvent<float> onMaxHPChange;
 
+    public UnityEvent onShieldDamage;
     public delegate T DamageTakenDelegate<T>();
     public event DamageTakenDelegate<bool> OnDamageTakenBool;
     public UnityEvent onTakeDamage;
@@ -151,6 +158,8 @@ public class PlayerScript : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
 
         InitializeFromGM();
+
+        _shield = 0;
 
     }
 
@@ -187,13 +196,19 @@ public class PlayerScript : MonoBehaviour
         //_itemEatDistance = CharacterBase._baseItemEatDistance;
 
         //캐릭터 특정 수치들
-        _baseSpeedMultiplier = _currentSpeedMultiplier = SelectedCharacter.SpeedMultiplier;
+        _currentSpeedMultiplier = SelectedCharacter.SpeedMultiplier;
         //_currentMovementSpeed = _currentSpeedMultiplier * CharacterBase._baseSpeed;
-        _baseMaxHP = _currentCharacterMaxHP = _characterCurrentHP = SelectedCharacter.Health;
-        _baseAttackMultiplier = _currentAttackMultiplier = SelectedCharacter.AttackMultiplier;
-        _baseCriticalMultiplier = _currentCriticalMultiplier = SelectedCharacter.CriticalMultiplier;
-        _baseCriticalDamage = _currentCriticalDamage = CharacterBase._baseCritDamage;
-        _baseHasteMultiplier = _currentHasteMultiplier = CharacterBase._baseHaste;
+        _currentCharacterMaxHP = _characterCurrentHP = SelectedCharacter.Health;
+        _currentAttackMultiplier = SelectedCharacter.AttackMultiplier;
+        _currentCriticalMultiplier = SelectedCharacter.CriticalMultiplier;
+        _currentCriticalDamage = CharacterBase._baseCritDamage;
+        _currentHasteMultiplier = CharacterBase._baseHaste;
+        _currentDamageReducePercentage = 1f;
+        _currentDamageReduceValue = 0f;
+
+        _currentAttackSizeBuff = 1f;
+        _currentKnockbackBuff = 1f;
+        _eatDistanceMultiplier = 1f;
 
 
         _characterLabel = SelectedCharacter.characterLabel;
@@ -314,18 +329,26 @@ public class PlayerScript : MonoBehaviour
         }
 
         ApplyBuffs();
+        UpdateInfoUI();
     }
 
     private void ApplyBuffs()
     {
-        _currentAttackMultiplier = _baseAttackMultiplier;
-        _currentCharacterMaxHP = _baseMaxHP;
-        _currentSpeedMultiplier = _baseSpeedMultiplier;
-        _currentCriticalMultiplier = _baseCriticalMultiplier;
-        _currentCriticalDamage = _baseCriticalDamage;
-        _currentHasteMultiplier = _baseHasteMultiplier;
+        _currentAttackMultiplier = _selectedCharacter.AttackMultiplier;
+        _currentCharacterMaxHP = _selectedCharacter.Health;
+        _currentSpeedMultiplier = _selectedCharacter.SpeedMultiplier;
+        _currentCriticalMultiplier = _selectedCharacter.CriticalMultiplier;
+        _currentCriticalDamage = CharacterBase._baseCritDamage;
+        _currentHasteMultiplier = CharacterBase._baseHaste;
+        _currentDamageReducePercentage = 1f;
+        _currentDamageReduceValue = 0f;
 
-        foreach(BuffObject buff in BuffDictionary.Values)
+        _currentAttackSizeBuff = 1f;
+        _currentKnockbackBuff = 1f;
+        _eatDistanceMultiplier = 1f;
+
+
+        foreach (BuffObject buff in BuffDictionary.Values)
         {
             _currentCharacterMaxHP += buff.HPBuff;
             _currentAttackMultiplier += buff.AttackMultiplierBuff;
@@ -333,6 +356,12 @@ public class PlayerScript : MonoBehaviour
             _currentCriticalMultiplier += buff.CritMultiplierBuff;
             _currentCriticalDamage += buff.CritDamageBuff;
             _currentHasteMultiplier -= buff.HasteMultiplierBuff;
+            _currentDamageReducePercentage -= buff.DamageReductionPercentage;
+            _currentDamageReduceValue += buff.DamageReductionValue;
+
+            _currentAttackSizeBuff += buff.AttackSizeBuff;
+            _currentKnockbackBuff += buff.KnockBackBuff;
+            _eatDistanceMultiplier += buff.EatDistanceMultiplier;
         }
 
 
@@ -457,6 +486,12 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    public void SetShield(float shieldValue)
+    {
+        _shield = shieldValue;
+        UIShieldBar.Instance.NewShieldValue(_shield);
+    }
+
     public bool CriticalCheck()
     {
         int checkNum = (int)(_currentCriticalChance * 100);
@@ -474,18 +509,45 @@ public class PlayerScript : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (!isInvulnerable)
+        //데미지 받는 단계
+        // 무적상태 확인 -> 템중에서 피격 무효화 확인 -> 쉴드 데미지 -> HP 데미지 -> 데미지 받음 Invoke
+
+        if (isInvulnerable)
+            return;
+
+        if (ResolveDamageNegation(OnDamageTakenBool))
+            return;
+
+        float ActualDamage = damage * _currentDamageReducePercentage - _currentDamageReduceValue;
+
+        if(_shield > 0)
         {
+            //실드 먼저 데미지
+            onShieldDamage.Invoke();
+            float leftoverDamage = ActualDamage - _shield;
 
-            bool DamageNegation = ResolveDamageNegation(OnDamageTakenBool);
-
-            if (!DamageNegation)
+            if (leftoverDamage > 0)
             {
-                onTakeDamage.Invoke();
+                _shield = 0;
 
-                DamageCoroutine = StartCoroutine(TakeDamageCoroutine(damage));
+                UIShieldBar.Instance.UpdateShield(_shield);
+
+                onTakeDamage.Invoke();
+                DamageCoroutine = StartCoroutine(TakeDamageCoroutine(leftoverDamage));
             }
+            else
+            {
+                _shield -= ActualDamage;
+                UIShieldBar.Instance.UpdateShield(_shield);
+            }
+
         }
+        else
+        {
+            onTakeDamage.Invoke();
+            DamageCoroutine = StartCoroutine(TakeDamageCoroutine(ActualDamage));
+        }
+
 
     }
 

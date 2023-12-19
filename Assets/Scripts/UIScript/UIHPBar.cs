@@ -12,12 +12,15 @@ public class UIHPBar : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _hpText;
 
+    private LayoutElement _hpLayoutElement;
+
     // Start is called before the first frame update
     void Awake()
     {
         Instance = this;
 
         _hpSlider = GetComponent<Slider>();
+        _hpLayoutElement = GetComponent<LayoutElement>();
 
         _hpSlider.minValue = 0;
     }
@@ -26,6 +29,7 @@ public class UIHPBar : MonoBehaviour
     {
         _hpSlider.maxValue = initialHP;
         _hpSlider.value = initialHP;
+        _hpLayoutElement.flexibleWidth = initialHP;
         UpdateHPText();
     }
 
@@ -39,6 +43,7 @@ public class UIHPBar : MonoBehaviour
     public void UpdateMaxHP(float newMaxHP)
     {
         _hpSlider.maxValue = newMaxHP;
+        _hpLayoutElement.flexibleWidth = newMaxHP;
         UpdateHPText();
     }
 

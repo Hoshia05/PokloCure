@@ -10,7 +10,7 @@ public class HammerController : ItemController
 
         GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
         ItemBehaviour projectileBehaviour = projectile.GetComponent<ItemBehaviour>();
-        projectileBehaviour.InitializeValue(_currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentWeaponLevel, _currentSizeScale);
+        projectileBehaviour.InitializeValue(_currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentWeaponLevel, _currentSizeScale, _currentKnockbackValue);
     }
 
     protected override void Level2Effect()

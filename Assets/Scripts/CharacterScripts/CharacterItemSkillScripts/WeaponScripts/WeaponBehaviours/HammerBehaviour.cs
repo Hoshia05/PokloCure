@@ -27,15 +27,4 @@ public class HammerBehaviour : ItemBehaviour
         angle += _speed / circleRadius * Time.deltaTime;
     }
 
-    protected override void Level2Effect()
-    {
-        transform.localScale += new Vector3(0.2f, 0.2f, 0);
-        _damage *= 1.2f;
-    }
-
-    protected override void Level4Effect()
-    {
-        transform.localScale += new Vector3(0.2f, 0.2f, 0);
-        _damage *= 1.2f;
-    }
 }
