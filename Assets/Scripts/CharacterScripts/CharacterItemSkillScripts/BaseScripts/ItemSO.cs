@@ -28,6 +28,7 @@ public class ItemSO : ScriptableObject
     public float Deathtime = 4f;
     public int ProjectileNum = 1;
     public float KnockbackValue = 0f;
+    public float Area = 1f;
 }
 
 public enum ItemType

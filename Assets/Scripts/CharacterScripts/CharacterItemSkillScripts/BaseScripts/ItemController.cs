@@ -26,11 +26,16 @@ public class ItemController : MonoBehaviour, IItemController
     protected float _localDeathTimebuff = 0;
 
     protected int _projectileNum = 1;
+    protected int _additionalProjectiles = 0;
+
+    protected List<GameObject> _currentProjectiles = new();
 
     protected delegate void LevelUPEffects();
     protected List<LevelUPEffects> _levelUPEffectsList;
 
     protected BuffObject _buff = new();
+
+    protected bool _deathTimeCoolTimeCumulative;
 
     public int CurrentWeaponLevel
     {
@@ -71,12 +76,14 @@ public class ItemController : MonoBehaviour, IItemController
     private void ApplyStats()
     {
         _currentDamage = RoundValue(ItemSO.BaseDamage * ItemData.DamageMultiplier * _localDamageBuff  *  PlayerScript.Instance.CurrentAttackMultiplier);
-        _currentSizeScale = _localSizeBuff * PlayerScript.Instance.CurrentAttackSizeBuff;
+        _currentSizeScale = _localSizeBuff * ItemData.Area * PlayerScript.Instance.CurrentAttackSizeBuff;
         _currentSpeed = ItemData.Speed;
-        _currentCooldownDuration = ItemData.CooldownDuration * _localCooldownBuff * PlayerScript.Instance.CurrentHasteMultiplier;
         _currentPierce = ItemData.Pierce;
         _currentDeathtime = ItemData.Deathtime + _localDeathTimebuff;
-        _projectileNum = ItemData.ProjectileNum;
+        _currentCooldownDuration = _deathTimeCoolTimeCumulative ? 
+            ItemData.Deathtime + _localDeathTimebuff + ItemData.CooldownDuration * _localCooldownBuff * PlayerScript.Instance.CurrentHasteMultiplier  : 
+            ItemData.CooldownDuration * _localCooldownBuff * PlayerScript.Instance.CurrentHasteMultiplier;
+        _projectileNum = ItemData.ProjectileNum + _additionalProjectiles;
         _currentKnockbackValue = ItemData.KnockbackValue * PlayerScript.Instance.CurrentKnockbackBuff;
     }
 
@@ -101,6 +108,7 @@ public class ItemController : MonoBehaviour, IItemController
         _levelUPEffectsList[_currentWeaponLevel - 1]();
         CheckAttackRound();
         LevelUpEffect();
+        ApplyStats();
     }
 
     protected virtual void LevelUpEffect()
@@ -160,19 +168,16 @@ public class ItemController : MonoBehaviour, IItemController
 
     public void IncreaseSizePercentage(float amount)
     {
-        //_currentSizeScale *= 1f + amount;
         _localSizeBuff *= 1f + amount;
     }
 
     public void DecreaseCooldownPercentage(float amount)
     {
-        //_currentCooldownDuration *= 1f - amount;
         _localCooldownBuff *= 1f - amount;
     }
 
     public void IncreaseDeathTime(float amount)
     {
-        //_currentDeathtime += amount;
         _localDeathTimebuff += amount;
     }
 
@@ -184,6 +189,27 @@ public class ItemController : MonoBehaviour, IItemController
     public void UpdateBuff()
     {
         PlayerScript.Instance.UpdateBuffDictionary(this, _buff);
+    }
+
+    protected ItemBehaviour InstantiateProjectile()
+    {
+        GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
+        ItemBehaviour projectileBehaviour = projectile.GetComponent<ItemBehaviour>();
+        projectileBehaviour.InitializeValue(_currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentWeaponLevel, _currentSizeScale, _currentKnockbackValue);
+
+        _currentProjectiles.Add(projectile);
+
+        return projectileBehaviour;
+    }
+
+    protected void ResetProjectiles()
+    {
+        foreach(GameObject projectile in _currentProjectiles)
+        {
+            Destroy(projectile);
+        }
+
+        Launch();
     }
 
 }

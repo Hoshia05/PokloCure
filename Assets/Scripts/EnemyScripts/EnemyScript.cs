@@ -42,9 +42,12 @@ public class EnemyScript : MonoBehaviour
 
     protected Animator _enemyAnim; //Not now...
 
+    List<ItemBehaviour> DamageList;
+
     protected void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        DamageList = new();
     }
 
     protected void Start()
@@ -105,54 +108,55 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float rawDamage)
+    public void TakeDamage(float rawDamage, bool isCritical = false, ItemBehaviour damageItem = null, float hitCooldown = 0)
     {
-        float damage = DamageVariance(rawDamage);
+        if(DamageList.Contains(damageItem))
+        {
+            return;
+        }
+        else
+        {
 
-        _currentMaxHP -= damage;
+            float damage = DamageVariance(rawDamage);
 
-        //적 피격 모션 : 간단하게 한 0.3초 동안 빨갛게 되기
-        StartCoroutine(HitAnimation());
+            _currentMaxHP -= damage;
 
-        //위에 데미지 뜨는 애니메이션
-        GameObject DamagePopUp = Instantiate(GameManager.Instance.DamagePopUpPrefab, transform);
-        TextMeshProUGUI tmp = DamagePopUp.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        tmp.text = damage.ToString();
+            //적 피격 모션 : 간단하게 한 0.3초 동안 빨갛게 되기
+            StartCoroutine(HitAnimation());
 
-        Rigidbody2D tmpRB = tmp.GetComponent<Rigidbody2D>();
+            //위에 데미지 뜨는 애니메이션
 
-        Vector2 direction = new Vector2(UnityEngine.Random.Range(-1,1), 1);
-        tmpRB.AddForce(direction * 150);
+            GameObject damagePopupPrefab = isCritical ? GameManager.Instance.CriticalDamagePopUpPrefab : GameManager.Instance.DamagePopUpPrefab;
 
-        Destroy(DamagePopUp, 0.5f);
-        
-        CheckDeath();
+            GameObject DamagePopUp = Instantiate(damagePopupPrefab, transform);
+            TextMeshProUGUI tmp = DamagePopUp.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            tmp.text = damage.ToString();
+
+            Rigidbody2D tmpRB = tmp.GetComponent<Rigidbody2D>();
+
+            Vector2 direction = new Vector2(UnityEngine.Random.Range(-1, 1), 1);
+
+            float force = isCritical ? 200 : 150;
+
+            tmpRB.AddForce(direction * force);
+
+            Destroy(DamagePopUp, 0.5f);
+
+            CheckDeath();
+
+            if(hitCooldown > 0)
+                StartCoroutine(DamageCoroutine(damageItem, hitCooldown));
+        }
 
     }
 
-    public void TakeCriticalDamage(float rawDamage)
+    private IEnumerator DamageCoroutine(ItemBehaviour damageItem, float hitCooldown)
     {
+        DamageList.Add(damageItem);
 
-        float damage = DamageVariance(rawDamage);
+        yield return new WaitForSeconds(hitCooldown);
 
-        _currentMaxHP -= damage;
-
-        //적 피격 모션 : 간단하게 한 0.3초 동안 빨갛게 되기
-        StartCoroutine(HitAnimation());
-
-        //위에 데미지 뜨는 애니메이션
-        GameObject DamagePopUp = Instantiate(GameManager.Instance.CriticalDamagePopUpPrefab, transform);
-        TextMeshProUGUI tmp = DamagePopUp.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        tmp.text = damage.ToString();
-
-        Rigidbody2D tmpRB = tmp.GetComponent<Rigidbody2D>();
-
-        Vector2 direction = new Vector2(UnityEngine.Random.Range(-1, 1), 1);
-        tmpRB.AddForce(direction * 200);
-
-        Destroy(DamagePopUp, 0.5f);
-
-        CheckDeath();
+        DamageList.Remove(damageItem);
     }
 
     protected IEnumerator HitAnimation()
@@ -245,6 +249,15 @@ public class EnemyScript : MonoBehaviour
 
         return ItemController.RoundValue((range * (float)sample) + minDamage);
 
+    }
+
+    public void KnockbackEnemy(Vector2 playerPosition, float LaunchForce)
+    {
+        Vector2 EnemyPosition = transform.position;
+
+        Vector2 launchVector = (EnemyPosition - playerPosition).normalized;
+
+        Launch(launchVector * LaunchForce);
     }
 
     public void Launch(Vector2 LaunchVector)

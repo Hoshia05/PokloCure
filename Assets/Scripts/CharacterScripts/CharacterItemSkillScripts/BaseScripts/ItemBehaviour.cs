@@ -10,21 +10,15 @@ public class ItemBehaviour : MonoBehaviour
     protected int _pierce;
     protected float _speed;
     protected float _knockback;
+    protected float _hitCooldown = 0;
+
+    private bool _isHitCooldown;
 
     protected int _itemLevel;
 
-    protected delegate void LevelUPEffects();
-    protected List<LevelUPEffects> _levelUPEffectsList;
 
     public void Awake()
     {
-        _levelUPEffectsList = new List<LevelUPEffects>();
-        _levelUPEffectsList.Add(Level2Effect);
-        _levelUPEffectsList.Add(Level3Effect);
-        _levelUPEffectsList.Add(Level4Effect);
-        _levelUPEffectsList.Add(Level5Effect);
-        _levelUPEffectsList.Add(Level6Effect);
-        _levelUPEffectsList.Add(Level7Effect);
     }
 
     public void InitializeValue(float damage, float deathtime, int pierce, float speed, int level, float sizeScale, float knockback)
@@ -38,10 +32,14 @@ public class ItemBehaviour : MonoBehaviour
 
         transform.localScale += new Vector3(sizeScale - 1f, sizeScale - 1f, 0);
 
-        //LevelEffectCheck();
-
         Destroy(gameObject, _deathTime);
     }
+
+    public void SetHitCooldown(float hitcooldown)
+    {
+        _hitCooldown = hitcooldown;
+    }
+
 
     private void CheckPierce()
     {
@@ -57,52 +55,34 @@ public class ItemBehaviour : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            GameObject enemy = collision.gameObject;
-            EnemyScript script = enemy.GetComponent<EnemyScript>();
-
-            //农府萍拿 眉农
-            if (PlayerScript.Instance.CriticalCheck())
-            {
-                script.TakeCriticalDamage(PlayerScript.Instance.GetCritDamage(_damage));
-            }
-            else
-            {
-                script.TakeDamage(_damage);
-            }
-
-            if(_knockback != 0)
-            {
-                //do knockback
-            }
-
-            CheckPierce();
+            StartCoroutine(EnemyHitCoroutine(collision));
         }
     }
 
-    protected virtual void LevelEffectCheck()
+    private IEnumerator EnemyHitCoroutine(Collider2D collision)
     {
-        for(int i = _itemLevel - 2; i < _levelUPEffectsList.Count; i++)
+        GameObject enemy = collision.gameObject;
+        EnemyScript script = enemy.GetComponent<EnemyScript>();
+
+        //农府萍拿 眉农
+
+        if (PlayerScript.Instance.CriticalCheck())
         {
-            _levelUPEffectsList[i]();
+            script.TakeDamage(PlayerScript.Instance.GetCritDamage(_damage),true);
         }
+        else
+        {
+            script.TakeDamage(_damage);
+        }
+
+        if (_knockback != 0)
+        {
+            script.KnockbackEnemy(transform.position, _knockback);
+        }
+
+        CheckPierce();
+
+        yield return new WaitForSeconds(_hitCooldown);
     }
 
-    protected virtual void Level2Effect()
-    {
-    }
-    protected virtual void Level3Effect()
-    {
-    }
-    protected virtual void Level4Effect()
-    {
-    }
-    protected virtual void Level5Effect()
-    {
-    }
-    protected virtual void Level6Effect()
-    {
-    }
-    protected virtual void Level7Effect()
-    {
-    }
 }
