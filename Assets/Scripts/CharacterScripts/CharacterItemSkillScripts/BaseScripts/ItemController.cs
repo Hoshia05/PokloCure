@@ -80,8 +80,8 @@ public class ItemController : MonoBehaviour, IItemController
         _currentSpeed = ItemData.Speed;
         _currentPierce = ItemData.Pierce;
         _currentDeathtime = ItemData.Deathtime + _localDeathTimebuff;
-        _currentCooldownDuration = _deathTimeCoolTimeCumulative ? 
-            ItemData.Deathtime + _localDeathTimebuff + ItemData.CooldownDuration * _localCooldownBuff * PlayerScript.Instance.CurrentHasteMultiplier  : 
+        _currentCooldownDuration = _deathTimeCoolTimeCumulative ?
+           _currentDeathtime + ItemData.CooldownDuration * _localCooldownBuff * PlayerScript.Instance.CurrentHasteMultiplier  : 
             ItemData.CooldownDuration * _localCooldownBuff * PlayerScript.Instance.CurrentHasteMultiplier;
         _projectileNum = ItemData.ProjectileNum + _additionalProjectiles;
         _currentKnockbackValue = ItemData.KnockbackValue * PlayerScript.Instance.CurrentKnockbackBuff;
