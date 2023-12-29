@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae12a9c1cc1fff94aa39ed35c196fe83, type: 3}
+  m_Name: SheepSO
+  m_EditorClassIdentifier: 
+  ItemName: "\uD584\uBC84\uAC70\uBC30\uB2EC"
+  ItemDescription:
+  - "10\uCD08\uC5D0 \uD55C\uBC88\uC529 \uCE90\uB9AD\uD130 \uC8FC\uBCC0\uC5D0 \uD584\uBC84\uAC70\uAC00
+    \uC0DD\uC131 \uB429\uB2C8\uB2E4. \uC801\uC744 \uC7A1\uC744 \uC2DC \uD584\uBC84\uAC70\uAC00
+    \uC0DD\uC131 \uB420 \uD655\uB960\uC774 10% \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  - "9\uCD08\uC5D0 \uD55C\uBC88\uC529 \uCE90\uB9AD\uD130 \uC8FC\uBCC0\uC5D0 \uD584\uBC84\uAC70\uAC00
+    \uC0DD\uC131 \uB429\uB2C8\uB2E4. \uC801\uC744 \uC7A1\uC744 \uC2DC \uD584\uBC84\uAC70\uAC00
+    \uC0DD\uC131 \uB420 \uD655\uB960\uC774 12% \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  - "8\uCD08\uC5D0 \uD55C\uBC88\uC529 \uCE90\uB9AD\uD130 \uC8FC\uBCC0\uC5D0 \uD584\uBC84\uAC70\uAC00
+    \uC0DD\uC131 \uB429\uB2C8\uB2E4. \uC801\uC744 \uC7A1\uC744 \uC2DC \uD584\uBC84\uAC70\uAC00
+    \uC0DD\uC131 \uB420 \uD655\uB960\uC774 15% \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  - "7\uCD08\uC5D0 \uD55C\uBC88\uC529 \uCE90\uB9AD\uD130 \uC8FC\uBCC0\uC5D0 \uD584\uBC84\uAC70\uAC00
+    \uC0DD\uC131 \uB429\uB2C8\uB2E4. \uC801\uC744 \uC7A1\uC744 \uC2DC \uD584\uBC84\uAC70\uAC00
+    \uC0DD\uC131 \uB420 \uD655\uB960\uC774 18% \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  - "6\uCD08\uC5D0 \uD55C\uBC88\uC529 \uCE90\uB9AD\uD130 \uC8FC\uBCC0\uC5D0 \uD584\uBC84\uAC70\uAC00
+    \uC0DD\uC131 \uB429\uB2C8\uB2E4. \uC801\uC744 \uC7A1\uC744 \uC2DC \uD584\uBC84\uAC70\uAC00
+    \uC0DD\uC131 \uB420 \uD655\uB960\uC774 20% \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  ItemType: 0
+  ItemImage: {fileID: 21300000, guid: d4416596e4d6da94ebbdec0ffa2b1a27, type: 3}
+  ItemMaxLevel: 5
+  characterLabel: 0
+  ProjectileItemPrefab: {fileID: 0}
+  ControllerScript: {fileID: 11500000, guid: e03d545d4badb3846b497068e3849122, type: 3}
+  DamageMultiplier: 1
+  Speed: 0
+  CooldownDuration: 0
+  Pierce: 1
+  Deathtime: 4
+  ProjectileNum: 1
+  KnockbackValue: 0
+  Area: 1

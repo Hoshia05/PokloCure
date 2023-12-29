@@ -21,19 +21,19 @@ public class BodyPillowController : ItemController
         PlayerScript.Instance.SetShield(_shieldGain);
     }
 
-    protected virtual void Level2Effect()
+    protected override void Level2Effect()
     {
         _shieldGain = 20f;
     }
-    protected virtual void Level3Effect()
+    protected override void Level3Effect()
     {
         _shieldGain = 25f;
     }
-    protected virtual void Level4Effect()
+    protected override void Level4Effect()
     {
         _shieldGain = 30f;
     }
-    protected virtual void Level5Effect()
+    protected override void Level5Effect()
     {
         _shieldGain = 35f;
     }

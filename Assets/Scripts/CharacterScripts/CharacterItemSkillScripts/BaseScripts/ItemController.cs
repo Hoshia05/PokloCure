@@ -73,7 +73,7 @@ public class ItemController : MonoBehaviour, IItemController
 
     }
 
-    private void ApplyStats()
+    protected virtual void ApplyStats()
     {
         _currentDamage = RoundValue(ItemSO.BaseDamage * ItemData.DamageMultiplier * _localDamageBuff  *  PlayerScript.Instance.CurrentAttackMultiplier);
         _currentSizeScale = _localSizeBuff * ItemData.Area * PlayerScript.Instance.CurrentAttackSizeBuff;

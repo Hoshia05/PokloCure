@@ -12,7 +12,7 @@ public class YRSkill1Controller : ItemController
 
     private float _launchForce = 10f;
 
-    protected virtual void Awake()
+    protected override void Awake()
     {
         base.Awake();
 
