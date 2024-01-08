@@ -17,7 +17,7 @@ MonoBehaviour:
     StartTime: 0
     EndTime: 180
   - EnemyData: {fileID: 11400000, guid: b9140f77bbc135b4381585d52ed5d3ca, type: 2}
-    StartTime: 30
+    StartTime: 0
     EndTime: 300
   - EnemyData: {fileID: 11400000, guid: 215b8724f483c744fbdb890ec638e82b, type: 2}
     StartTime: 120

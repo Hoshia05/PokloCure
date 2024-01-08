@@ -19,16 +19,16 @@ public class ItemController : MonoBehaviour, IItemController
 
     protected float _currentKnockbackValue = 1;
 
-    protected float _localDamageBuff = 1f;
+    protected float _localDamageBuff = 0f;
     protected float _localSpeedBuff = 1f;
-    protected float _localSizeBuff = 1f;
+    protected float _localSizeBuff = 0f;
     protected float _localCooldownBuff = 1f;
     protected float _localDeathTimebuff = 0;
 
     protected int _projectileNum = 1;
     protected int _additionalProjectiles = 0;
 
-    protected List<GameObject> _currentProjectiles = new();
+    public List<ItemBehaviour> CurrentProjectiles = new();
 
     protected delegate void LevelUPEffects();
     protected List<LevelUPEffects> _levelUPEffectsList;
@@ -75,8 +75,8 @@ public class ItemController : MonoBehaviour, IItemController
 
     protected virtual void ApplyStats()
     {
-        _currentDamage = RoundValue(ItemSO.BaseDamage * ItemData.DamageMultiplier * _localDamageBuff  *  PlayerScript.Instance.CurrentAttackMultiplier);
-        _currentSizeScale = _localSizeBuff * ItemData.Area * PlayerScript.Instance.CurrentAttackSizeBuff;
+        _currentDamage = RoundValue(ItemSO.BaseDamage * ((ItemData.DamageMultiplier *  PlayerScript.Instance.CurrentAttackMultiplier) + _localDamageBuff));
+        _currentSizeScale = _localSizeBuff + ItemData.Area * PlayerScript.Instance.CurrentAttackSizeBuff;
         _currentSpeed = ItemData.Speed;
         _currentPierce = ItemData.Pierce;
         _currentDeathtime = ItemData.Deathtime + _localDeathTimebuff;
@@ -107,8 +107,8 @@ public class ItemController : MonoBehaviour, IItemController
         _currentWeaponLevel++;
         _levelUPEffectsList[_currentWeaponLevel - 1]();
         CheckAttackRound();
-        LevelUpEffect();
         ApplyStats();
+        LevelUpEffect();
     }
 
     protected virtual void LevelUpEffect()
@@ -163,12 +163,12 @@ public class ItemController : MonoBehaviour, IItemController
 
     public void IncreaseDamagePercentage(float amount)
     {
-        _localDamageBuff *= 1f + amount;
+        _localDamageBuff += amount;
     }
 
     public void IncreaseSizePercentage(float amount)
     {
-        _localSizeBuff *= 1f + amount;
+        _localSizeBuff += amount;
     }
 
     public void DecreaseCooldownPercentage(float amount)
@@ -195,19 +195,23 @@ public class ItemController : MonoBehaviour, IItemController
     {
         GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
         ItemBehaviour projectileBehaviour = projectile.GetComponent<ItemBehaviour>();
-        projectileBehaviour.InitializeValue(_currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentWeaponLevel, _currentSizeScale, _currentKnockbackValue);
+        projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentWeaponLevel, _currentSizeScale, _currentKnockbackValue);
 
-        _currentProjectiles.Add(projectile);
+        CurrentProjectiles.Add(projectileBehaviour);
 
         return projectileBehaviour;
     }
 
     protected void ResetProjectiles()
     {
-        foreach(GameObject projectile in _currentProjectiles)
+        foreach(ItemBehaviour projectile in CurrentProjectiles)
         {
-            Destroy(projectile);
+            if(projectile != null)
+                projectile.DestroyProjectilesNow();
+
         }
+
+        CurrentProjectiles.Clear();
 
         Launch();
     }

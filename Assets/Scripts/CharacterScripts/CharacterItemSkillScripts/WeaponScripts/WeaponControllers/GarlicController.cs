@@ -15,6 +15,12 @@ public class GarlicController : ItemController
         projectileBehaviour.SetHitCooldown(_hitCooldown);
     }
 
+    protected override void LevelUpEffect()
+    {
+        ResetProjectiles();
+    }
+
+
     protected override void Level2Effect()
     {
         IncreaseSizePercentage(0.15f);

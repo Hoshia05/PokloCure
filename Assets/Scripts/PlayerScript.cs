@@ -83,6 +83,8 @@ public class PlayerScript : MonoBehaviour
 
     private float _eatDistanceMultiplier;
 
+    public float BurgerDropChanceMultiplier;
+
     //실드
     private float _shield;
 
@@ -210,6 +212,7 @@ public class PlayerScript : MonoBehaviour
         _currentKnockbackBuff = 1f;
         _eatDistanceMultiplier = 1f;
 
+        BurgerDropChanceMultiplier = 0f;
 
         _characterLabel = SelectedCharacter.characterLabel;
 
@@ -347,6 +350,8 @@ public class PlayerScript : MonoBehaviour
         _currentKnockbackBuff = 1f;
         _eatDistanceMultiplier = 1f;
 
+        BurgerDropChanceMultiplier = 0f;
+
 
         foreach (BuffObject buff in BuffDictionary.Values)
         {
@@ -362,6 +367,8 @@ public class PlayerScript : MonoBehaviour
             _currentAttackSizeBuff += buff.AttackSizeBuff;
             _currentKnockbackBuff += buff.KnockBackBuff;
             _eatDistanceMultiplier += buff.EatDistanceMultiplier;
+
+            BurgerDropChanceMultiplier += buff.BurgerDropChance;
         }
 
 

@@ -12,9 +12,17 @@ public class SheepController : ItemController
         ApplyStats();
     }
 
+
+    protected override void LevelUpEffect()
+    {
+        ApplyStats();
+    }
+
     protected override void ApplyStats()
     {
         _currentCooldownDuration = _regenTime;
+        _buff.BurgerDropChance = _dropChance;
+        UpdateBuff();
     }
 
     protected override void Launch()

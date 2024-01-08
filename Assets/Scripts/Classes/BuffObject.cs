@@ -17,16 +17,7 @@ public class BuffObject
     public float KnockBackBuff = 0;
     public float EatDistanceMultiplier = 0;
 
+    public float BurgerDropChance = 0;
 
-
-    public BuffObject()
-    {
-        //HPBuff = 0;
-        //AttackMultiplierBuff = 0;
-        //SpeedMultiplierBuff = 0;
-        //HasteMultiplierBuff = 0;
-        //CritMultiplierBuff = 0;
-        //CritDamageBuff = 0;
-    }
 
 }
