@@ -17,7 +17,7 @@ MonoBehaviour:
     StartTime: 0
     EndTime: 180
   - EnemyData: {fileID: 11400000, guid: b9140f77bbc135b4381585d52ed5d3ca, type: 2}
-    StartTime: 0
+    StartTime: 30
     EndTime: 300
   - EnemyData: {fileID: 11400000, guid: 215b8724f483c744fbdb890ec638e82b, type: 2}
     StartTime: 120
@@ -28,3 +28,27 @@ MonoBehaviour:
   - EnemyData: {fileID: 11400000, guid: 01d0de1920742b644a34eda165421847, type: 2}
     StartTime: 240
     EndTime: 240
+  - EnemyData: {fileID: 11400000, guid: 4e1c535a14383a94980810f24e2ac8a4, type: 2}
+    StartTime: 300
+    EndTime: 510
+  - EnemyData: {fileID: 11400000, guid: 084b9571171babe4e86b9e9b0118590f, type: 2}
+    StartTime: 300
+    EndTime: 660
+  - EnemyData: {fileID: 11400000, guid: 115e763677a2762429ec5e57db8a32b0, type: 2}
+    StartTime: 360
+    EndTime: 360
+  - EnemyData: {fileID: 11400000, guid: c83d45640004f274997efc8cbbcccb07, type: 2}
+    StartTime: 355
+    EndTime: 510
+  - EnemyData: {fileID: 11400000, guid: 0650c8a6d1a736541bcb5384b01f8c9c, type: 2}
+    StartTime: 455
+    EndTime: 660
+  - EnemyData: {fileID: 11400000, guid: 7b0c40353172bb1438c86a9b0c065d74, type: 2}
+    StartTime: 480
+    EndTime: 480
+  - EnemyData: {fileID: 11400000, guid: d468c09f11d19ed419fb9f4a5fdd67db, type: 2}
+    StartTime: 570
+    EndTime: 660
+  - EnemyData: {fileID: 11400000, guid: 4808c9b6c68c6af458d4ba5f026dce4e, type: 2}
+    StartTime: 600
+    EndTime: 600

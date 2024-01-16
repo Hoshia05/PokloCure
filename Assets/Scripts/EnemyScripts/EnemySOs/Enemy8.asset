@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efa97230004be834aadba4c8af4dbe8d, type: 3}
+  m_Name: Enemy8
+  m_EditorClassIdentifier: 
+  EnemyPortrait: {fileID: 21300000, guid: 2d7faf8b9ba826a478cd641ce7087d70, type: 3}
+  EnemySprite: {fileID: 21300000, guid: 2d7faf8b9ba826a478cd641ce7087d70, type: 3}
+  AnimatorController: {fileID: 0}
+  BasicWeaponController: {fileID: 0}
+  EnemyName: Hungry Takodachi
+  EnemyDescription: "\uC784\uC2DC\uC0AC\uC6A9"
+  isBossEnemy: 0
+  EnemyType: 0
+  HP: 220
+  SpeedMultiplier: 0.65
+  BodyDamage: 8
+  AttackCooltime: 0.5
+  CriticalChance: 0
+  DropEXP: 9

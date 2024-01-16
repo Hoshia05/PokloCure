@@ -23,9 +23,9 @@ public class EnemySpawnManager : MonoBehaviour
 
         float degreeDif = 360 / enemyNum;
 
-        float currentDegree = 0;
+        float currentDegree = GameManager.Instance.Rand.Next(0, 360);
 
-        for(float i = 0; i <= enemyNum; i ++)
+        for (float i = 0; i <= enemyNum; i ++)
         {
             float xPosition = playerPosition.x + radius * Mathf.Cos(currentDegree);
             float yPosition = playerPosition.y + radius * Mathf.Sin(currentDegree);
@@ -54,11 +54,11 @@ public class EnemySpawnManager : MonoBehaviour
     {
         Vector2 SpawnPosition;
 
-        SpawnPosition = GetRandomPositionInRadius(radius);
+        SpawnPosition = GetRandomPositionInPlayerRadius(radius);
 
         while (!CheckIfIsInBounds(SpawnPosition))
         {
-            SpawnPosition = GetRandomPositionInRadius(radius);
+            SpawnPosition = GetRandomPositionInPlayerRadius(radius);
         }
 
         GameObject BossEnemy = Instantiate(GameManager.Instance.BossPrefab, SpawnPosition, Quaternion.identity);
@@ -68,17 +68,77 @@ public class EnemySpawnManager : MonoBehaviour
 
     }
 
-    public Vector2 GetRandomPositionInRadius(float radius)
+   
+
+    //pattern spawning
+
+    public void PatternSpawn(PatternSpawnInfo patternSpawnInfo, float radius)
+    {
+        if (patternSpawnInfo == null)
+            return;
+
+        switch (patternSpawnInfo.SpawnType)
+        {
+            case SpawnType.CLUSTER:
+                ClusterSpawn(patternSpawnInfo, radius);
+                break;
+            case SpawnType.HORDE: 
+                break;
+            case SpawnType.WALL:
+                break;
+            case SpawnType.RING:
+                break;
+            case SpawnType.STAMPEDE:
+                break;
+
+        }
+    }
+
+    public void ClusterSpawn(PatternSpawnInfo patternSpawnInfo, float radius)
+    {
+        EnemyBase enemyData = patternSpawnInfo.EnemyData;
+        int enemyNum = patternSpawnInfo.AmountSpawned;
+
+        Vector2 SpawnPosition;
+
+        SpawnPosition = GetRandomPositionInPlayerRadius(radius);
+
+        while (!CheckIfIsInBounds(SpawnPosition))
+        {
+            SpawnPosition = GetRandomPositionInPlayerRadius(radius);
+        }
+
+        for (int i = 0; i < enemyNum; i++)
+        {
+            Vector2 IndividualSpawnPosition = GetRandomPositionInRadius(SpawnPosition, 2);
+
+            GameObject ClusterEnemey = Instantiate(GameManager.Instance.EnemyPrefab, IndividualSpawnPosition, Quaternion.identity);
+            EnemyScript enemyScript = ClusterEnemey.GetComponent<EnemyScript>();
+            enemyScript.InitializeWithSO(enemyData);
+        }
+    }
+
+
+    //utilities
+    public Vector2 GetRandomPositionInPlayerRadius(float radius)
+    {
+        PlayerScript playerScript = StageManager.instance.CurrentPlayer;
+        Vector2 playerPosition = playerScript.transform.position;
+
+        return GetRandomPositionInRadius(playerPosition, radius);
+    }
+
+    public Vector2 GetRandomPositionInRadius(Vector2 targetPosition, float radius)
     {
         PlayerScript playerScript = StageManager.instance.CurrentPlayer;
         Vector2 playerPosition = playerScript.transform.position;
 
         float currentDegree = 360 / (GameManager.Instance.Rand.Next(0, 360));
 
-        float xPosition = playerPosition.x + radius * Mathf.Cos(currentDegree);
-        float yPosition = playerPosition.y + radius * Mathf.Sin(currentDegree);
+        float xPosition = targetPosition.x + radius * Mathf.Cos(currentDegree);
+        float yPosition = targetPosition.y + radius * Mathf.Sin(currentDegree);
 
-       return new Vector2(xPosition, yPosition);
+        return new Vector2(xPosition, yPosition);
     }
 
     public bool CheckIfIsInBounds(Vector2 position)

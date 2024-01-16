@@ -61,47 +61,88 @@ public class BoxItemUIScript : MonoBehaviour
         _pulledItemDict = new();
     }
 
-    //public void PullRandomItem()
-    //{
-    //    exemptList = new();
+    public void PullRandomItem()
+    {
 
-    //    ItemSO itemSkillSO;
-    //    int nextLevel;
+        _pulledItemDict = new();
+        exemptList = new List<ItemSO>(StageManager.instance.ItemExemptList);
 
-    //    for(int i = 0; i < ItemNum; i++)
-    //    {
-    //        do
-    //        {
-    //            //Get Random item
-    //            itemSkillSO = GameManager.Instance.GetRandomItem();
+        int count = 0;
 
-    //            //Check if player already has it.
-    //            nextLevel = PlayerScript.Instance.CheckItemPossessionLevel(itemSkillSO);
+        while (count < ItemNum)
+        {
+            ItemSO itemSkillSO = GameManager.Instance.GetRandomItem(exemptList);
 
-    //            if (nextLevel > itemSkillSO.ItemMaxLevel)
-    //                exemptList.Add(itemSkillSO);
+            if (itemSkillSO == null)
+            {
+                break;
+            }
 
-    //        } while (exemptList.Contains(itemSkillSO));
+            int nextLevel = PlayerScript.Instance.CheckItemPossessionLevel(itemSkillSO);
 
-    //        _pulledItemDict.Add(itemSkillSO, nextLevel);
-    //        exemptList.Add(itemSkillSO);
+            //이미 만렙인 경우
+            if (nextLevel > itemSkillSO.ItemMaxLevel)
+            {
+                exemptList.Add(itemSkillSO);
+                continue;
+            }
 
-    //        _itemPositions[i].SetActive(true);
-                
+            _pulledItemDict.Add(itemSkillSO, nextLevel);
+            exemptList.Add(itemSkillSO);
 
-    //        Image ItemImage = _itemPositions[i].GetComponent<Image>();
-    //        ItemImage.sprite = itemSkillSO.ItemImage;
+            _itemPositions[count].SetActive(true);
 
-    //    }
 
-        
-    //    _descriptionWindow.SetActive(true);
-    //    _openButton.SetActive(false);
-    //    _takeButton.SetActive(true);
-    //    _dropButton.SetActive(true);
+            Image ItemImage = _itemPositions[count].GetComponent<Image>();
+            ItemImage.sprite = itemSkillSO.ItemImage;
 
-    //    UpdateDescription(_pulledItemDict.ElementAt(_itemIndex));
-    //}
+            count++;
+        }
+
+        _descriptionWindow.SetActive(true);
+        _openButton.SetActive(false);
+        _takeButton.SetActive(true);
+        _dropButton.SetActive(true);
+
+        UpdateDescription(_pulledItemDict.ElementAt(_itemIndex));
+
+        //ItemSO itemSkillSO;
+        //int nextLevel;
+
+        //for (int i = 0; i < ItemNum; i++)
+        //{
+        //    do
+        //    {
+        //        //Get Random item
+        //        itemSkillSO = GameManager.Instance.GetRandomItem();
+
+        //        //Check if player already has it.
+        //        nextLevel = PlayerScript.Instance.CheckItemPossessionLevel(itemSkillSO);
+
+        //        if (nextLevel > itemSkillSO.ItemMaxLevel)
+        //            exemptList.Add(itemSkillSO);
+
+        //    } while (exemptList.Contains(itemSkillSO));
+
+        //    _pulledItemDict.Add(itemSkillSO, nextLevel);
+        //    exemptList.Add(itemSkillSO);
+
+        //    _itemPositions[i].SetActive(true);
+
+
+        //    Image ItemImage = _itemPositions[i].GetComponent<Image>();
+        //    ItemImage.sprite = itemSkillSO.ItemImage;
+
+        //}
+
+
+        //_descriptionWindow.SetActive(true);
+        //_openButton.SetActive(false);
+        //_takeButton.SetActive(true);
+        //_dropButton.SetActive(true);
+
+        //UpdateDescription(_pulledItemDict.ElementAt(_itemIndex));
+    }
 
     public void UpdateDescription(KeyValuePair<ItemSO, int> itemData)
     {

@@ -50,12 +50,19 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 64488e8cc052b4e47b66e38c1fabe90f, type: 2}
   ItemList:
   - {fileID: 11400000, guid: c1f500a0f0d1afb4596d44a9f707e9ae, type: 2}
+  - {fileID: 11400000, guid: 2dc45de15df932e49962c6dfba86d20b, type: 2}
+  - {fileID: 11400000, guid: 87471ac7d69d4364cabcbce0ad658dc2, type: 2}
+  - {fileID: 11400000, guid: def7373233a587549874d9ed8818b775, type: 2}
+  - {fileID: 11400000, guid: 6b451df734627774689c97fff2bf5028, type: 2}
+  - {fileID: 11400000, guid: 9efcb5cab07367e4e8b072fdff3314c7, type: 2}
+  - {fileID: 11400000, guid: b2bbd7daff7082d4a83f1f860850fbff, type: 2}
+  - {fileID: 11400000, guid: 17ef1ce5c8f51e644bcecefca87e9133, type: 2}
+  - {fileID: 11400000, guid: e3ffc2b840613b74cba38a14609672df, type: 2}
+  - {fileID: 11400000, guid: def7373233a587549874d9ed8818b775, type: 2}
   - {fileID: 11400000, guid: 284333abd3ed090409196d1e6acd9ec6, type: 2}
   - {fileID: 11400000, guid: afae2633339fe7d418e8a1a4a1b88288, type: 2}
   - {fileID: 11400000, guid: 2549f215c46eba34d9c5956b60eeee6b, type: 2}
-  - {fileID: 11400000, guid: 9efcb5cab07367e4e8b072fdff3314c7, type: 2}
   - {fileID: 11400000, guid: dc6f63c680223864f8ba4eb1795eff6c, type: 2}
-  - {fileID: 11400000, guid: 17ef1ce5c8f51e644bcecefca87e9133, type: 2}
   PlayerCharacterPrefab: {fileID: 8438766113470524038, guid: 4b0804e9b0ab99e4cade03185f864d6d, type: 3}
   DamagePopUpPrefab: {fileID: 5271240959729347560, guid: f69cb61873c2372468194f31debf07a1, type: 3}
   CriticalDamagePopUpPrefab: {fileID: 5271240959729347560, guid: c88895a7a31c4f14699e99770f1c51a9, type: 3}

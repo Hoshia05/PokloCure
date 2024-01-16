@@ -31,6 +31,9 @@ public class EnemyScript : MonoBehaviour
     protected bool _isBoss;
     //private int _enemyLevel = 1;
 
+    //Pattern Spawn 관련
+    private bool _isPatternSpawn;
+
 
     [Header("무기슬롯관련")]
     [SerializeField]
@@ -59,7 +62,8 @@ public class EnemyScript : MonoBehaviour
     protected void Update()
     {
         _playerPosition = _playerCharacter.transform.position;
-        Movement();
+        if(!_isPatternSpawn)
+            Movement();
         UpdateLOS();
     }
 
@@ -81,6 +85,27 @@ public class EnemyScript : MonoBehaviour
 
         if (EnemyData.BasicWeaponController != null)
             _weaponSlot = Instantiate(EnemyData.BasicWeaponController, _weaponSlot.transform);
+    }
+
+    public void SetForPatternSpawn(SpawnType type)
+    {
+        _isPatternSpawn = true;
+
+        Vector2 InitialTargetPosition = _playerCharacter.transform.position;
+
+        switch(type)
+        {
+            case SpawnType.HORDE:
+                break;
+            case SpawnType.RING:
+                break;
+        }
+
+    }
+
+    public void HordeMovement(Vector2 targetPosition)
+    {
+
     }
 
 

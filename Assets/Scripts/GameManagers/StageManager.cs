@@ -22,6 +22,9 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     private EnemySpawnProfileSO _spawnProfile;
     private List<SpawnInfo> _bossSpawnInfo;
+    [SerializeField]
+    private EnemyPatternSpawnProfileSO _patternSpawnProfile;
+    private List<PatternSpawnInfo> _patternSpawnInfos;
 
     [Header("Within Prefab")]
     [SerializeField]
@@ -61,6 +64,7 @@ public class StageManager : MonoBehaviour
     private int _currentEnemyCount = 0;
 
     private bool _summoningBoss = false;
+    private bool _summoningPattern = false;
 
     public List<ItemSO> ItemExemptList;
 
@@ -100,6 +104,7 @@ public class StageManager : MonoBehaviour
         _CharacterInfoUI.SetActive(false);
 
         _bossSpawnInfo = _spawnProfile.enemies.Where(x => x.EnemyData.isBossEnemy).ToList();
+        _patternSpawnInfos = _patternSpawnProfile.patterns;
 
         ItemExemptList = new();
     }
@@ -120,6 +125,7 @@ public class StageManager : MonoBehaviour
         _currentTime += Time.deltaTime;
 
         BossSpawn();
+        PatternSpawn();
 
     }
 
@@ -167,7 +173,7 @@ public class StageManager : MonoBehaviour
 
         float Spawntime = NextBoss.StartTime; 
 
-        if(Math.Abs(Spawntime - _currentTime) < 0.5f)
+        if(Math.Abs(Spawntime - _currentTime) < 0.3f)
         {
             _summoningBoss = true;
 
@@ -177,6 +183,24 @@ public class StageManager : MonoBehaviour
             _summoningBoss = false;
         }
 
+    }
+
+    private void PatternSpawn()
+    {
+        if(_patternSpawnInfos.Count == 0) 
+            return;
+
+        PatternSpawnInfo nextPattern = _patternSpawnInfos.First();
+
+        if (Math.Abs(nextPattern.SpawnTime - _currentTime) < 0.3f)
+        {
+            _summoningPattern = true;
+
+            _spawnManager.PatternSpawn(nextPattern, 30);
+            _patternSpawnInfos.Remove(nextPattern);
+
+            _summoningPattern = false;
+        }
     }
 
     private List<EnemyBase> GetSpawnableEnemies()
@@ -210,8 +234,39 @@ public class StageManager : MonoBehaviour
 
         foreach (EnemyBase enemyData in EnemyPossibleList)
         {
-            _spawnManager.CircleSpawn(enemyData, 30, 10);
+            int enemyNum = GetEnemyNum();
+
+            _spawnManager.CircleSpawn(enemyData, 30, enemyNum);
         }
+    }
+
+    int GetEnemyNum()
+    {
+        if(_currentTime > 1800f)
+        {
+            return 20;
+        }
+
+        float spawnProbability = Sigmoid(_currentTime / 1800f) - 0.5f;
+
+        int RandomAdd = GameManager.Instance.Rand.Next(1, 5);
+
+        return Mathf.CeilToInt(spawnProbability * 20) + RandomAdd;
+    }
+
+    float Sigmoid(float x)
+    {
+        return 1f / (1f + Mathf.Exp(-x));
+    }
+
+    int WeightedRandomize(int max, float weight)
+    {
+        // Use weight to bias randomization
+        float randomValue = UnityEngine.Random.Range(0f, 1f);
+        float weightedRandomValue = Mathf.Pow(randomValue, weight);
+
+        // Map weighted random value to the desired range
+        return Mathf.RoundToInt(weightedRandomValue * max) + 1;
     }
 
     IEnumerator TimerUpdateCoroutine()
