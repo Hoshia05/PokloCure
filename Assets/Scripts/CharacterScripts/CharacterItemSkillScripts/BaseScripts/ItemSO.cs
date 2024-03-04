@@ -42,4 +42,6 @@ public enum CharacterDistinct
 {
     NONE,
     YEOMROCK,
+    BLUETIGER,
+    GREENTIGER,
 }

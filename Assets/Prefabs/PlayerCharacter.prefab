@@ -553,9 +553,9 @@ MonoBehaviour:
   _hpBar: {fileID: 8537638929941363780}
   _projectilePrefab: {fileID: 429641142634744645, guid: 3e048b795c234d34fada5d32f3fbdbcd, type: 3}
   _characterSO: {fileID: 11400000, guid: a367cd36c56dc6d4fb4213df3ab5b472, type: 2}
+  BurgerDropChanceMultiplier: 0
   _attackCoolTime: 0.5
   _defensePoints: 0
-  _eatDistanceMultiplier: 1
   _basicWeaponSlot: {fileID: 5884235535917834310}
   _obtainedWeaponSlots: {fileID: 4468829955391795324}
   _obtainedItemSlots: {fileID: 3060975074466163126}
@@ -567,6 +567,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onMaxHPChange:
+    m_PersistentCalls:
+      m_Calls: []
+  onShieldDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onTakeDamage:
     m_PersistentCalls:
       m_Calls: []
   _cursor: {fileID: 6788090508172661848}

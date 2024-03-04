@@ -70,4 +70,6 @@ MonoBehaviour:
   DiamondPrefab: {fileID: 5710734456166026490, guid: 45580285e8559dd408a2ff8884b2f40d, type: 3}
   TreasureBoxPrefab: {fileID: 8764263367731458104, guid: d4d2f2f414d321247944ad4b8838c8f6, type: 3}
   ExpItemPrefab: {fileID: 5710734456166026490, guid: 813449b9b6085284c808b2fa3b7d97c5, type: 3}
+  _greenTiger: {fileID: 11400000, guid: f5838de0fb1587443a0ca9be7fceb468, type: 2}
+  _blueTiger: {fileID: 11400000, guid: 01c86b682733d6042949163fbb9a0341, type: 2}
   _selectedCharacter: {fileID: 11400000, guid: a367cd36c56dc6d4fb4213df3ab5b472, type: 2}

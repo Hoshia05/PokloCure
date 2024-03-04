@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using static UnityEditor.Progress;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -188,6 +189,8 @@ public class PlayerScript : MonoBehaviour
     {
         _selectedCharacter = GameManager.Instance.SelectedCharacter;
 
+        _characterSO = _selectedCharacter;
+
         InitializeWithSO(_selectedCharacter);
 
     }
@@ -221,8 +224,16 @@ public class PlayerScript : MonoBehaviour
         _spriteRenderer.sprite = SelectedCharacter.CharacterSprite;
         _playerAnim.runtimeAnimatorController = SelectedCharacter.AnimatorController;
 
-        _basicWeaponSlot = Instantiate(SelectedCharacter.BasicWeaponController, _basicWeaponSlot.transform);
-        _basicWeapon = _basicWeaponSlot.GetComponent<ItemController>();
+        //_basicWeaponSlot = Instantiate(SelectedCharacter.BasicWeaponController, _basicWeaponSlot.transform);
+        //_basicWeapon = _basicWeaponSlot.GetComponent<ItemController>();
+
+        GameObject NewWeapon = new GameObject(SelectedCharacter.BaseWeapon.ItemName);
+        NewWeapon.transform.parent = _basicWeaponSlot.transform;
+        NewWeapon.transform.localPosition = Vector3.zero;
+
+        System.Type scriptType = (SelectedCharacter.BaseWeapon.ControllerScript as MonoScript).GetClass();
+        _basicWeapon = NewWeapon.AddComponent(scriptType) as ItemController;
+        _basicWeapon.SetWithSO(SelectedCharacter.BaseWeapon);
 
         UpdateInfoUI();
     }

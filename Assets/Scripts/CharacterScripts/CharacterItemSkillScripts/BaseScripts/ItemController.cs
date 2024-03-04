@@ -20,7 +20,7 @@ public class ItemController : MonoBehaviour, IItemController
     protected float _currentKnockbackValue = 1;
 
     protected float _localDamageBuff = 0f;
-    protected float _localSpeedBuff = 1f;
+    protected float _localSpeedBuff = 0f;
     protected float _localSizeBuff = 0f;
     protected float _localCooldownBuff = 1f;
     protected float _localDeathTimebuff = 0;
@@ -36,6 +36,7 @@ public class ItemController : MonoBehaviour, IItemController
     protected BuffObject _buff = new();
 
     protected bool _deathTimeCoolTimeCumulative;
+    protected bool _hasLaunchedSinceReset;
 
     public int CurrentWeaponLevel
     {
@@ -77,7 +78,7 @@ public class ItemController : MonoBehaviour, IItemController
     {
         _currentDamage = RoundValue(ItemSO.BaseDamage * ((ItemData.DamageMultiplier *  PlayerScript.Instance.CurrentAttackMultiplier) + _localDamageBuff));
         _currentSizeScale = _localSizeBuff + ItemData.Area * PlayerScript.Instance.CurrentAttackSizeBuff;
-        _currentSpeed = ItemData.Speed;
+        _currentSpeed = ItemData.Speed + _localSpeedBuff;
         _currentPierce = ItemData.Pierce;
         _currentDeathtime = ItemData.Deathtime + _localDeathTimebuff;
         _currentCooldownDuration = _deathTimeCoolTimeCumulative ?
@@ -91,15 +92,22 @@ public class ItemController : MonoBehaviour, IItemController
     protected virtual void Update()
     {
         _currentCooldown -= Time.deltaTime;
-        if(_currentCooldown <= 0f ) 
+        if(_currentCooldown <= 0f && !_hasLaunchedSinceReset)
         {
+            _hasLaunchedSinceReset = true;
             Launch();
         }
     }
 
     protected virtual void Launch()
     {
+        ResetCooldown();
+    }
+
+    public void ResetCooldown()
+    {
         _currentCooldown = _currentCooldownDuration;
+        _hasLaunchedSinceReset = false;
     }
 
     public virtual void LevelUp()
@@ -164,6 +172,11 @@ public class ItemController : MonoBehaviour, IItemController
     public void IncreaseDamagePercentage(float amount)
     {
         _localDamageBuff += amount;
+    }
+
+    public void IncreaseSpeedPercentage(float amount)
+    {
+        _localSpeedBuff += amount;
     }
 
     public void IncreaseSizePercentage(float amount)

@@ -113,4 +113,9 @@ public class ItemBehaviour : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void ResetCooldown()
+    {
+        _controller.ResetCooldown();
+    }
+
 }

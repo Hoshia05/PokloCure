@@ -15,9 +15,10 @@ public class CharacterBase : ScriptableObject
     public Sprite CharacterPortrait;
     public Sprite CharacterSprite;
     public CharacterDistinct characterLabel = CharacterDistinct.NONE;
+    
 
     public RuntimeAnimatorController AnimatorController;
-    public GameObject BasicWeaponController;
+    public ItemSO BaseWeapon;
 
     public string CharacterName;
     public string CharacterDescription;

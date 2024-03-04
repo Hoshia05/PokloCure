@@ -151,7 +151,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: YeomIdle
+  m_Name: MangoIdle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -165,7 +165,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 37991dc45ae613e4aa0fc98eb7039ea4, type: 2}
+  m_Motion: {fileID: 7400000, guid: 5a0b7c9afcac8d94c848b1958a14382a, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -230,7 +230,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: YeomMove
+  m_Name: MangoMove
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
