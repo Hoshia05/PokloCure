@@ -15,14 +15,14 @@ public class BossScript : EnemyScript
 
     protected IEnumerator KillBoss()
     {
-        StageManager.instance.UpdateKill();
+        StageManager.Instance.UpdateKill();
         Collider2D coll = GetComponent<Collider2D>();
         coll.enabled = false;
 
         yield return new WaitForSeconds(0.1f);
 
         _currentMovementSpeed = 0;
-        Color originalColor = _spriteRenderer.color;
+        Color originalColor = SpriteRenderer.color;
 
         float elapsedTime = 0f;
 
@@ -30,14 +30,14 @@ public class BossScript : EnemyScript
         {
             float alpha = Mathf.Lerp(originalColor.a, 0f, elapsedTime / 0.5f);
 
-            _spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+            SpriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
 
             elapsedTime += Time.deltaTime;
 
             yield return null;
         }
 
-        _spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
+        SpriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
 
         GameObject expItem = Instantiate(GameManager.Instance.ExpItemPrefab, RandomNearPosition(), Quaternion.identity);
         ExpItemScript expItemScript = expItem.GetComponent<ExpItemScript>();
@@ -51,7 +51,7 @@ public class BossScript : EnemyScript
         Instantiate(GameManager.Instance.TreasureBoxPrefab, RandomNearPosition(), Quaternion.identity);
 
         Destroy(gameObject);
-        StageManager.instance.CurrentEnemyCount--;
+        StageManager.Instance.CurrentEnemyCount--;
 
     }
 }

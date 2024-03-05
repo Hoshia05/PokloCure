@@ -22,12 +22,14 @@ public class EnemyBase : ScriptableObject
 
     public bool isBossEnemy = false;
     public EnemyType EnemyType = EnemyType.MELEE;
+    public EnemyClass EnemyClass = EnemyClass.SWARM;
     public float HP = 10f;
     public float SpeedMultiplier = 1f;
     public float BodyDamage = 10f;
     public float AttackCooltime = 0.5f;
     public float CriticalChance = 0f;
     public float DropEXP;
+    public float SizeScale = 1f;
 }
 
 public enum EnemyType
@@ -36,4 +38,11 @@ public enum EnemyType
     RANGED,
     HYBRID,
     BOSS,
+}
+
+public enum EnemyClass
+{
+    SWARM,
+    MEDIUM,
+    ELITE,
 }

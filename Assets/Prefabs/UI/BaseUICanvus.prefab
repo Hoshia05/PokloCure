@@ -5663,6 +5663,7 @@ MonoBehaviour:
   _virtualCamera: {fileID: 0}
   _characterSpawnPoint: {fileID: 0}
   _spawnProfile: {fileID: 11400000, guid: deb69b1df6fb5e74594b4888273e39c0, type: 2}
+  _patternSpawnProfile: {fileID: 0}
   _darkScreen: {fileID: 919064915348202823}
   _characterThumbnail: {fileID: 8026505876748477564}
   _levelUPUI: {fileID: 5135596301313236724}
@@ -5674,7 +5675,9 @@ MonoBehaviour:
   _itemSlotScript: {fileID: 2539653358074118537}
   ItemExemptList: []
   _enemyList:
-  - {fileID: 6866567978285184781, guid: 24482696c81187c46a523a3f943f4753, type: 3}
+  - {fileID: 11400000, guid: b3a3432202b7d2f45a4fe446ae68e02e, type: 2}
+  - {fileID: 11400000, guid: 187701d1486cd2f4582edbedd206a6fc, type: 2}
+  - {fileID: 11400000, guid: 55d3ee122da72f3458a06636856da46c, type: 2}
 --- !u!114 &4800785151461608958
 MonoBehaviour:
   m_ObjectHideFlags: 0

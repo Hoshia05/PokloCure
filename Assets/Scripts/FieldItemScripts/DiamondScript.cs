@@ -17,7 +17,7 @@ public class DiamondScript : FieldItemBase
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            StageManager.instance.GainCoins(_coinValue);
+            StageManager.Instance.GainCoins(_coinValue);
 
             Destroy(gameObject);
         }

@@ -202,7 +202,6 @@ public class PlayerScript : MonoBehaviour
 
         //캐릭터 특정 수치들
         _currentSpeedMultiplier = SelectedCharacter.SpeedMultiplier;
-        //_currentMovementSpeed = _currentSpeedMultiplier * CharacterBase._baseSpeed;
         _currentCharacterMaxHP = _characterCurrentHP = SelectedCharacter.Health;
         _currentAttackMultiplier = SelectedCharacter.AttackMultiplier;
         _currentCriticalMultiplier = SelectedCharacter.CriticalMultiplier;
@@ -402,7 +401,7 @@ public class PlayerScript : MonoBehaviour
             _currentExperience = _currentExperience - _expRequirement;
             _expRequirement = MathRelated.GetNextExpRequirement(_level);
             ExperienceBar.Instance.LvlUp(_level, _expRequirement);
-            StageManager.instance.LevelUpEvent();
+            StageManager.Instance.LevelUpEvent();
 
         }
         ExperienceBar.Instance.SetEXP(_currentExperience, _level);

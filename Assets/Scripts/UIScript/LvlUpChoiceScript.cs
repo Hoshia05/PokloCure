@@ -35,8 +35,8 @@ public class LvlUpChoiceScript : MonoBehaviour
 
     public void SelectThisChoice()
     {
-        StageManager.instance.GivePlayerItem(_itemSkillData);
-        StageManager.instance.LevelUpEventEnd();
+        StageManager.Instance.GivePlayerItem(_itemSkillData);
+        StageManager.Instance.LevelUpEventEnd();
         _parentList.DeleteList();
     }
 

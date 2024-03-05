@@ -29,7 +29,8 @@ public class EnemyScript : MonoBehaviour
     protected float _dropExpValue;
     protected EnemyType _enemyType;
     protected bool _isBoss;
-    //private int _enemyLevel = 1;
+
+    protected float _buffMultiplier = 1f;
 
     //Pattern Spawn 관련
     private bool _isPatternSpawn;
@@ -40,8 +41,7 @@ public class EnemyScript : MonoBehaviour
     protected GameObject _weaponSlot;
 
     [SerializeField]
-    protected SpriteRenderer _spriteRenderer;
-
+    public SpriteRenderer SpriteRenderer;
 
     protected Animator _enemyAnim; //Not now...
 
@@ -69,16 +69,26 @@ public class EnemyScript : MonoBehaviour
 
     public void InitializeWithSO(EnemyBase EnemyData)
     {
+        if (EnemyData == null)
+            EnemyData = _enemyData;
+
+        if(_enemyData == null)
+            _enemyData = EnemyData;
+
+        if (EnemyData == null && _enemyData == null)
+            return;
+
         //캐릭터 특정 수치들
-        _currentMovementSpeed = EnemyData.SpeedMultiplier * EnemyBase._baseSpeed;
-        _currentMaxHP = EnemyData.HP;
-        _currentBodyDamage = EnemyData.BodyDamage;
+        _currentMovementSpeed = EnemyData.SpeedMultiplier * EnemyBase._baseSpeed * _buffMultiplier;
+        _currentMaxHP = EnemyData.HP * _buffMultiplier;
+        _currentBodyDamage = EnemyData.BodyDamage * _buffMultiplier;
         _currentCriticalChance = EnemyData.CriticalChance;
-        _dropExpValue = EnemyData.DropEXP;
+        _dropExpValue = EnemyData.DropEXP * _buffMultiplier;
         _isBoss = EnemyData.isBossEnemy;
 
-        _spriteRenderer.sprite = EnemyData.EnemySprite;
+        SpriteRenderer.sprite = EnemyData.EnemySprite;
 
+        transform.localScale = new Vector3(EnemyData.SizeScale, EnemyData.SizeScale, EnemyData.SizeScale);
 
         if (EnemyData.AnimatorController != null)
             _enemyAnim.runtimeAnimatorController = EnemyData.AnimatorController;
@@ -120,7 +130,17 @@ public class EnemyScript : MonoBehaviour
     {
         _enemyLineOfSight = (_playerPosition - (Vector2)transform.position).normalized;
 
-        _spriteRenderer.flipX = _enemyLineOfSight.x > 0 ? true : false;
+        SpriteRenderer.flipX = _enemyLineOfSight.x > 0 ? false : true;
+    }
+
+    protected void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            GameObject player = collision.gameObject;
+            PlayerScript script = player.GetComponent<PlayerScript>();
+            script.TakeDamage(_currentBodyDamage);
+        }
     }
 
     protected void OnTriggerEnter2D(Collider2D collision)
@@ -159,7 +179,9 @@ public class EnemyScript : MonoBehaviour
 
             Rigidbody2D tmpRB = tmp.GetComponent<Rigidbody2D>();
 
-            Vector2 direction = new Vector2(UnityEngine.Random.Range(-1, 1), 1);
+            double jumpRange = (GameManager.Instance.Rand.NextDouble() - 0.5) * 2; 
+            //Vector2 direction = new Vector2(UnityEngine.Random.Range(-1, 1), 1);
+            Vector2 direction = new Vector2((float)jumpRange, 1);
 
             float force = isCritical ? 200 : 150;
 
@@ -186,9 +208,12 @@ public class EnemyScript : MonoBehaviour
 
     protected IEnumerator HitAnimation()
     {
-        _spriteRenderer.color = Color.red;
+        SpriteRenderer.color = Color.red;
+
+        GameObject HitEffect = Instantiate(GameManager.Instance.HitEffectPrefab, transform);
+
         yield return new WaitForSeconds(0.4f);
-        _spriteRenderer.color = Color.white;
+        SpriteRenderer.color = Color.white;
     }
 
     public virtual void CheckDeath()
@@ -201,14 +226,14 @@ public class EnemyScript : MonoBehaviour
     
     protected IEnumerator KillEnemy()
     {
-        StageManager.instance.UpdateKill();
+        StageManager.Instance.UpdateKill();
         Collider2D coll = GetComponent<Collider2D>();
         coll.enabled = false;
 
         yield return new WaitForSeconds(0.1f);
 
         _currentMovementSpeed = 0;
-        Color originalColor = _spriteRenderer.color;
+        Color originalColor = SpriteRenderer.color;
 
         float elapsedTime = 0f;
 
@@ -216,14 +241,14 @@ public class EnemyScript : MonoBehaviour
         {
             float alpha = Mathf.Lerp(originalColor.a, 0f, elapsedTime / 0.5f);
 
-            _spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+            SpriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
 
             elapsedTime += Time.deltaTime;
 
             yield return null;
         }
 
-        _spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
+        SpriteRenderer.color = Color.white;
 
         GameObject expItem = Instantiate(GameManager.Instance.ExpItemPrefab, RandomNearPosition(), Quaternion.identity);
         ExpItemScript expItemScript = expItem.GetComponent<ExpItemScript>();
@@ -234,8 +259,9 @@ public class EnemyScript : MonoBehaviour
         //다이아소환
         DropDiamond();
 
-        Destroy(gameObject);
-        StageManager.instance.CurrentEnemyCount--;
+        //Destroy(gameObject);
+        StageManager.Instance.EnemyDeathEvent(gameObject, _enemyData);
+        //StageManager.Instance.CurrentEnemyCount--;
 
     }
 
@@ -300,4 +326,9 @@ public class EnemyScript : MonoBehaviour
         _rb.velocity = Vector2.zero;
     }
 
+    public void BuffEnemy()
+    {
+        _buffMultiplier += 0.2f;
+        InitializeWithSO(_enemyData);
+    }
 }

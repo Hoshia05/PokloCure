@@ -19,7 +19,7 @@ public class LvlUPListScript : MonoBehaviour
     public void CreateLvlUpList()
     {
         _itemList = new GameObject[_itemMaxCount];
-        exemptList = new List<ItemSO>(StageManager.instance.ItemExemptList);
+        exemptList = new List<ItemSO>(StageManager.Instance.ItemExemptList);
 
         int count = 0;
         

@@ -51,14 +51,15 @@ public class ItemBehaviour : MonoBehaviour
 
         if( _pierce <= 0)
         {
+            ResetCooldown();
             Destroy(gameObject);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (_hitCooldown == 0)
-            return;
+        //if (_hitCooldown == 0)
+        //    return;
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
@@ -68,6 +69,9 @@ public class ItemBehaviour : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        if (_hitCooldown == 0)
+            return;
+
         if (collision.gameObject.CompareTag("Enemy"))
         {
             StartCoroutine(EnemyHitCoroutine(collision));
@@ -79,7 +83,6 @@ public class ItemBehaviour : MonoBehaviour
         GameObject enemy = collision.gameObject;
         EnemyScript script = enemy.GetComponent<EnemyScript>();
 
-        //크리티컬 체크
 
         if (PlayerScript.Instance.CriticalCheck())
         {

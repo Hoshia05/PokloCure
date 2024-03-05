@@ -10,8 +10,11 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public System.Random Rand = new();
+
+    [Header("Prefabs")]
     public GameObject EnemyPrefab;
     public GameObject BossPrefab;
+
     public List<EnemyBase> EnemyList;
 
     public List<ItemSO> ItemList;
@@ -25,6 +28,7 @@ public class GameManager : MonoBehaviour
     public GameObject DiamondPrefab;
     public GameObject TreasureBoxPrefab;
     public GameObject ExpItemPrefab;
+    public GameObject HitEffectPrefab;
 
     [Header("캐릭터데이터")]
     [SerializeField]

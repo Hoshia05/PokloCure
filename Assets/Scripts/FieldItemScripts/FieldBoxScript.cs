@@ -21,7 +21,7 @@ public class FieldBoxScript : FieldItemBase
 
             //½Ã°£ ¸ØÃß±â
             //½ÀµæUI »ý¼º
-            StageManager.instance.FieldBoxEvent();
+            StageManager.Instance.FieldBoxEvent();
 
             Destroy(gameObject);
         }

@@ -1,16 +1,18 @@
 ﻿using Cinemachine;
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditorInternal.Profiling.Memory.Experimental.FileFormat;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class StageManager : MonoBehaviour
 {
-    public static StageManager instance;
+    public static StageManager Instance;
 
     [Header("Stage Specific")]
     [SerializeField]
@@ -19,12 +21,11 @@ public class StageManager : MonoBehaviour
     private CinemachineVirtualCamera _virtualCamera;
     [SerializeField]
     private Transform _characterSpawnPoint;
+
+
+    [Header("Prefab")]
     [SerializeField]
-    private EnemySpawnProfileSO _spawnProfile;
-    private List<SpawnInfo> _bossSpawnInfo;
-    [SerializeField]
-    private EnemyPatternSpawnProfileSO _patternSpawnProfile;
-    private List<PatternSpawnInfo> _patternSpawnInfos;
+    private GameObject _alertPromptPrefab;
 
     [Header("Within Prefab")]
     [SerializeField]
@@ -63,10 +64,11 @@ public class StageManager : MonoBehaviour
 
     private int _currentEnemyCount = 0;
 
-    private bool _summoningBoss = false;
-    private bool _summoningPattern = false;
 
     public List<ItemSO> ItemExemptList;
+
+
+    //[Header("Enemy Related")]
 
     public int CurrentEnemyCount 
     { 
@@ -74,12 +76,29 @@ public class StageManager : MonoBehaviour
       set { _currentEnemyCount = value; }
     }
 
-    [SerializeField]
     private List<EnemyBase> _enemyList;
+    private Dictionary<EnemyBase, List<GameObject>> _enemyPool = new();
+
+    private int _swarmCoefficient = 7;
+    private int _mediumCoefficient = 3;
+    private int _eliteCoefficeint = 1;
+
+    private int _totalEnemyCoefficient => _swarmCoefficient + _mediumCoefficient + _eliteCoefficeint;
+
+    public delegate string EnhanceFunction();
+
+    private List<EnhanceFunction> _enemyEnhanceFuncitons = new();
+
+    [SerializeField]
+    public float BuffInterval = 10f;
+    [SerializeField]
+    private float _circleSpawnInterval = 10f;
+    [SerializeField]
+    private float _mteSpawnInvterval = 15f;
 
     private void Awake()
     {
-        instance = this;
+        Instance = this;
 
         min = _spawnArea.bounds.min;
         max = _spawnArea.bounds.max;
@@ -103,10 +122,11 @@ public class StageManager : MonoBehaviour
         _BoxItemUI.SetActive(false);
         _CharacterInfoUI.SetActive(false);
 
-        _bossSpawnInfo = _spawnProfile.enemies.Where(x => x.EnemyData.isBossEnemy).ToList();
-        _patternSpawnInfos = _patternSpawnProfile.patterns;
+        //_bossSpawnInfo = _spawnProfile.enemies.Where(x => x.EnemyData.isBossEnemy).ToList();
+        //_patternSpawnInfos = _patternSpawnProfile.patterns;
 
         ItemExemptList = new();
+
     }
 
     private void Start()
@@ -114,7 +134,11 @@ public class StageManager : MonoBehaviour
         _enemyList = GameManager.Instance.EnemyList;
 
         SpawnPlayerCharacter();
-        StartCoroutine(EnemySpawnCoroutine());
+        EnemyObjectPoolCreate();
+        InitializeEnhanceFunctions();
+
+        StartCoroutine(EnemyCircleSpawnCoroutine());
+        StartCoroutine(EnemyMTESpawnCoroutine());
         StartCoroutine(TimerUpdateCoroutine());
 
         SetupItemExemptList();
@@ -123,10 +147,49 @@ public class StageManager : MonoBehaviour
     private void Update()
     {
         _currentTime += Time.deltaTime;
+    }
 
-        BossSpawn();
-        PatternSpawn();
+    private void EnemyObjectPoolCreate()
+    {
+        foreach(EnemyBase enemy in _enemyList)
+        {
+            List<GameObject> enemyList = new();
 
+            int Count = 400;
+
+            if(enemy.EnemyClass == EnemyClass.MEDIUM)
+            {
+                Count = 150;
+            }
+            else if(enemy.EnemyClass == EnemyClass.ELITE)
+            {
+                Count = 100;
+            }
+
+            for(int i = 0; i < Count; i++)
+            {
+                GameObject newEnemy = Instantiate(GameManager.Instance.EnemyPrefab);
+                EnemyScript enemyScript = newEnemy.GetComponent<EnemyScript>();
+                enemyScript.InitializeWithSO(enemy);
+                newEnemy.SetActive(false);
+
+                enemyList.Add(newEnemy);
+            }
+
+            _enemyPool.Add(enemy, enemyList);
+        }
+    }
+
+    private void InitializeEnhanceFunctions()
+    {
+        _enemyEnhanceFuncitons.Add(IncreaseSwarm);
+        _enemyEnhanceFuncitons.Add(IncreaseMedium);
+        _enemyEnhanceFuncitons.Add(IncreaseElite);
+        _enemyEnhanceFuncitons.Add(IncreaseAll);
+        _enemyEnhanceFuncitons.Add(BuffSwarm);
+        _enemyEnhanceFuncitons.Add(BuffMedium);
+        _enemyEnhanceFuncitons.Add(BuffElite);
+        _enemyEnhanceFuncitons.Add(ShortenInterval);
     }
 
     private void SetupItemExemptList()
@@ -138,7 +201,6 @@ public class StageManager : MonoBehaviour
             if(item.characterLabel != _currentPlayer.CharacterLabel && item.characterLabel != CharacterDistinct.NONE)
                 ItemExemptList.Add(item);
         }
-
     }
 
     private void SpawnPlayerCharacter()
@@ -150,95 +212,266 @@ public class StageManager : MonoBehaviour
         _virtualCamera.Follow = playerCharacter.transform;
     }
 
-    IEnumerator EnemySpawnCoroutine()
+    IEnumerator EnemyCircleSpawnCoroutine()
     {
         while (true)
         {
-            float waitTime = GameManager.Instance.Rand.Next(1, 7);
+            float max = _circleSpawnInterval + 2f;
+            float min = _circleSpawnInterval - 2f;
+            if (min < 1)
+                min = 1f;
+
+            float waitTime = UnityEngine.Random.Range(min, max);
             yield return new WaitForSeconds(waitTime);
-            if (_currentEnemyCount < 200)
+            if (_currentEnemyCount < 400)
             {
-                RandomCircleSpawn();
+                BasicCircleSpawn();
+            }
+        }
+    }
+
+    IEnumerator EnemyMTESpawnCoroutine()
+    {
+        while (true)
+        {
+            float max = _mteSpawnInvterval + 2f;
+            float min = _mteSpawnInvterval - 2f;
+            if (min < 1)
+                min = 1f;
+
+            float waitTime = UnityEngine.Random.Range(min, max);
+            yield return new WaitForSeconds(waitTime);
+            if (_currentEnemyCount < 400)
+            {
+                MTESpawn();
+            }
+        }
+    }
+
+    private void BasicCircleSpawn()
+    {
+        int enemyNum = 20;
+
+        List<Vector2> spawnPositionList = new();
+
+        PlayerScript playerScript = StageManager.Instance.CurrentPlayer;
+        Vector2 playerPosition = playerScript.transform.position;
+
+        float radius = 30f;
+
+        float degreeDif = 360 / enemyNum;
+
+        float currentDegree = GameManager.Instance.Rand.Next(0, 360);
+
+        for (float i = 0; i <= enemyNum; i++)
+        {
+            float xPosition = playerPosition.x + radius * Mathf.Cos(currentDegree);
+            float yPosition = playerPosition.y + radius * Mathf.Sin(currentDegree);
+
+            Vector2 newSpawnPosition = new Vector2(xPosition, yPosition);
+
+            if (_spawnManager.CheckIfIsInBounds(newSpawnPosition))
+            {
+                spawnPositionList.Add(newSpawnPosition);
             }
 
+            currentDegree += degreeDif;
         }
+
+        foreach(Vector2 spawnPosition in spawnPositionList)
+        {
+            PullFromObjectPool(EnemyClass.SWARM, spawnPosition);
+        }
+
     }
 
-    private void BossSpawn()
+    private void MTESpawn()
     {
-        if (_bossSpawnInfo.Count == 0 || _summoningBoss == true)
+        float outerRadius = 80f;
+        float innerRadius = 60f;
+
+        Vector2 SpawnPosition = EnemySpawnManager.GetRandomPositionInPlayerRadius(outerRadius, innerRadius);
+
+        while (!_spawnManager.CheckIfIsInBounds(SpawnPosition))
+        {
+            SpawnPosition = EnemySpawnManager.GetRandomPositionInPlayerRadius(outerRadius, innerRadius);
+        }
+
+        Vector2 LastEnemyPosition = SpawnPosition;
+
+        for (int i = 0; i < _totalEnemyCoefficient; i++)
+        {
+            LastEnemyPosition = EnemySpawnManager.GetRandomPositionInRadius(LastEnemyPosition, 5f);
+            PullFromObjectPool(GetClassBasedOnCoefficient(), LastEnemyPosition);
+        }
+
+    }
+
+    private EnemyClass GetClassBasedOnCoefficient()
+    {
+        double randDouble = GameManager.Instance.Rand.NextDouble() * 1000;
+
+        float randNum = (float)(randDouble % _totalEnemyCoefficient);
+
+
+        if(randNum < _swarmCoefficient)
+        {
+            return EnemyClass.SWARM;
+        }
+        else if( randNum < _swarmCoefficient + _mediumCoefficient)
+        {
+            return EnemyClass.MEDIUM;
+        }
+        else
+        {
+            return EnemyClass.ELITE;
+        }
+
+    }
+
+    private void PullFromObjectPool(EnemyClass enemyClass, Vector2 spawnPosition)
+    {
+        EnemyBase enemyType;
+
+        List<EnemyBase> enemyBaseList = _enemyPool.Keys.ToList().Where(x => x.EnemyClass == enemyClass).ToList();
+
+        if(enemyBaseList.Count == 1)
+        {
+            enemyType = enemyBaseList[0];
+        }
+        else
+        {
+            enemyType = enemyBaseList[GameManager.Instance.Rand.Next(0, enemyBaseList.Count - 1)];
+        }
+
+        List<GameObject> enemyQueue = _enemyPool[enemyType];
+
+        if (enemyQueue == null || enemyQueue.Count == 0)
             return;
 
-        SpawnInfo NextBoss = _bossSpawnInfo.First();
+        GameObject enemy = enemyQueue.First(x => x.activeSelf == false) ;
 
-        float Spawntime = NextBoss.StartTime; 
-
-        if(Math.Abs(Spawntime - _currentTime) < 0.3f)
-        {
-            _summoningBoss = true;
-
-            _spawnManager.SpawnBossEnemy(NextBoss.EnemyData, 30);
-            _bossSpawnInfo.Remove(NextBoss);
-
-            _summoningBoss = false;
-        }
-
-    }
-
-    private void PatternSpawn()
-    {
-        if(_patternSpawnInfos.Count == 0) 
+        if (enemy == null)
             return;
 
-        PatternSpawnInfo nextPattern = _patternSpawnInfos.First();
+        SetEnemyActive(enemy);
 
-        if (Math.Abs(nextPattern.SpawnTime - _currentTime) < 0.3f)
+        //EnemyScript enemyScript = enemy.GetComponent<EnemyScript>();
+        //enemyScript.InitializeWithSO(enemyType);
+        //enemy.SetActive(true);
+        //_currentEnemyCount++;
+
+        enemy.transform.position = spawnPosition;
+
+    }
+
+    private void SetEnemyActive(GameObject enemy)
+    {
+        EnemyScript enemyScript = enemy.GetComponent<EnemyScript>();
+        enemyScript.InitializeWithSO(null);
+        enemy.SetActive(true);
+        enemy.GetComponent<Collider2D>().enabled = true;
+        enemyScript.SpriteRenderer.enabled = true;
+        _currentEnemyCount++;
+    }
+
+    public void EnemyDeathEvent(GameObject enemyObject, EnemyBase enemyType)
+    {
+        _currentEnemyCount--;
+        enemyObject.SetActive(false);
+    }
+
+    //적 강화 관련
+
+    private string IncreaseSwarm()
+    {
+        _swarmCoefficient *= 3;
+
+        return "하급 적이 더 많이 등장합니다!";
+    }
+
+    private string IncreaseMedium()
+    {
+        _mediumCoefficient *= 3;
+        return "중급 적이 더 많이 등장합니다!";
+    }
+
+    private string IncreaseElite()
+    {
+        _eliteCoefficeint *= 2;
+        return "상급 적이 더 많이 등장합니다!";
+    }
+
+    private string IncreaseAll()
+    {
+        _swarmCoefficient *= 2;
+        _mediumCoefficient *= 2;
+        _eliteCoefficeint *= 2;
+        return "모든 적이 더 많이 등장합니다!";
+    }
+
+    private string BuffSwarm()
+    {
+        BuffEnemy(EnemyClass.SWARM);
+        return "하급 적이 더 강해집니다!";
+    }
+
+    private string BuffMedium()
+    {
+        BuffEnemy(EnemyClass.MEDIUM);
+        return "중급 적이 더 강해집니다!";
+    }
+
+    private string BuffElite()
+    {
+        BuffEnemy(EnemyClass.ELITE);
+        return "상급 적이 더 강해집니다!";
+    }
+
+    private string ShortenInterval()
+    {
+        _mteSpawnInvterval--;
+        _circleSpawnInterval--;
+
+        if (_mteSpawnInvterval == 1)
         {
-            _summoningPattern = true;
+            _enemyEnhanceFuncitons.Remove(ShortenInterval);
+        }
 
-            _spawnManager.PatternSpawn(nextPattern, 30);
-            _patternSpawnInfos.Remove(nextPattern);
+        return "적들이 더 자주 등장합니다!";
+    }
 
-            _summoningPattern = false;
+    private void BuffEnemy(EnemyClass targetClass)
+    {
+        foreach(KeyValuePair<EnemyBase, List<GameObject>> enemyType in _enemyPool)
+        {
+            if(enemyType.Key.EnemyClass == targetClass)
+            {
+                foreach(GameObject enemy in enemyType.Value)
+                {
+                    EnemyScript enemyScript = enemy.GetComponent<EnemyScript>();
+                    enemyScript.BuffEnemy();
+                }
+            }
         }
     }
 
-    private List<EnemyBase> GetSpawnableEnemies()
-    {
-        List<EnemyBase> spawnableEnemies = _spawnProfile.enemies.Where(x => x.StartTime < _currentTime &&  _currentTime < x.EndTime).Select(x => x.EnemyData).ToList();
 
-        return spawnableEnemies;
+    public void EnemyBuffEvent()
+    {
+        int randNum = (int)((GameManager.Instance.Rand.NextDouble() * 20) % (_enemyEnhanceFuncitons.Count - 1));
+
+        string promptText = _enemyEnhanceFuncitons[randNum]();
+
+        GameObject AlertPrompt = Instantiate(_alertPromptPrefab);
+        AlertPromptScript promptScript = AlertPrompt.GetComponent<AlertPromptScript>();
+        promptScript.ChangePrompt(promptText);
+        Destroy(AlertPrompt, 3f);
+
     }
 
-    private void RandomEnemySpawn()
-    {
-        Vector2 randomPoint = new Vector2(UnityEngine.Random.Range(min.x, max.x), UnityEngine.Random.Range(min.y, max.y));
 
-        System.Random random = new();
-
-        EnemyBase randomEnemy = _enemyList[random.Next(0, _enemyList.Count)];
-
-        GameObject newEnemy = Instantiate(GameManager.Instance.EnemyPrefab, randomPoint, Quaternion.identity);
-        EnemyScript enemyScript = newEnemy.GetComponent<EnemyScript>();
-        enemyScript.InitializeWithSO(randomEnemy);
-    }
-
-    private void RandomCircleSpawn()
-    {
-        Vector2 randomPoint = new Vector2(UnityEngine.Random.Range(min.x, max.x), UnityEngine.Random.Range(min.y, max.y));
-
-        List<EnemyBase> EnemyPossibleList = GetSpawnableEnemies();
-
-        if (EnemyPossibleList.Count == 0)
-            return;
-
-        foreach (EnemyBase enemyData in EnemyPossibleList)
-        {
-            int enemyNum = GetEnemyNum();
-
-            _spawnManager.CircleSpawn(enemyData, 30, enemyNum);
-        }
-    }
+    //적 강화 END
 
     int GetEnemyNum()
     {
@@ -259,16 +492,6 @@ public class StageManager : MonoBehaviour
         return 1f / (1f + Mathf.Exp(-x));
     }
 
-    int WeightedRandomize(int max, float weight)
-    {
-        // Use weight to bias randomization
-        float randomValue = UnityEngine.Random.Range(0f, 1f);
-        float weightedRandomValue = Mathf.Pow(randomValue, weight);
-
-        // Map weighted random value to the desired range
-        return Mathf.RoundToInt(weightedRandomValue * max) + 1;
-    }
-
     IEnumerator TimerUpdateCoroutine()
     {
         while (true)
@@ -285,6 +508,9 @@ public class StageManager : MonoBehaviour
         string timerString = string.Format("{0:0}:{1:00}", minutes, seconds);
 
         _timer.text = timerString;
+
+        if(_currentTime % BuffInterval < 0.3)
+            EnemyBuffEvent();
     }
 
     public void UpdateKill()

@@ -65,7 +65,7 @@ public class BoxItemUIScript : MonoBehaviour
     {
 
         _pulledItemDict = new();
-        exemptList = new List<ItemSO>(StageManager.instance.ItemExemptList);
+        exemptList = new List<ItemSO>(StageManager.Instance.ItemExemptList);
 
         int count = 0;
 
@@ -156,7 +156,7 @@ public class BoxItemUIScript : MonoBehaviour
 
     public void TakeButtonClick()
     {
-        StageManager.instance.GivePlayerItem(_pulledItemDict.ElementAt(_itemIndex).Key);
+        StageManager.Instance.GivePlayerItem(_pulledItemDict.ElementAt(_itemIndex).Key);
         CheckNext();
     }
 
@@ -170,7 +170,7 @@ public class BoxItemUIScript : MonoBehaviour
         _itemIndex++;
         if(_pulledItemDict.Count <= _itemIndex)
         {
-            StageManager.instance.EndBoxUI();
+            StageManager.Instance.EndBoxUI();
         }
         else
         {

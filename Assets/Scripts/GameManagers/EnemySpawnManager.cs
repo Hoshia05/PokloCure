@@ -17,7 +17,7 @@ public class EnemySpawnManager : MonoBehaviour
     {
         List<Vector2> spawnPositionList = new();
 
-        PlayerScript playerScript = StageManager.instance.CurrentPlayer;
+        PlayerScript playerScript = StageManager.Instance.CurrentPlayer;
         Vector2 playerPosition = playerScript.transform.position;
 
 
@@ -45,16 +45,14 @@ public class EnemySpawnManager : MonoBehaviour
             GameObject newEnemy = Instantiate(GameManager.Instance.EnemyPrefab, spawnPosition, Quaternion.identity);
             EnemyScript enemyScript = newEnemy.GetComponent<EnemyScript>();
             enemyScript.InitializeWithSO(enemyData);
-            StageManager.instance.CurrentEnemyCount++;
+            StageManager.Instance.CurrentEnemyCount++;
         }
 
     }
 
     public void SpawnBossEnemy(EnemyBase enemyData, float radius)
     {
-        Vector2 SpawnPosition;
-
-        SpawnPosition = GetRandomPositionInPlayerRadius(radius);
+        Vector2 SpawnPosition = GetRandomPositionInPlayerRadius(radius);
 
         while (!CheckIfIsInBounds(SpawnPosition))
         {
@@ -64,7 +62,7 @@ public class EnemySpawnManager : MonoBehaviour
         GameObject BossEnemy = Instantiate(GameManager.Instance.BossPrefab, SpawnPosition, Quaternion.identity);
         EnemyScript enemyScript = BossEnemy.GetComponent<BossScript>();
         enemyScript.InitializeWithSO(enemyData);
-        StageManager.instance.CurrentEnemyCount++;
+        StageManager.Instance.CurrentEnemyCount++;
 
     }
 
@@ -120,25 +118,43 @@ public class EnemySpawnManager : MonoBehaviour
 
 
     //utilities
-    public Vector2 GetRandomPositionInPlayerRadius(float radius)
+    public static Vector2 GetRandomPositionInPlayerRadius(float outerRadius, float innerRadius = 0)
     {
-        PlayerScript playerScript = StageManager.instance.CurrentPlayer;
+        PlayerScript playerScript = StageManager.Instance.CurrentPlayer;
         Vector2 playerPosition = playerScript.transform.position;
 
-        return GetRandomPositionInRadius(playerPosition, radius);
+        //return GetRandomPositionInRadius(playerPosition, radius);
+        return GenerateRandomPosition(playerPosition, outerRadius, innerRadius);
     }
 
-    public Vector2 GetRandomPositionInRadius(Vector2 targetPosition, float radius)
+    public static Vector2 GetRandomPositionInRadius(Vector2 targetPosition, float radius)
     {
-        PlayerScript playerScript = StageManager.instance.CurrentPlayer;
+        PlayerScript playerScript = StageManager.Instance.CurrentPlayer;
         Vector2 playerPosition = playerScript.transform.position;
 
-        float currentDegree = 360 / (GameManager.Instance.Rand.Next(0, 360));
+        float currentDegree = 360 / (float)(GameManager.Instance.Rand.NextDouble() % 360f);
 
         float xPosition = targetPosition.x + radius * Mathf.Cos(currentDegree);
         float yPosition = targetPosition.y + radius * Mathf.Sin(currentDegree);
 
         return new Vector2(xPosition, yPosition);
+    }
+
+    public static Vector2 GenerateRandomPosition(Vector2 center, float outerRadius, float innerRadius = 0)
+    {
+        float angle = Random.Range(0f, 360f); // Random angle in degrees
+
+        // Convert angle to radians
+        float radians = Mathf.Deg2Rad * angle;
+
+        // Generate a random distance between the inner and outer radii
+        float distance = Random.Range(innerRadius, outerRadius);
+
+        // Calculate the random position
+        float x = center.x + distance * Mathf.Cos(radians);
+        float y = center.y + distance * Mathf.Sin(radians);
+
+        return new Vector2(x, y);
     }
 
     public bool CheckIfIsInBounds(Vector2 position)

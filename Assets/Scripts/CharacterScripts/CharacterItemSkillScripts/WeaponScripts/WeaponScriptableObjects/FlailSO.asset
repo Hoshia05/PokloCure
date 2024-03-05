@@ -31,7 +31,7 @@ MonoBehaviour:
   DamageMultiplier: 1.4
   Speed: 1
   CooldownDuration: 1
-  Pierce: 99999
+  Pierce: 5
   Deathtime: 3
   ProjectileNum: 1
   KnockbackValue: 0
