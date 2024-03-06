@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae12a9c1cc1fff94aa39ed35c196fe83, type: 3}
+  m_Name: BlueTigerSkill1SO
+  m_EditorClassIdentifier: 
+  ItemName: "\uC0AC\uB0E5\uBCF8\uB2A5"
+  ItemDescription:
+  - "\uC801\uC744 \uB54C\uB9B4 \uB584 \uB9C8\uB2E4 \uACF5\uACA9\uB825 \uCD94\uAC00
+    \uBC84\uD504(1%, \uCD5C\uB300 15\uC2A4\uD0DD)\uB97C \uC5BB\uC2B5\uB2C8\uB2E4.
+    \uD53C\uACA9\uC2DC \uCD08\uAE30\uD654"
+  - "\uC801\uC744 \uB54C\uB9B4 \uB584 \uB9C8\uB2E4 \uACF5\uACA9\uB825 \uCD94\uAC00
+    \uBC84\uD504(1.2%, \uCD5C\uB300 15\uC2A4\uD0DD)\uB97C \uC5BB\uC2B5\uB2C8\uB2E4.
+    \uD53C\uACA9\uC2DC \uCD08\uAE30\uD654"
+  - "\uC801\uC744 \uB54C\uB9B4 \uB584 \uB9C8\uB2E4 \uACF5\uACA9\uB825 \uCD94\uAC00
+    \uBC84\uD504(1.5%, \uCD5C\uB300 15\uC2A4\uD0DD)\uB97C \uC5BB\uC2B5\uB2C8\uB2E4.
+    \uD53C\uACA9\uC2DC \uCD08\uAE30\uD654"
+  ItemType: 2
+  ItemImage: {fileID: 21300000, guid: b0f36b460de7e724d9fe1ba6784c3ef7, type: 3}
+  ItemMaxLevel: 3
+  characterLabel: 2
+  ProjectileItemPrefab: {fileID: 0}
+  ControllerScript: {fileID: 11500000, guid: beb941ba1692bb549813bfb15c9319ae, type: 3}
+  DamageMultiplier: 1
+  Speed: 0
+  CooldownDuration: 0
+  Pierce: 1
+  Deathtime: 4
+  ProjectileNum: 1
+  KnockbackValue: 0
+  Area: 1

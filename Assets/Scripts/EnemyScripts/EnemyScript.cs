@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyScript : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class EnemyScript : MonoBehaviour
     protected GameObject _playerCharacter;
     protected Vector2 _playerPosition;
     protected Rigidbody2D _rb;
+    protected Collider2D _collider;
 
     protected Vector2 _enemyLineOfSight;
 
@@ -47,9 +49,11 @@ public class EnemyScript : MonoBehaviour
 
     List<ItemBehaviour> DamageList;
 
+
     protected void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _collider = GetComponent<Collider2D>();
         DamageList = new();
     }
 
@@ -77,6 +81,8 @@ public class EnemyScript : MonoBehaviour
 
         if (EnemyData == null && _enemyData == null)
             return;
+
+        _collider.enabled = true;
 
         //캐릭터 특정 수치들
         _currentMovementSpeed = EnemyData.SpeedMultiplier * EnemyBase._baseSpeed * _buffMultiplier;
@@ -143,15 +149,15 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    protected void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            GameObject player = collision.gameObject;
-            PlayerScript script = player.GetComponent<PlayerScript>();
-            script.TakeDamage(_currentBodyDamage);
-        }
-    }
+    //protected void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Player"))
+    //    {
+    //        GameObject player = collision.gameObject;
+    //        PlayerScript script = player.GetComponent<PlayerScript>();
+    //        script.TakeDamage(_currentBodyDamage);
+    //    }
+    //}
 
     public void TakeDamage(float rawDamage, bool isCritical = false, ItemBehaviour damageItem = null, float hitCooldown = 0)
     {

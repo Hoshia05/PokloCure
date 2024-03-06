@@ -8,6 +8,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditorInternal.Profiling.Memory.Experimental.FileFormat;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class StageManager : MonoBehaviour
@@ -69,6 +70,8 @@ public class StageManager : MonoBehaviour
 
 
     //[Header("Enemy Related")]
+
+    public UnityEvent onEnemyKilled;
 
     public int CurrentEnemyCount 
     { 
@@ -368,15 +371,16 @@ public class StageManager : MonoBehaviour
     private void SetEnemyActive(GameObject enemy)
     {
         EnemyScript enemyScript = enemy.GetComponent<EnemyScript>();
-        enemyScript.InitializeWithSO(null);
         enemy.SetActive(true);
         enemy.GetComponent<Collider2D>().enabled = true;
         enemyScript.SpriteRenderer.enabled = true;
+        enemyScript.InitializeWithSO(null);
         _currentEnemyCount++;
     }
 
     public void EnemyDeathEvent(GameObject enemyObject, EnemyBase enemyType)
     {
+        onEnemyKilled.Invoke();
         _currentEnemyCount--;
         enemyObject.SetActive(false);
     }

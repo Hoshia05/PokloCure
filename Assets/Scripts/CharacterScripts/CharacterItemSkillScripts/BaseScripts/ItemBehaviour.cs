@@ -20,9 +20,6 @@ public class ItemBehaviour : MonoBehaviour
 
     protected Coroutine DeathCoroutine;
 
-    public void Awake()
-    {
-    }
 
     public void InitializeValue(ItemController controller, float damage, float deathtime, int pierce, float speed, int level, float sizeScale, float knockback)
     {
