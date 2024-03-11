@@ -13,6 +13,8 @@ public class PlayerControl : MonoBehaviour
     public Vector2 PlayerMovement;
     public Vector2 PlayerLineOfSight;
 
+    public bool IsDashing;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -31,6 +33,8 @@ public class PlayerControl : MonoBehaviour
         _inputActions.actions["Move"].performed += context => PlayerMovement = context.ReadValue<Vector2>();
         _inputActions.actions["Move"].canceled += context => PlayerMovement = Vector2.zero;
 
+        _inputActions.actions["Dash"].performed += context => IsDashing = true;
+        _inputActions.actions["Dash"].canceled += context => IsDashing = false;
     }
 
     private void Update()

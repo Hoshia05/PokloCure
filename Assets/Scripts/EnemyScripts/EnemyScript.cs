@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.WSA;
 
 public class EnemyScript : MonoBehaviour
 {
@@ -159,7 +160,7 @@ public class EnemyScript : MonoBehaviour
     //    }
     //}
 
-    public void TakeDamage(float rawDamage, bool isCritical = false, ItemBehaviour damageItem = null, float hitCooldown = 0)
+    public void TakeDamage(float rawDamage, float knockBack, bool isCritical = false, ItemBehaviour damageItem = null, float hitCooldown = 0)
     {
         if(DamageList.Contains(damageItem))
         {
@@ -174,6 +175,9 @@ public class EnemyScript : MonoBehaviour
 
             //적 피격 모션 : 간단하게 한 0.3초 동안 빨갛게 되기
             StartCoroutine(HitAnimation());
+
+            if(knockBack != 0)
+                KnockbackEnemy(_playerPosition, knockBack);
 
             //위에 데미지 뜨는 애니메이션
 
@@ -325,11 +329,25 @@ public class EnemyScript : MonoBehaviour
 
     protected IEnumerator LaunchCoroutine(Vector2 LaunchVector)
     {
-        _rb.AddForce(LaunchVector, ForceMode2D.Impulse);
+        float elapsedTime = 0f;
+        Vector3 initialPosition = transform.position;
+        Vector3 targetPosition = initialPosition + (Vector3)(LaunchVector);
 
-        yield return new WaitForSeconds(0.1f);
+        while (elapsedTime < 0.15f)
+        {
+            transform.position = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / 0.15f);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
 
-        _rb.velocity = Vector2.zero;
+        // Ensure the enemy reaches the exact target position
+        transform.position = targetPosition;
+
+        //_rb.AddForce(LaunchVector, ForceMode2D.Impulse);
+
+        //yield return new WaitForSeconds(0.1f);
+
+        //_rb.velocity = Vector2.zero;
     }
 
     public void BuffEnemy()

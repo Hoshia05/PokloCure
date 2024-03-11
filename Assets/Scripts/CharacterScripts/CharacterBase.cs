@@ -24,6 +24,8 @@ public class CharacterBase : ScriptableObject
     public string CharacterDescription;
 
     public float Health = 100f;
+    public float Stamina = 100f;
+    public float DashMultiplier = 2f;
     public float SpeedMultiplier = 1f;
     public float AttackMultiplier = 1f;
     public float CriticalMultiplier = 0.01f;

@@ -34,5 +34,5 @@ MonoBehaviour:
   Pierce: 99999
   Deathtime: 99999
   ProjectileNum: 1
-  KnockbackValue: 0
+  KnockbackValue: 5
   Area: 1

@@ -47,6 +47,10 @@ public class PlayerScript : MonoBehaviour
         get => _currentCharacterMaxHP; 
     }
     private float _characterCurrentHP;
+
+    private float _currentMaxStamina;
+    private float _currentStamina;
+
     private float _currentSpeedMultiplier = 0;
     private float _currentMovementSpeed => _currentSpeedMultiplier * CharacterBase._baseSpeed;
     private float _currentAttackMultiplier;
@@ -171,6 +175,7 @@ public class PlayerScript : MonoBehaviour
     {
         ExperienceBar.Instance.InitializeEXP(100);
         HPBar.Instance.InitializeHPBar(_currentCharacterMaxHP);
+        UIStaminaBar.Instance.InitializeStaminaBar(_currentMaxStamina);
 
         _hpBar.gameObject.SetActive(false);
 
@@ -183,6 +188,7 @@ public class PlayerScript : MonoBehaviour
         ApplyMovement();
         ApplyFlip();
         CursorUpdate();
+        StaminaReplenish();
     }
     
     public void InitializeFromGM()
@@ -203,6 +209,7 @@ public class PlayerScript : MonoBehaviour
         //캐릭터 특정 수치들
         _currentSpeedMultiplier = SelectedCharacter.SpeedMultiplier;
         _currentCharacterMaxHP = _characterCurrentHP = SelectedCharacter.Health;
+        _currentMaxStamina = _currentStamina = SelectedCharacter.Stamina;
         _currentAttackMultiplier = SelectedCharacter.AttackMultiplier;
         _currentCriticalMultiplier = SelectedCharacter.CriticalMultiplier;
         _currentCriticalDamage = CharacterBase._baseCritDamage;
@@ -249,6 +256,28 @@ public class PlayerScript : MonoBehaviour
         CharacterInfoUIScript.Instance.SetHaste(_eatDistanceMultiplier);
     }
 
+    void StaminaReplenish()
+    {
+        if(!PlayerControl.Instance.IsDashing && _currentStamina < _currentMaxStamina)
+        {
+            _currentStamina += Time.deltaTime * 10;
+            UIStaminaBar.Instance.UpdateStamina(_currentStamina);
+        }
+        else
+        {
+            StartCoroutine(StaminaReplenishCoroutine());
+        }
+    }
+
+    IEnumerator StaminaReplenishCoroutine()
+    {
+        _currentStamina = 0;
+
+        yield return new WaitForSeconds(1.5f);
+
+        _currentStamina = 30f;
+    }
+
     void ApplyMovement()
     {
         if (PlayerControl.Instance.PlayerMovement != Vector2.zero)
@@ -256,8 +285,21 @@ public class PlayerScript : MonoBehaviour
         else
             _playerAnim.SetBool("Move", false);
 
-        _xVelocity = PlayerControl.Instance.PlayerMovement.x * _currentMovementSpeed;
-        _yVelocity = PlayerControl.Instance.PlayerMovement.y * _currentMovementSpeed;
+        float currentMovement;
+
+        if (PlayerControl.Instance.IsDashing && _currentStamina > 0)
+        {
+            currentMovement = _currentMovementSpeed * _selectedCharacter.DashMultiplier;
+            _currentStamina -= Time.deltaTime * 30;
+            UIStaminaBar.Instance.UpdateStamina(_currentStamina);
+        }
+        else
+        {
+            currentMovement = _currentMovementSpeed;
+        }
+
+        _xVelocity = PlayerControl.Instance.PlayerMovement.x * currentMovement;
+        _yVelocity = PlayerControl.Instance.PlayerMovement.y * currentMovement;
 
         _rb.velocity = new Vector2(_xVelocity, _yVelocity);
     }

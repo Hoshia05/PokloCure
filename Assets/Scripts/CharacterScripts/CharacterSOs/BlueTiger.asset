@@ -20,6 +20,8 @@ MonoBehaviour:
   CharacterName: "\uD638\uC2DC\uC544"
   CharacterDescription: 
   Health: 50
+  Stamina: 100
+  DashMultiplier: 2
   SpeedMultiplier: 1
   AttackMultiplier: 1.2
   CriticalMultiplier: 0.01

@@ -83,17 +83,17 @@ public class ItemBehaviour : MonoBehaviour
 
         if (PlayerScript.Instance.CriticalCheck())
         {
-            script.TakeDamage(PlayerScript.Instance.GetCritDamage(_damage),true, this, _hitCooldown);
+            script.TakeDamage(PlayerScript.Instance.GetCritDamage(_damage), _knockback, true, this, _hitCooldown);
         }
         else
         {
-            script.TakeDamage(_damage, false, this, _hitCooldown);
+            script.TakeDamage(_damage, _knockback, false, this, _hitCooldown);
         }
 
-        if (_knockback != 0)
-        {
-            script.KnockbackEnemy(transform.position, _knockback);
-        }
+        //if (_knockback != 0)
+        //{
+        //    script.KnockbackEnemy(transform.position, _knockback);
+        //}
 
         CheckPierce();
 

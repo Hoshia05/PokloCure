@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6375101276304109498}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HeadShaft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 5112665214806728511}
   - component: {fileID: 5168766181171708947}
   - component: {fileID: 1283289238408080641}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Flail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 2887787772676524801}
   - component: {fileID: 8179977450920048244}
   - component: {fileID: 5455746818495233895}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Shaft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -252,7 +252,7 @@ GameObject:
   - component: {fileID: 8279063911139598028}
   - component: {fileID: 1980040150695481353}
   - component: {fileID: 6056561481165502044}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,7 +338,7 @@ GameObject:
   - component: {fileID: 7226692411198226041}
   - component: {fileID: 3185079976659941377}
   - component: {fileID: 4037818202167599052}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}

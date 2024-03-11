@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5112665214806728511}
   - component: {fileID: 550500631961401407}
   - component: {fileID: 8752316270671438443}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Book
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7340454672602870688}
   - component: {fileID: 4890193009890875911}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
