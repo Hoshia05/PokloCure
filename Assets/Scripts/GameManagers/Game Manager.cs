@@ -99,13 +99,35 @@ public class GameManager : MonoBehaviour
     public void SelectBlueTiger()
     {
         _selectedCharacter = _blueTiger;
-        MoveToNextScene();
+        MoveToPlayScene();
     }
 
     public void SelectGreenTiger()
     {
         _selectedCharacter = _greenTiger;
-        MoveToNextScene();
+        MoveToPlayScene();
+    }
+
+    //SceneChange
+
+    public void MoveToTitleScene()
+    {
+        SceneManager.LoadScene("TitleScreen");
+    }
+
+    public void MoveToCharacterSelectionScreen()
+    {
+        SceneManager.LoadScene("CharSelectScene");
+    }
+
+    public void MoveToPlayScene()
+    {
+        SceneManager.LoadScene("GameScene");
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
     public void MoveToNextScene()

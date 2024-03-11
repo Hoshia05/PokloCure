@@ -29,7 +29,7 @@ public class HeadphoneController : ItemController
     private void Shockwave()
     {
         Vector2 playerPosition = transform.position;
-        float radius = 10f;
+        float radius = 5f;
 
         RaycastHit2D[] Enemies = Physics2D.CircleCastAll(playerPosition, radius, Vector2.up);
 
@@ -46,7 +46,7 @@ public class HeadphoneController : ItemController
 
                     EnemyScript enemyScript = enemyObject.GetComponent<EnemyScript>();
 
-                    enemyScript.Launch(launchVector * 25f);
+                    enemyScript.KnockbackEnemy(transform.position, 7f);
 
                 }
 

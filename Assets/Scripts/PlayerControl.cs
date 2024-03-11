@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour
@@ -14,6 +15,8 @@ public class PlayerControl : MonoBehaviour
     public Vector2 PlayerLineOfSight;
 
     public bool IsDashing;
+
+    public UnityEvent PauseMenu;
 
     // Start is called before the first frame update
     void Awake()
@@ -35,6 +38,8 @@ public class PlayerControl : MonoBehaviour
 
         _inputActions.actions["Dash"].performed += context => IsDashing = true;
         _inputActions.actions["Dash"].canceled += context => IsDashing = false;
+
+        _inputActions.actions["PauseMenu"].performed += context => PauseMenu.Invoke();
     }
 
     private void Update()

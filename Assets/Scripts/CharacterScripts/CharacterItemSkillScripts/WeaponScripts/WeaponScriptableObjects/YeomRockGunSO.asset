@@ -25,13 +25,14 @@ MonoBehaviour:
   ItemType: 1
   ItemImage: {fileID: 21300000, guid: a3550049f1e867b47a7037be5eff1fef, type: 3}
   ItemMaxLevel: 7
-  characterLabel: 1
-  ControllerPrefab: {fileID: 0}
+  characterLabel: 3
   ProjectileItemPrefab: {fileID: 429641142634744645, guid: a995eeea6128666428be48b4e27a9974, type: 3}
   ControllerScript: {fileID: 11500000, guid: 374c8141d4173da4ab31cdbcd5f27fc3, type: 3}
   DamageMultiplier: 1
   Speed: 0
   CooldownDuration: 2
-  Pierce: 2
+  Pierce: 1
   Deathtime: 4
   ProjectileNum: 3
+  KnockbackValue: 0
+  Area: 1

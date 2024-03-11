@@ -32,6 +32,8 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     private GameObject _darkScreen;
     [SerializeField]
+    private GameObject _pauseScreen;
+    [SerializeField]
     private Image _characterThumbnail;
     [SerializeField]
     private GameObject _levelUPUI;
@@ -99,6 +101,8 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     private float _mteSpawnInvterval = 15f;
 
+    private bool _gamePaused;
+
     private void Awake()
     {
         Instance = this;
@@ -114,6 +118,7 @@ public class StageManager : MonoBehaviour
         _boxItemUIScript = _BoxItemUI.GetComponent<BoxItemUIScript>();
 
         _darkScreen.SetActive(true);
+        _pauseScreen.SetActive(true);
         _levelUPUI.SetActive(true);
         _BoxItemUI.SetActive(true);
         _CharacterInfoUI.SetActive(true);
@@ -121,12 +126,10 @@ public class StageManager : MonoBehaviour
         _killCountText.text = _killCount.ToString();
         _coinCountText.text = _coinCount.ToString();
         _darkScreen.SetActive(false);
+        _pauseScreen.SetActive(false);
         _levelUPUI.SetActive(false);
         _BoxItemUI.SetActive(false);
         _CharacterInfoUI.SetActive(false);
-
-        //_bossSpawnInfo = _spawnProfile.enemies.Where(x => x.EnemyData.isBossEnemy).ToList();
-        //_patternSpawnInfos = _patternSpawnProfile.patterns;
 
         ItemExemptList = new();
 
@@ -213,6 +216,9 @@ public class StageManager : MonoBehaviour
 
         _characterThumbnail.sprite = GameManager.Instance.SelectedCharacter.CharacterPortrait;
         _virtualCamera.Follow = playerCharacter.transform;
+
+        PlayerControl.Instance.PauseMenu.AddListener(PauseMenu);
+
     }
 
     IEnumerator EnemyCircleSpawnCoroutine()
@@ -553,6 +559,30 @@ public class StageManager : MonoBehaviour
         Time.timeScale = 1;
         _BoxItemUI.SetActive(false);
         _darkScreen.SetActive(false);
+    }
+
+    public void PauseMenu()
+    {
+        if (_gamePaused)
+        {
+            _gamePaused = false;
+            Time.timeScale = 1;
+            _currentPlayer.IsPaused = false;
+
+
+            _darkScreen.SetActive(false);
+            _pauseScreen.SetActive(false);
+        }
+        else
+        {
+            _gamePaused = true;
+            Time.timeScale = 0;
+            _currentPlayer.IsPaused = true;
+
+
+            _darkScreen.SetActive(true);
+            _pauseScreen.SetActive(true);
+        }
     }
 
     public void OpenCharacterInfoUI()

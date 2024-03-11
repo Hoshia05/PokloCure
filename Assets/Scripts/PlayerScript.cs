@@ -105,6 +105,8 @@ public class PlayerScript : MonoBehaviour
     private float _defensePoints;
     private float _itemEatDistance => CharacterBase._baseItemEatDistance * _eatDistanceMultiplier;
 
+    private bool _redlineCharging;
+
     [Header("무기슬롯관련")]
     [SerializeField]
     private GameObject _basicWeaponSlot;
@@ -157,6 +159,8 @@ public class PlayerScript : MonoBehaviour
 
     public Coroutine DamageCoroutine;
 
+    public bool IsPaused;
+
 
     private void Awake()
     {
@@ -184,11 +188,14 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        EatItemRadius();
-        ApplyMovement();
-        ApplyFlip();
-        CursorUpdate();
-        StaminaReplenish();
+        if (!IsPaused)
+        {
+            EatItemRadius();
+            ApplyMovement();
+            ApplyFlip();
+            CursorUpdate();
+            StaminaReplenish();
+        }
     }
     
     public void InitializeFromGM()
@@ -258,12 +265,12 @@ public class PlayerScript : MonoBehaviour
 
     void StaminaReplenish()
     {
-        if(!PlayerControl.Instance.IsDashing && _currentStamina < _currentMaxStamina)
+        if(!PlayerControl.Instance.IsDashing && _currentStamina < _currentMaxStamina && !_redlineCharging)
         {
             _currentStamina += Time.deltaTime * 10;
             UIStaminaBar.Instance.UpdateStamina(_currentStamina);
         }
-        else
+        else if(_currentStamina <= 0)
         {
             StartCoroutine(StaminaReplenishCoroutine());
         }
@@ -271,10 +278,12 @@ public class PlayerScript : MonoBehaviour
 
     IEnumerator StaminaReplenishCoroutine()
     {
+        _redlineCharging = true;
         _currentStamina = 0;
 
         yield return new WaitForSeconds(1.5f);
 
+        _redlineCharging = false;
         _currentStamina = 30f;
     }
 
