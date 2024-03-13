@@ -267,7 +267,7 @@ public class PlayerScript : MonoBehaviour
     {
         if(!PlayerControl.Instance.IsDashing && _currentStamina < _currentMaxStamina && !_redlineCharging)
         {
-            _currentStamina += Time.deltaTime * 10;
+            _currentStamina += Time.deltaTime * 20;
             UIStaminaBar.Instance.UpdateStamina(_currentStamina);
         }
         else if(_currentStamina <= 0)
@@ -280,9 +280,11 @@ public class PlayerScript : MonoBehaviour
     {
         _redlineCharging = true;
         _currentStamina = 0;
+        UIStaminaBar.Instance.StartRedline();
 
         yield return new WaitForSeconds(1.5f);
 
+        UIStaminaBar.Instance.EndRedline();
         _redlineCharging = false;
         _currentStamina = 30f;
     }
@@ -299,7 +301,7 @@ public class PlayerScript : MonoBehaviour
         if (PlayerControl.Instance.IsDashing && _currentStamina > 0)
         {
             currentMovement = _currentMovementSpeed * _selectedCharacter.DashMultiplier;
-            _currentStamina -= Time.deltaTime * 30;
+            _currentStamina -= Time.deltaTime * 50;
             UIStaminaBar.Instance.UpdateStamina(_currentStamina);
         }
         else

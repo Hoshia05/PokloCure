@@ -29,7 +29,7 @@ public class HammerController : ItemController
     }
     protected override void Level5Effect()
     {
-        SetPierceLimit(9999);
+        AddPierceLimit(9999);
         IncreaseDeathTime(1f);
     }
     protected override void Level6Effect()

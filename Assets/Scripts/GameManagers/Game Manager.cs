@@ -134,4 +134,13 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
+
+    //Utilities
+
+    public bool RollRandom(float chanceValue)
+    {
+        float randValue = (float)Rand.NextDouble() * 100;
+
+        return randValue <= chanceValue;
+    }
 }

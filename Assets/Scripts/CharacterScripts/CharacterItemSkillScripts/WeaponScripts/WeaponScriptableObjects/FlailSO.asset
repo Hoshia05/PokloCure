@@ -28,7 +28,7 @@ MonoBehaviour:
   characterLabel: 2
   ProjectileItemPrefab: {fileID: 429641142634744645, guid: 598ef02afb97fa3478e52fc73813a970, type: 3}
   ControllerScript: {fileID: 11500000, guid: 6dce6a3bf1603d940b8252647e21f7e7, type: 3}
-  DamageMultiplier: 1.4
+  DamageMultiplier: 0.9
   Speed: 1
   CooldownDuration: 1
   Pierce: 5

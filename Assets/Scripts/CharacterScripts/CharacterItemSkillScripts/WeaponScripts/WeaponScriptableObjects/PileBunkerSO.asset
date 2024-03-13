@@ -30,7 +30,7 @@ MonoBehaviour:
   ControllerScript: {fileID: 11500000, guid: 088e327c7928e4841a1e7752ba52753f, type: 3}
   DamageMultiplier: 5
   Speed: 0
-  CooldownDuration: 2
+  CooldownDuration: 4
   Pierce: 99999
   Deathtime: 99999
   ProjectileNum: 1

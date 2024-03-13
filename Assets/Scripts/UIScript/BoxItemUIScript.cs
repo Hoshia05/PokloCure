@@ -63,7 +63,7 @@ public class BoxItemUIScript : MonoBehaviour
 
     public void PullRandomItem()
     {
-
+        _itemIndex = 0;
         _pulledItemDict = new();
         exemptList = new List<ItemSO>(StageManager.Instance.ItemExemptList);
 

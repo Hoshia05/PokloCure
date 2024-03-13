@@ -536,6 +536,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerMovement: {x: 0, y: 0}
   PlayerLineOfSight: {x: 0, y: 0}
+  IsDashing: 0
+  PauseMenu:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6969759973872466354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -577,6 +581,7 @@ MonoBehaviour:
       m_Calls: []
   _cursor: {fileID: 6788090508172661848}
   _cursorDistance: 5
+  IsPaused: 0
 --- !u!50 &3256312317566909451
 Rigidbody2D:
   serializedVersion: 4
@@ -633,7 +638,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.2}

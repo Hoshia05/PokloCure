@@ -23,7 +23,7 @@ public class SwordController : ItemController
 
     private Vector2 FindClosestEnemy()
     {
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, 20f, LayerMask.GetMask("Enemy"));
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, 10f, LayerMask.GetMask("Enemy"));
 
         Vector2 BestDirection;
         EnemyScript BestEnemy = null;
@@ -51,7 +51,11 @@ public class SwordController : ItemController
                 }
                 else
                 {
-                    if(enemyDistance <= CurrentClosestDistance)
+                    if(BestEnemy.EClass < eScript.EClass)
+                    {
+                        BestEnemy = eScript;
+                        CurrentClosestDistance = enemyDistance;
+                    }else if(BestEnemy.EClass == eScript.EClass && enemyDistance <= CurrentClosestDistance)
                     {
                         BestEnemy = eScript;
                         CurrentClosestDistance = enemyDistance;

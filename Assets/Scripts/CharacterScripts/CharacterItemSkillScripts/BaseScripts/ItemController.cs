@@ -28,6 +28,9 @@ public class ItemController : MonoBehaviour, IItemController
     protected int _projectileNum = 1;
     protected int _additionalProjectiles = 0;
 
+    protected int _additionalPierce = 0;
+    protected float _additionalKnockbackValue = 0;
+
     public List<ItemBehaviour> CurrentProjectiles = new();
 
     protected delegate void LevelUPEffects();
@@ -79,13 +82,13 @@ public class ItemController : MonoBehaviour, IItemController
         _currentDamage = RoundValue(ItemSO.BaseDamage * ((ItemData.DamageMultiplier *  PlayerScript.Instance.CurrentAttackMultiplier) + _localDamageBuff));
         _currentSizeScale = _localSizeBuff + ItemData.Area * PlayerScript.Instance.CurrentAttackSizeBuff;
         _currentSpeed = ItemData.Speed + _localSpeedBuff;
-        _currentPierce = ItemData.Pierce;
+        _currentPierce = ItemData.Pierce + _additionalPierce;
         _currentDeathtime = ItemData.Deathtime + _localDeathTimebuff;
         _currentCooldownDuration = _deathTimeCoolTimeCumulative ?
            _currentDeathtime + ItemData.CooldownDuration * _localCooldownBuff * PlayerScript.Instance.CurrentHasteMultiplier  : 
             ItemData.CooldownDuration * _localCooldownBuff * PlayerScript.Instance.CurrentHasteMultiplier;
         _projectileNum = ItemData.ProjectileNum + _additionalProjectiles;
-        _currentKnockbackValue = ItemData.KnockbackValue * PlayerScript.Instance.CurrentKnockbackBuff;
+        _currentKnockbackValue = (ItemData.KnockbackValue + _additionalKnockbackValue) * PlayerScript.Instance.CurrentKnockbackBuff;
     }
 
     // Update is called once per frame
@@ -194,9 +197,14 @@ public class ItemController : MonoBehaviour, IItemController
         _localDeathTimebuff += amount;
     }
 
-    public void SetPierceLimit(int amount)
+    public void AddPierceLimit(int amount)
     {
-        _currentPierce = amount;
+        _additionalPierce += amount;
+    }
+
+    public void IncreaseKnockBack(float amount)
+    {
+        _additionalKnockbackValue += amount;
     }
 
     public void UpdateBuff()

@@ -21,6 +21,7 @@ public class EnemyScript : MonoBehaviour
     [SerializeField]
     protected EnemyBase _enemyData;
 
+    public EnemyClass EClass;
     
 
     [Header("캐릭스펙")]
@@ -84,6 +85,8 @@ public class EnemyScript : MonoBehaviour
             return;
 
         _collider.enabled = true;
+
+        EClass = _enemyData.EnemyClass;
 
         //캐릭터 특정 수치들
         _currentMovementSpeed = EnemyData.SpeedMultiplier * EnemyBase._baseSpeed * _buffMultiplier;
@@ -150,15 +153,15 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    //protected void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Player"))
-    //    {
-    //        GameObject player = collision.gameObject;
-    //        PlayerScript script = player.GetComponent<PlayerScript>();
-    //        script.TakeDamage(_currentBodyDamage);
-    //    }
-    //}
+    protected void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            GameObject player = collision.gameObject;
+            PlayerScript script = player.GetComponent<PlayerScript>();
+            script.TakeDamage(_currentBodyDamage);
+        }
+    }
 
     public void TakeDamage(float rawDamage, float knockBack, bool isCritical = false, ItemBehaviour damageItem = null, float hitCooldown = 0)
     {
@@ -268,6 +271,12 @@ public class EnemyScript : MonoBehaviour
         DropBurger();
         //다이아소환
         DropDiamond();
+
+        if(_enemyData.EnemyClass == EnemyClass.ELITE && GameManager.Instance.RollRandom(33f))
+        {
+            Instantiate(GameManager.Instance.TreasureBoxPrefab, RandomNearPosition(), Quaternion.identity);
+        }
+
 
         //Destroy(gameObject);
         StageManager.Instance.EnemyDeathEvent(gameObject, _enemyData);

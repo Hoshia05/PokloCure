@@ -55,6 +55,6 @@ public class YRGunController : ItemController
     {
         _projectileNum++;
         _projectileNum++;
-        SetPierceLimit(9999);
+        AddPierceLimit(9999);
     }
 }

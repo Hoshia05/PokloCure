@@ -9,6 +9,9 @@ public class UIStaminaBar : MonoBehaviour
 
     private Slider _staminaSlider;
 
+    [SerializeField]
+    private Image _baseBar;
+
     private void Awake()
     {
         Instance = this;
@@ -27,5 +30,15 @@ public class UIStaminaBar : MonoBehaviour
     public void UpdateStamina(float staminaValue)
     {
         _staminaSlider.value = staminaValue;
+    }
+
+    public void StartRedline()
+    {
+        _baseBar.color = Color.red;
+    }
+
+    public void EndRedline()
+    {
+        _baseBar.color = Color.white;
     }
 }

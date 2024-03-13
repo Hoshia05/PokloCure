@@ -32,12 +32,11 @@ public class FlailController : ItemController
 
     protected override void Level3Effect()
     {
-        IncreaseSizePercentage(0.3f);
+        AddPierceLimit(3);
     }
 
     protected override void Level4Effect()
     {
-        IncreaseDamagePercentage(0.33f);
         IncreaseSizePercentage(0.2f);
     }
     protected override void Level5Effect()
@@ -47,10 +46,11 @@ public class FlailController : ItemController
     protected override void Level6Effect()
     {
         IncreaseSizePercentage(0.5f);
+        AddPierceLimit(3);
     }
 
     protected override void Level7Effect()
     {
-        IncreaseDamagePercentage(0.5f);
+        IncreaseKnockBack(2);
     }
 }
