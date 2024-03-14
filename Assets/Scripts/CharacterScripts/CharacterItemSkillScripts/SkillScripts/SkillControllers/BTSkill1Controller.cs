@@ -7,12 +7,12 @@ public class BTSkill1Controller : ItemController
     private float buffValue = 0.01f;
     private float buffTime = 15f;
 
-    private int _maxStack = 15;
-    private int _currentStack = 0;
-
     protected override void Awake()
     {
         base.Awake();
+
+
+        _maxStack = 15;
 
         StageManager.Instance.onEnemyKilled.AddListener(onKillEnemy);
         PlayerScript.Instance.onTakeDamage.AddListener(BuffPurge);
@@ -20,7 +20,7 @@ public class BTSkill1Controller : ItemController
 
     private void onKillEnemy()
     {
-        if (_currentStack < _maxStack)
+        if (_buffStack < _maxStack)
         {
             StartCoroutine(HunterBuff());
         }
@@ -28,7 +28,7 @@ public class BTSkill1Controller : ItemController
 
     private void onEatBurger()
     {
-        if (_currentStack < _maxStack)
+        if (_buffStack < _maxStack)
         {
             StartCoroutine(HunterBuff());
         }
@@ -37,27 +37,28 @@ public class BTSkill1Controller : ItemController
 
     IEnumerator HunterBuff()
     {
-        _currentStack++;
+        _buffStack++;
 
-        _buff.AttackMultiplierBuff = buffValue * _currentStack;
+        _buff.AttackMultiplierBuff = buffValue * _buffStack;
 
-        PlayerScript.Instance.UpdateBuffDictionary(this, _buff);
+        UpdateBuff();
 
         yield return new WaitForSeconds(buffTime);
 
-        if( _currentStack > 0)
-            _currentStack--;
+        if( _buffStack > 0)
+            _buffStack--;
             
 
-        _buff.AttackMultiplierBuff = buffValue * _currentStack;
+        _buff.AttackMultiplierBuff = buffValue * _buffStack;
 
-        PlayerScript.Instance.UpdateBuffDictionary(this, _buff);
+        UpdateBuff();
     }
 
 
     private void BuffPurge()
     {
-        _currentStack = 0;
+        _buffStack = 0;
+        UpdateBuff();
     }
 
     protected override void OnDestroy()

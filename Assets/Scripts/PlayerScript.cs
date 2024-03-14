@@ -160,6 +160,7 @@ public class PlayerScript : MonoBehaviour
     public Coroutine DamageCoroutine;
 
     public bool IsPaused;
+    public bool IsDead;
 
 
     private void Awake()
@@ -188,7 +189,7 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!IsPaused)
+        if (!IsPaused && !IsDead)
         {
             EatItemRadius();
             ApplyMovement();
@@ -320,6 +321,12 @@ public class PlayerScript : MonoBehaviour
         Vector2 cursorVector = PlayerControl.Instance.PlayerLineOfSight * _cursorDistance;
 
         _cursor.transform.position = (Vector2)transform.position + cursorVector;
+
+
+        Vector2 AttackDirection = PlayerControl.Instance.PlayerLineOfSight;
+
+        float angle = Mathf.Atan2(AttackDirection.y, AttackDirection.x) * Mathf.Rad2Deg;
+        _cursor.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }
 
     void ApplyFlip()
@@ -664,6 +671,8 @@ public class PlayerScript : MonoBehaviour
     {
         if (_characterCurrentHP <= 0)
         {
+            IsDead = true;
+            StageManager.Instance.GameOverEvent();
             Destroy(gameObject);
         }
     }

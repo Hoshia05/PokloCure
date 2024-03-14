@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class SakeController : ItemController
 {
-    private float _buffCap = 0.1f;
+
+    private float buffValue = 0.01f;
 
     private const float EVERYSECOND = 1.0f;
 
@@ -12,6 +13,10 @@ public class SakeController : ItemController
 
     void Start()
     {
+
+        _maxStack = 10;
+
+
         PlayerScript.Instance.onTakeDamage.AddListener(WhenHit);
         PlayerScript.Instance.onEatBurger.AddListener(WhenEat);
 
@@ -22,11 +27,13 @@ public class SakeController : ItemController
     {
         base.Launch();
 
-        _buff.CritMultiplierBuff += 0.01f;
+        _buffStack++;
+
+        _buff.CritMultiplierBuff = _buffStack * buffValue;
         
-        if(_buff.CritMultiplierBuff >= _buffCap)
+        if(_buffStack >= _maxStack)
         {
-            _buff.CritMultiplierBuff = _buffCap;
+            _buffStack = _maxStack;
         }
 
         UpdateBuff();
@@ -34,7 +41,7 @@ public class SakeController : ItemController
 
     private void WhenHit()
     {
-        _buff.CritMultiplierBuff = _buff.CritMultiplierBuff / 2;
+        _buffStack = _buffStack / 2;
 
         UpdateBuff();
     }
@@ -50,13 +57,17 @@ public class SakeController : ItemController
     private IEnumerator EatBuff()
     {
         _ateFood = true;
-        _buff.CritMultiplierBuff += 0.05f;
+        _buffStack += 5;
         UpdateBuff();
 
         yield return new WaitForSeconds(10f);
 
 
-        _buff.CritMultiplierBuff -= 0.05f;
+        _buffStack -= 5;
+        if( _buffStack < 0 )
+        {
+            _buffStack = 0;
+        }
         UpdateBuff();
         _ateFood = false;
 
@@ -64,11 +75,11 @@ public class SakeController : ItemController
 
     protected override void Level2Effect()
     {
-        _buffCap = 0.15f;
+        _maxStack = 15;
     }
 
     protected override void Level3Effect()
     {
-        _buffCap = 0.2f;
+        _maxStack = 20;
     }
 }

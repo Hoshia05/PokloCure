@@ -7,21 +7,20 @@ public class YRSkill1Controller : ItemController
     private float buffValue = 0.05f;
     private float buffTime = 15f;
 
-    private int _maxStack = 3;
-    private int _currentStack = 0;
-
     private float _launchForce = 10f;
 
     protected override void Awake()
     {
         base.Awake();
 
+        _maxStack = 3;
+
         PlayerScript.Instance.onEatBurger.AddListener(onEatBurger);
     }
 
     private void onEatBurger()
     {
-        if(_currentStack < _maxStack)
+        if(_buffStack < _maxStack)
         {
             StartCoroutine(BurgerBuff());
         }
@@ -31,19 +30,19 @@ public class YRSkill1Controller : ItemController
 
     IEnumerator BurgerBuff()
     {
-        _currentStack++;
+        _buffStack++;
 
-        _buff.AttackMultiplierBuff = buffValue * _currentStack;
+        _buff.AttackMultiplierBuff = buffValue * _buffStack;
 
-        PlayerScript.Instance.UpdateBuffDictionary(this, _buff);
+        UpdateBuff();
 
         yield return new WaitForSeconds(buffTime);
 
-        _currentStack--;
+        _buffStack--;
 
-        _buff.AttackMultiplierBuff = buffValue * _currentStack;
+        _buff.AttackMultiplierBuff = buffValue * _buffStack;
 
-        PlayerScript.Instance.UpdateBuffDictionary(this, _buff);
+        UpdateBuff();
     }
 
     private void BurgerShockwave()

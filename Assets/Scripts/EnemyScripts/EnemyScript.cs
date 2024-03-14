@@ -67,7 +67,7 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     protected void Update()
     {
-        _playerPosition = _playerCharacter.transform.position;
+        _playerPosition = _playerCharacter != null ? _playerCharacter.transform.position : transform.position;
         if(!_isPatternSpawn)
             Movement();
         UpdateLOS();
@@ -132,7 +132,7 @@ public class EnemyScript : MonoBehaviour
     protected void Movement()
     {
         float step = _currentMovementSpeed * Time.deltaTime;
-        transform.position = Vector2.MoveTowards(transform.position, _playerCharacter.transform.position, step);
+        transform.position = Vector2.MoveTowards(transform.position, _playerPosition, step);
 
     }
 

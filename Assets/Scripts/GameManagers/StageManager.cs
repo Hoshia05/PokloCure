@@ -27,6 +27,8 @@ public class StageManager : MonoBehaviour
     [Header("Prefab")]
     [SerializeField]
     private GameObject _alertPromptPrefab;
+    [SerializeField]
+    private GameObject _gameOverPromptPrefab;
 
     [Header("Within Prefab")]
     [SerializeField]
@@ -497,7 +499,7 @@ public class StageManager : MonoBehaviour
         return Mathf.CeilToInt(spawnProbability * 20) + RandomAdd;
     }
 
-    float Sigmoid(float x)
+    public static float Sigmoid(float x)
     {
         return 1f / (1f + Mathf.Exp(-x));
     }
@@ -559,6 +561,12 @@ public class StageManager : MonoBehaviour
         Time.timeScale = 1;
         _BoxItemUI.SetActive(false);
         _darkScreen.SetActive(false);
+    }
+
+    public void GameOverEvent()
+    {
+        Time.timeScale = 0;
+        GameObject AlertPrompt = Instantiate(_gameOverPromptPrefab);
     }
 
     public void PauseMenu()

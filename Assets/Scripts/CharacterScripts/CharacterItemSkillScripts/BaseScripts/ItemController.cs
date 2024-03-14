@@ -28,6 +28,9 @@ public class ItemController : MonoBehaviour, IItemController
     protected int _projectileNum = 1;
     protected int _additionalProjectiles = 0;
 
+    protected int _buffStack = 0;
+    protected int _maxStack = 0;
+
     protected int _additionalPierce = 0;
     protected float _additionalKnockbackValue = 0;
 
@@ -210,6 +213,7 @@ public class ItemController : MonoBehaviour, IItemController
     public void UpdateBuff()
     {
         PlayerScript.Instance.UpdateBuffDictionary(this, _buff);
+        BuffUIScript.Instance.UpdateBuff(ItemData, _buffStack);
     }
 
     protected ItemBehaviour InstantiateProjectile()

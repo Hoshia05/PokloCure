@@ -12,11 +12,13 @@ public class PauseMenuScript : MonoBehaviour
 
     public void TitleScreenButton()
     {
+        Time.timeScale = 1;
         GameManager.Instance.MoveToTitleScene();
     }
 
     public void QuitGameButton()
     {
+        Time.timeScale = 1;
         GameManager.Instance.QuitGame();
     }
 
