@@ -26,5 +26,5 @@ MonoBehaviour:
   BodyDamage: 7
   AttackCooltime: 0
   CriticalChance: 0
-  DropEXP: 5
+  DropEXP: 10
   SizeScale: 1

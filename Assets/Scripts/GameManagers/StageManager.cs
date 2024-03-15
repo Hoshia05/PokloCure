@@ -63,6 +63,8 @@ public class StageManager : MonoBehaviour
     private Vector2 min;
     private Vector2 max;
 
+    private const int ENEMYLIMIT = 1000;
+
     private float _currentTime = 0f;
     private int _killCount = 0;
     private int _coinCount = 0;
@@ -163,7 +165,7 @@ public class StageManager : MonoBehaviour
         {
             List<GameObject> enemyList = new();
 
-            int Count = 400;
+            int Count = 1000;
 
             if(enemy.EnemyClass == EnemyClass.MEDIUM)
             {
@@ -234,7 +236,7 @@ public class StageManager : MonoBehaviour
 
             float waitTime = UnityEngine.Random.Range(min, max);
             yield return new WaitForSeconds(waitTime);
-            if (_currentEnemyCount < 400)
+            if (_currentEnemyCount < ENEMYLIMIT)
             {
                 BasicCircleSpawn();
             }
@@ -252,17 +254,15 @@ public class StageManager : MonoBehaviour
 
             float waitTime = UnityEngine.Random.Range(min, max);
             yield return new WaitForSeconds(waitTime);
-            if (_currentEnemyCount < 400)
+            if (_currentEnemyCount < ENEMYLIMIT)
             {
                 MTESpawn();
             }
         }
     }
 
-    private void BasicCircleSpawn()
+    private void BasicCircleSpawn(int enemyNum = 15)
     {
-        int enemyNum = 20;
-
         List<Vector2> spawnPositionList = new();
 
         PlayerScript playerScript = StageManager.Instance.CurrentPlayer;
