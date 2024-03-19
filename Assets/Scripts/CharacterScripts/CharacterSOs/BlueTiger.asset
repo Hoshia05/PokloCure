@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: BlueTiger
   m_EditorClassIdentifier: 
   CharacterPortrait: {fileID: 21300000, guid: 663f9e50a88d3964b89e92717869ba02, type: 3}
-  CharacterSprite: {fileID: 21300000, guid: 159baee377b3d964e844da04cc638540, type: 3}
+  CharacterSprite: {fileID: 2113210295, guid: 4908d317ebd6be9458c2b77b58bde8de, type: 3}
   characterLabel: 2
-  AnimatorController: {fileID: 9100000, guid: 3dca8c67e0c6cdd4387f76292c8869c0, type: 2}
+  AnimatorController: {fileID: 9100000, guid: d2eb7b23de0730e4aa42826c4eed49b6, type: 2}
   BaseWeapon: {fileID: 11400000, guid: 659a4421520915e469b98c5acb47ee6b, type: 2}
   CharacterName: "\uD638\uC2DC\uC544"
   CharacterDescription: 

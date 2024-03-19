@@ -351,12 +351,6 @@ public class EnemyScript : MonoBehaviour
 
         // Ensure the enemy reaches the exact target position
         transform.position = targetPosition;
-
-        //_rb.AddForce(LaunchVector, ForceMode2D.Impulse);
-
-        //yield return new WaitForSeconds(0.1f);
-
-        //_rb.velocity = Vector2.zero;
     }
 
     public void BuffEnemy()

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: GreenTiger
   m_EditorClassIdentifier: 
   CharacterPortrait: {fileID: 21300000, guid: d09ab8c095064c0409d879bf23812b9e, type: 3}
-  CharacterSprite: {fileID: 21300000, guid: a16636e2259f72044a75516890457988, type: 3}
+  CharacterSprite: {fileID: -1470461918, guid: ce569ac958af9d044b5d3e58ecf73746, type: 3}
   characterLabel: 3
-  AnimatorController: {fileID: 9100000, guid: 7eacf55a8eb335d478d54072fb1bcc87, type: 2}
+  AnimatorController: {fileID: 9100000, guid: 26deedd06a037404fb6099fdf3128d07, type: 2}
   BaseWeapon: {fileID: 11400000, guid: 2549f215c46eba34d9c5956b60eeee6b, type: 2}
   CharacterName: Hoshia
   CharacterDescription: 

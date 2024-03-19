@@ -333,11 +333,11 @@ public class PlayerScript : MonoBehaviour
     {
         if(PlayerControl.Instance.PlayerLineOfSight.x >= 0)
         {
-            _spriteRenderer.flipX = true;
+            _spriteRenderer.flipX = false;
         }
         else
         {
-            _spriteRenderer.flipX = false; ;
+            _spriteRenderer.flipX = true; ;
         }
     }
 
