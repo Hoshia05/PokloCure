@@ -239,7 +239,7 @@ public class EnemyScript : MonoBehaviour
     
     protected IEnumerator KillEnemy()
     {
-        StageManager.Instance.UpdateKill();
+        StageManager.Instance.UpdateKill(_enemyData.EnemyScore);
         Collider2D coll = GetComponent<Collider2D>();
         coll.enabled = false;
 

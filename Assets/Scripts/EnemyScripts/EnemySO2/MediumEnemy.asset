@@ -28,3 +28,4 @@ MonoBehaviour:
   CriticalChance: 0.01
   DropEXP: 25
   SizeScale: 1.5
+  EnemyScore: 50

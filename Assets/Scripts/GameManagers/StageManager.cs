@@ -48,11 +48,18 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _timer;
     [SerializeField]
+    private TextMeshProUGUI _scoreCountText;
+    [SerializeField]
     private TextMeshProUGUI _killCountText;
     [SerializeField]
     private TextMeshProUGUI _coinCountText;
     [SerializeField]
     private ItemSlotScript _itemSlotScript;
+
+    [SerializeField]
+    private GameObject _comboObject;
+    [SerializeField]
+    private TextMeshProUGUI _comboCountText;
 
     private EnemySpawnManager _spawnManager;
 
@@ -68,6 +75,12 @@ public class StageManager : MonoBehaviour
     private float _currentTime = 0f;
     private int _killCount = 0;
     private int _coinCount = 0;
+
+    private int _currentCombo = 0;
+    public int CurrentCombo { get { return _currentCombo; } }
+
+    private int _score = 0;
+    public int Score { get { return _score; } } 
 
     private int _currentEnemyCount = 0;
 
@@ -127,6 +140,7 @@ public class StageManager : MonoBehaviour
         _BoxItemUI.SetActive(true);
         _CharacterInfoUI.SetActive(true);
 
+        _scoreCountText.text = Score.ToString();
         _killCountText.text = _killCount.ToString();
         _coinCountText.text = _coinCount.ToString();
         _darkScreen.SetActive(false);
@@ -134,6 +148,8 @@ public class StageManager : MonoBehaviour
         _levelUPUI.SetActive(false);
         _BoxItemUI.SetActive(false);
         _CharacterInfoUI.SetActive(false);
+
+        UpdateComboCounter();
 
         ItemExemptList = new();
 
@@ -204,7 +220,7 @@ public class StageManager : MonoBehaviour
 
     private void SetupItemExemptList()
     {
-        List<ItemSO> itemList = GameManager.Instance.ItemList;
+        List<ItemSO> itemList = GameManager.Instance.GetFullList();
 
         foreach (ItemSO item in itemList)
         {
@@ -222,6 +238,7 @@ public class StageManager : MonoBehaviour
         _virtualCamera.Follow = playerCharacter.transform;
 
         PlayerControl.Instance.PauseMenu.AddListener(PauseMenu);
+        PlayerScript.Instance.onTakeDamage.AddListener(ComboBreak);
 
     }
 
@@ -525,10 +542,49 @@ public class StageManager : MonoBehaviour
             EnemyBuffEvent();
     }
 
-    public void UpdateKill()
+    public void UpdateKill(int score)
     {
         _killCount++;
+        _currentCombo++;
+
+
         _killCountText.text = _killCount.ToString();
+        UpdateScore(score);
+        UpdateComboCounter();
+    }
+
+    public void UpdateScore(int score)
+    {
+        if(_currentCombo == 0)
+        {
+            _score += score;
+        }
+        else
+        {
+            _score += (score * _currentCombo);
+        }
+
+        _scoreCountText.text = _score.ToString();
+    }
+
+    public void ComboBreak()
+    {
+        _currentCombo = 0;
+        UpdateComboCounter();
+    }
+
+    public void UpdateComboCounter()
+    {
+        _comboCountText.text = _currentCombo.ToString();
+
+        if( _currentCombo == 0)
+        {
+            _comboObject.SetActive(false);
+        }
+        else
+        {
+            _comboObject.SetActive(true);
+        }
     }
 
     public void LevelUpEvent()
@@ -565,8 +621,14 @@ public class StageManager : MonoBehaviour
 
     public void GameOverEvent()
     {
+
+        PlayerControl.Instance.PauseMenu.RemoveListener(PauseMenu);
+        PlayerScript.Instance.onTakeDamage.RemoveListener(ComboBreak);
+
         Time.timeScale = 0;
         GameObject AlertPrompt = Instantiate(_gameOverPromptPrefab);
+        GameOverPromptScript GOPScript = AlertPrompt.GetComponent<GameOverPromptScript>();
+        GOPScript.SetScore(Score);
     }
 
     public void PauseMenu()

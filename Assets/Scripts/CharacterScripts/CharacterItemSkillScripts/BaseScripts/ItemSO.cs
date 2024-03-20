@@ -12,8 +12,9 @@ public class ItemSO : ScriptableObject
     public string ItemName;
     public List<string> ItemDescription;
     public ItemType ItemType = ItemType.WEAPON;
+    public WeaponType WeaponType = WeaponType.NONE;
     public Sprite ItemImage;
-    public int ItemMaxLevel = 7;
+    public int ItemMaxLevel = 5;
     public CharacterDistinct characterLabel = CharacterDistinct.NONE;
 
     //public GameObject ControllerPrefab;
@@ -23,7 +24,7 @@ public class ItemSO : ScriptableObject
 
     public float DamageMultiplier = 1f;
     public float Speed;
-    public float CooldownDuration;
+    public float CooldownDuration = 1f;
     public int Pierce = 1;
     public float Deathtime = 4f;
     public int ProjectileNum = 1;
@@ -36,6 +37,13 @@ public enum ItemType
     ITEM,
     WEAPON,
     SKILL
+}
+
+public enum WeaponType
+{
+    MELEE,
+    RANGED,
+    NONE,
 }
 
 public enum CharacterDistinct

@@ -22,9 +22,10 @@ MonoBehaviour:
   - "\uCC44\uC6B8\uC608\uC815 6"
   - "\uCC44\uC6B8\uC608\uC815 7"
   ItemType: 1
+  WeaponType: 1
   ItemImage: {fileID: 21300000, guid: 8471485d074ecad4d83917c629e234f7, type: 3}
   ItemMaxLevel: 7
-  ControllerPrefab: {fileID: 3780977769202291255, guid: 8e046b3a1e077cb45841776e8854fdb8, type: 3}
+  characterLabel: 0
   ProjectileItemPrefab: {fileID: 429641142634744645, guid: 3e048b795c234d34fada5d32f3fbdbcd, type: 3}
   ControllerScript: {fileID: 11500000, guid: 5e07a0fd1cce80644ba84ca9518007f6, type: 3}
   DamageMultiplier: 1
@@ -32,3 +33,6 @@ MonoBehaviour:
   CooldownDuration: 0.7
   Pierce: 1
   Deathtime: 4
+  ProjectileNum: 1
+  KnockbackValue: 0
+  Area: 1

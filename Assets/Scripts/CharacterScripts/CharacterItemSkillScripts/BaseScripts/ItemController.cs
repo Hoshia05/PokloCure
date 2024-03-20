@@ -87,10 +87,22 @@ public class ItemController : MonoBehaviour, IItemController
         _currentSpeed = ItemData.Speed + _localSpeedBuff;
         _currentPierce = ItemData.Pierce + _additionalPierce;
         _currentDeathtime = ItemData.Deathtime + _localDeathTimebuff;
+
+        float CooldownBuff = 1f;
+        if(ItemData.WeaponType == WeaponType.MELEE)
+        {
+            CooldownBuff = PlayerScript.Instance.MeleeCooldownBuff;
+        }else if(ItemData.WeaponType == WeaponType.RANGED)
+        {
+            CooldownBuff = PlayerScript.Instance.RangedCooldownBuff;
+        }
         _currentCooldownDuration = _deathTimeCoolTimeCumulative ?
-           _currentDeathtime + ItemData.CooldownDuration * _localCooldownBuff * PlayerScript.Instance.CurrentHasteMultiplier  : 
-            ItemData.CooldownDuration * _localCooldownBuff * PlayerScript.Instance.CurrentHasteMultiplier;
-        _projectileNum = ItemData.ProjectileNum + _additionalProjectiles;
+           _currentDeathtime + ItemData.CooldownDuration * _localCooldownBuff * PlayerScript.Instance.CurrentHasteMultiplier * CooldownBuff : 
+            ItemData.CooldownDuration * _localCooldownBuff * PlayerScript.Instance.CurrentHasteMultiplier * CooldownBuff;
+
+        int RangedProjectileBuff = ItemData.WeaponType == WeaponType.RANGED ? PlayerScript.Instance.RangedProjectileBuff : 0;
+        _projectileNum = ItemData.ProjectileNum + _additionalProjectiles + RangedProjectileBuff;
+
         _currentKnockbackValue = (ItemData.KnockbackValue + _additionalKnockbackValue) * PlayerScript.Instance.CurrentKnockbackBuff;
     }
 

@@ -30,6 +30,8 @@ public class EnemyBase : ScriptableObject
     public float CriticalChance = 0f;
     public float DropEXP;
     public float SizeScale = 1f;
+
+    public int EnemyScore = 10;
 }
 
 public enum EnemyType

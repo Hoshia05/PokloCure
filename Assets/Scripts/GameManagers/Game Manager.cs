@@ -69,6 +69,11 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public List<ItemSO> GetFullList()
+    {
+        return _isDebug ? DebugItemList : ItemList;
+    }
+
     public ItemSO GetRandomItem(List<ItemSO> exemptList = null)
     {
         return _isDebug ? GetFromDebugList(exemptList) : GetFromFullList(exemptList);

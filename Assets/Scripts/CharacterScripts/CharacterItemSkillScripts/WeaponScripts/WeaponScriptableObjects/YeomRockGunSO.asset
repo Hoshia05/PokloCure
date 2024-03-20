@@ -23,6 +23,7 @@ MonoBehaviour:
   - "\uCD1D\uC54C\uC744 2\uBC1C \uB354 \uBC1C\uC0AC\uD558\uBA70 \uAD00\uD1B5\uD0C4\uC73C\uB85C
     \uD0C4\uC885\uC744 \uBCC0\uACBD\uD569\uB2C8\uB2E4"
   ItemType: 1
+  WeaponType: 1
   ItemImage: {fileID: 21300000, guid: a3550049f1e867b47a7037be5eff1fef, type: 3}
   ItemMaxLevel: 7
   characterLabel: 3

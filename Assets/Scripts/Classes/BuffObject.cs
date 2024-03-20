@@ -17,6 +17,10 @@ public class BuffObject
     public float KnockBackBuff = 0;
     public float EatDistanceMultiplier = 0;
 
+    public int RangedProjectileBuff = 0;
+    public float RangedCooldownBuff = 0;
+    public float MeleeCooldownBuff = 0;
+
     public float BurgerDropChance = 0;
 
 

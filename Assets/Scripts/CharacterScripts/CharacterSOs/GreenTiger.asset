@@ -16,7 +16,7 @@ MonoBehaviour:
   CharacterSprite: {fileID: -1470461918, guid: ce569ac958af9d044b5d3e58ecf73746, type: 3}
   characterLabel: 3
   AnimatorController: {fileID: 9100000, guid: 26deedd06a037404fb6099fdf3128d07, type: 2}
-  BaseWeapon: {fileID: 11400000, guid: 2549f215c46eba34d9c5956b60eeee6b, type: 2}
+  BaseWeapon: {fileID: 11400000, guid: d411eec8657b7b74797c368ae4d4c8c0, type: 2}
   CharacterName: Hoshia
   CharacterDescription: 
   Health: 50

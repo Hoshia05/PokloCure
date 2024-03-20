@@ -90,6 +90,15 @@ public class PlayerScript : MonoBehaviour
 
     public float BurgerDropChanceMultiplier;
 
+    private int _rangedProjectileBuff;
+    public int RangedProjectileBuff { get => _rangedProjectileBuff; }
+
+    private float _meleeCooldownBuff;
+    public float MeleeCooldownBuff { get => _meleeCooldownBuff; }
+
+    private float _rangedCooldownBuff;
+    public float RangedCooldownBuff { get => _rangedCooldownBuff; }
+
     //실드
     private float _shield;
 
@@ -228,6 +237,9 @@ public class PlayerScript : MonoBehaviour
         _currentAttackSizeBuff = 1f;
         _currentKnockbackBuff = 1f;
         _eatDistanceMultiplier = 1f;
+
+        _meleeCooldownBuff = 1f;
+        _rangedCooldownBuff = 1f;
 
         BurgerDropChanceMultiplier = 0f;
 
@@ -422,6 +434,10 @@ public class PlayerScript : MonoBehaviour
 
         BurgerDropChanceMultiplier = 0f;
 
+        _rangedProjectileBuff = 0;
+        _rangedCooldownBuff = 1f;
+        _meleeCooldownBuff = 1f;
+
 
         foreach (BuffObject buff in BuffDictionary.Values)
         {
@@ -439,6 +455,10 @@ public class PlayerScript : MonoBehaviour
             _eatDistanceMultiplier += buff.EatDistanceMultiplier;
 
             BurgerDropChanceMultiplier += buff.BurgerDropChance;
+
+            _rangedProjectileBuff += buff.RangedProjectileBuff;
+            _rangedCooldownBuff -= buff.RangedCooldownBuff;
+            _meleeCooldownBuff -= buff.MeleeCooldownBuff;
         }
 
 

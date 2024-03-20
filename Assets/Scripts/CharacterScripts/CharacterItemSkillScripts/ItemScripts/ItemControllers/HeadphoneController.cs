@@ -31,13 +31,13 @@ public class HeadphoneController : ItemController
         Vector2 playerPosition = transform.position;
         float radius = 5f;
 
-        RaycastHit2D[] Enemies = Physics2D.CircleCastAll(playerPosition, radius, Vector2.up);
+        Collider2D[] Enemies = Physics2D.OverlapCircleAll(playerPosition, radius);
 
         if (Enemies.Length > 0)
         {
-            foreach (RaycastHit2D enemy in Enemies)
+            foreach (Collider2D enemy in Enemies)
             {
-                GameObject enemyObject = enemy.collider.gameObject;
+                GameObject enemyObject = enemy.gameObject;
                 if (enemyObject.CompareTag("Enemy"))
                 {
                     Vector2 EnemyPosition = enemyObject.transform.position;

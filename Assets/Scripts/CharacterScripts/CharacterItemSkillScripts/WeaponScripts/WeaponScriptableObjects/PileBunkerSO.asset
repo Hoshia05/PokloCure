@@ -23,6 +23,7 @@ MonoBehaviour:
   - "\uCC44\uC6B8\uC608\uC815 6"
   - "\uCC44\uC6B8\uC608\uC815 7"
   ItemType: 1
+  WeaponType: 0
   ItemImage: {fileID: 1663169058, guid: 082629f849052c440b7863e693e3c97a, type: 3}
   ItemMaxLevel: 7
   characterLabel: 0
