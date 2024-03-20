@@ -40,6 +40,9 @@ public class PlayerControl : MonoBehaviour
         _inputActions.actions["Dash"].canceled += context => IsDashing = false;
 
         _inputActions.actions["PauseMenu"].performed += context => PauseMenu.Invoke();
+
+
+        _inputActions.actions["DebugButton"].performed += context => DebugButton();
     }
 
     private void Update()
@@ -56,5 +59,12 @@ public class PlayerControl : MonoBehaviour
             PlayerLineOfSight = (mousePosition - characterPosition).normalized;
         }
 
+    }
+
+    void DebugButton()
+    {
+        Debug.Log("Debug Button");
+
+        PlayerScript.Instance.IncreaseWeaponSlot();
     }
 }

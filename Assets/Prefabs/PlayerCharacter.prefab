@@ -647,7 +647,9 @@ MonoBehaviour:
   _defensePoints: 0
   _basicWeaponSlot: {fileID: 5884235535917834310}
   _obtainedWeaponSlots: {fileID: 4468829955391795324}
+  _weaponSlotCount: 1
   _obtainedItemSlots: {fileID: 3060975074466163126}
+  _itemSlotCount: 1
   _skillSlots: {fileID: 3760086531203995649}
   onEatBurger:
     m_PersistentCalls:

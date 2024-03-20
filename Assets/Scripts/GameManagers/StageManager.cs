@@ -224,8 +224,31 @@ public class StageManager : MonoBehaviour
 
         foreach (ItemSO item in itemList)
         {
+            if(ItemExemptList.Contains(item))
+            {
+                continue;
+            }
+
             if(item.characterLabel != _currentPlayer.CharacterLabel && item.characterLabel != CharacterDistinct.NONE)
+            {
+                //when this item is not this character's dedicated item
                 ItemExemptList.Add(item);
+            }
+            else if(_currentPlayer.CheckItemPossessionLevel(item) > item.ItemMaxLevel  )
+            {
+                //when this item is already full level
+                ItemExemptList.Add(item);
+            }
+            else if(item.ItemType == ItemType.WEAPON && _currentPlayer.CheckItemPossession(item) == null && _currentPlayer.ObtainedWeaponCount == _currentPlayer.WeaponSlotCount)
+            {
+                //when weapon slot is full and this item is a weapon
+                ItemExemptList.Add(item);
+            }
+            else if (item.ItemType == ItemType.ITEM && _currentPlayer.CheckItemPossession(item) == null && _currentPlayer.ObtainedItemCount == _currentPlayer.ItemSlotCount)
+            {
+                //when weapon slot is full and this item is a weapon
+                ItemExemptList.Add(item);
+            }
         }
     }
 
@@ -238,8 +261,10 @@ public class StageManager : MonoBehaviour
         _virtualCamera.Follow = playerCharacter.transform;
 
         PlayerControl.Instance.PauseMenu.AddListener(PauseMenu);
-        PlayerScript.Instance.onTakeDamage.AddListener(ComboBreak);
+        _currentPlayer.onTakeDamage.AddListener(ComboBreak);
 
+        //slot initialize
+        ItemSlotScript.Instance.SlotUpdate(_currentPlayer);
     }
 
     IEnumerator EnemyCircleSpawnCoroutine()
@@ -590,6 +615,7 @@ public class StageManager : MonoBehaviour
     public void LevelUpEvent()
     {
         Time.timeScale = 0;
+        SetupItemExemptList();
         OpenCharacterInfoUI();
         _darkScreen.SetActive(true);
         _levelUPUI.SetActive(true);
@@ -607,6 +633,7 @@ public class StageManager : MonoBehaviour
     public void FieldBoxEvent()
     {
         Time.timeScale = 0;
+        SetupItemExemptList();
         _darkScreen.SetActive(true);
         _BoxItemUI.SetActive(true);
         _boxItemUIScript.InitializeUI();

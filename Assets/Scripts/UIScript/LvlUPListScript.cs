@@ -25,6 +25,9 @@ public class LvlUPListScript : MonoBehaviour
         
         while(count < _itemMaxCount)
         {
+
+            //stage manager랑 exemptList 체크하는게 중복됨. 사용하는데 문제는 없는데 나중에 클린업 하자...
+
             ItemSO itemSkillSO = GameManager.Instance.GetRandomItem(exemptList);
 
             if(itemSkillSO == null)

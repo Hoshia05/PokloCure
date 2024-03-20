@@ -129,6 +129,11 @@ public class PlayerScript : MonoBehaviour
         get { return _weapons; }
     }
     private int _obtainedWeaponCount = 0;
+    public int ObtainedWeaponCount { get { return _obtainedWeaponCount; } }
+
+    [SerializeField]
+    private int _weaponSlotCount = 3;
+    public int WeaponSlotCount { get { return _weaponSlotCount; } }
 
     [SerializeField]
     private GameObject _obtainedItemSlots;
@@ -138,6 +143,13 @@ public class PlayerScript : MonoBehaviour
         get { return _items; }
     }
     private int _obtainedItemCount = 0;
+    public int ObtainedItemCount { get { return _obtainedItemCount; } }
+
+    [SerializeField]
+    private int _itemSlotCount = 3;
+    public int ItemSlotCount { get { return _itemSlotCount; } }
+
+    private const int MAXSLOTCOUNT = 7;
 
     [SerializeField]
     private GameObject _skillSlots;
@@ -147,7 +159,6 @@ public class PlayerScript : MonoBehaviour
         get { return _skills; }
     }
 
-    private const int MAXSLOT = 7;
 
     [Header("이벤트")]
     [HideInInspector]
@@ -524,6 +535,34 @@ public class PlayerScript : MonoBehaviour
             return 1;
         }
 
+    }
+
+    public bool IncreaseWeaponSlot()
+    {
+        if(WeaponSlotCount == MAXSLOTCOUNT)
+        {
+            return false;
+        }
+        else
+        {
+            _weaponSlotCount++;
+            ItemSlotScript.Instance.SlotUpdate(this);
+            return true;
+        }
+    }
+
+    public bool IncreaseItemSlot()
+    {
+        if (ItemSlotCount == MAXSLOTCOUNT)
+        {
+            return false;
+        }
+        else
+        {
+            _itemSlotCount++;
+            ItemSlotScript.Instance.SlotUpdate(this);
+            return true;
+        }
     }
 
     public void ObtainItemSkill(ItemSO item)

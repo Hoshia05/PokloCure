@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -71,6 +71,8 @@ public class BoxItemUIScript : MonoBehaviour
 
         while (count < ItemNum)
         {
+            //stage manager랑 exemptList 체크하는게 중복됨. 사용하는데 문제는 없는데 나중에 클린업 하자...
+
             ItemSO itemSkillSO = GameManager.Instance.GetRandomItem(exemptList);
 
             if (itemSkillSO == null)
@@ -80,7 +82,6 @@ public class BoxItemUIScript : MonoBehaviour
 
             int nextLevel = PlayerScript.Instance.CheckItemPossessionLevel(itemSkillSO);
 
-            //�̹� ������ ���
             if (nextLevel > itemSkillSO.ItemMaxLevel)
             {
                 exemptList.Add(itemSkillSO);
