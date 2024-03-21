@@ -74,7 +74,10 @@ public class StageManager : MonoBehaviour
 
     private float _currentTime = 0f;
     private int _killCount = 0;
+
+    [SerializeField]
     private int _coinCount = 0;
+    public int CoinCount { get { return _coinCount; } }
 
     private int _currentCombo = 0;
     public int CurrentCombo { get { return _currentCombo; } }
@@ -227,6 +230,11 @@ public class StageManager : MonoBehaviour
             if(ItemExemptList.Contains(item))
             {
                 continue;
+            }
+
+            if(item.ItemType == ItemType.UPGRADE)
+            {
+
             }
 
             if(item.characterLabel != _currentPlayer.CharacterLabel && item.characterLabel != CharacterDistinct.NONE)
@@ -559,7 +567,7 @@ public class StageManager : MonoBehaviour
     {
         int minutes = Mathf.FloorToInt(_currentTime / 60F);
         int seconds = Mathf.FloorToInt(_currentTime - minutes * 60);
-        string timerString = string.Format("{0:0}:{1:00}", minutes, seconds);
+        string timerString = string.Format("{00:00}:{01:00}", minutes, seconds);
 
         _timer.text = timerString;
 

@@ -14,7 +14,6 @@ public class ItemController : MonoBehaviour, IItemController
     protected float _currentDeathtime;
 
     protected float _currentCooldown;
-    protected int _currentWeaponLevel = 1;
     protected float _currentSizeScale = 1;
 
     protected float _currentKnockbackValue = 1;
@@ -44,10 +43,12 @@ public class ItemController : MonoBehaviour, IItemController
     protected bool _deathTimeCoolTimeCumulative;
     protected bool _hasLaunchedSinceReset;
 
-    public int CurrentWeaponLevel
+
+    protected int _currentLevel = 1;
+    public int CurrentLevel
     {
-        get { return _currentWeaponLevel; }
-        set { _currentWeaponLevel = value; }
+        get { return _currentLevel; }
+        set { _currentLevel = value; }
     }
 
     // Start is called before the first frame update
@@ -130,8 +131,8 @@ public class ItemController : MonoBehaviour, IItemController
 
     public virtual void LevelUp()
     {
-        _currentWeaponLevel++;
-        _levelUPEffectsList[_currentWeaponLevel - 1]();
+        _currentLevel++;
+        _levelUPEffectsList[_currentLevel - 1]();
         CheckAttackRound();
         ApplyStats();
         LevelUpEffect();
@@ -232,7 +233,7 @@ public class ItemController : MonoBehaviour, IItemController
     {
         GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
         ItemBehaviour projectileBehaviour = projectile.GetComponent<ItemBehaviour>();
-        projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentWeaponLevel, _currentSizeScale, _currentKnockbackValue);
+        projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentLevel, _currentSizeScale, _currentKnockbackValue);
 
         CurrentProjectiles.Add(projectileBehaviour);
 

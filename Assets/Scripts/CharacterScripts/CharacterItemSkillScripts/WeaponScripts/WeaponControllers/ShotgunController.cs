@@ -31,7 +31,7 @@ public class ShotgunController : ItemController
             GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
             Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
             ItemBehaviour projectileBehaviour = projectileRB.GetComponent<ItemBehaviour>();
-            projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentWeaponLevel, _currentSizeScale, _currentKnockbackValue);
+            projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentLevel, _currentSizeScale, _currentKnockbackValue);
             projectileRB.AddForce(CreateSpread(PlayerControl.Instance.PlayerLineOfSight) * 2500);
         }
 
@@ -48,7 +48,7 @@ public class ShotgunController : ItemController
                 GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
                 Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
                 ItemBehaviour projectileBehaviour = projectileRB.GetComponent<ItemBehaviour>();
-                projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentWeaponLevel, _currentSizeScale, _currentKnockbackValue);
+                projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentLevel, _currentSizeScale, _currentKnockbackValue);
                 projectileRB.AddForce(CreateSpread(PlayerControl.Instance.PlayerLineOfSight) * 2500);
             }
         }

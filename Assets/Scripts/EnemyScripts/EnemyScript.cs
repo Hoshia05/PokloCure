@@ -302,9 +302,9 @@ public class EnemyScript : MonoBehaviour
 
     protected void DropDiamond()
     {
-        int randval = GameManager.Instance.Rand.Next(1, 90);
+        int randval = GameManager.Instance.Rand.Next(1, 100);
 
-        if (randval <= 1)
+        if (randval <= 33)
         {
             Instantiate(GameManager.Instance.DiamondPrefab, RandomNearPosition(), Quaternion.identity);
         }

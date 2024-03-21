@@ -187,6 +187,37 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1 &2542248854405565703
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7286941869774162832}
+  m_Layer: 7
+  m_Name: Upgrades
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7286941869774162832
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2542248854405565703}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3435203823413746949}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3060975074466163126
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,6 +374,7 @@ Transform:
   - {fileID: 7967998215039560848}
   - {fileID: 1565646156437501351}
   - {fileID: 6561103749339131422}
+  - {fileID: 7286941869774162832}
   m_Father: {fileID: 7375911810734498312}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -647,9 +679,10 @@ MonoBehaviour:
   _defensePoints: 0
   _basicWeaponSlot: {fileID: 5884235535917834310}
   _obtainedWeaponSlots: {fileID: 4468829955391795324}
-  _weaponSlotCount: 1
+  _weaponSlotCount: 3
   _obtainedItemSlots: {fileID: 3060975074466163126}
-  _itemSlotCount: 1
+  _itemSlotCount: 3
+  _upgradeSlots: {fileID: 2542248854405565703}
   _skillSlots: {fileID: 3760086531203995649}
   onEatBurger:
     m_PersistentCalls:

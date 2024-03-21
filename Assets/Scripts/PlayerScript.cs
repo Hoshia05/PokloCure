@@ -151,6 +151,10 @@ public class PlayerScript : MonoBehaviour
 
     private const int MAXSLOTCOUNT = 7;
 
+
+    [SerializeField]
+    private GameObject _upgradeSlots;
+
     [SerializeField]
     private GameObject _skillSlots;
     private Dictionary<ItemSO, ItemController> _skills = new();
@@ -408,6 +412,11 @@ public class PlayerScript : MonoBehaviour
         HPBar.Instance.UpdateHP(_characterCurrentHP);
     }
 
+    public void HealStamina(float HealValue)
+    {
+        _currentStamina += HealValue;
+        UIStaminaBar.Instance.UpdateStamina(_currentStamina);
+    }
 
     public void UpdateBuffDictionary(ItemController itemController, BuffObject buffInfo)
     {
@@ -528,7 +537,7 @@ public class PlayerScript : MonoBehaviour
 
         if(itemController != null)
         {
-            return itemController.CurrentWeaponLevel + 1;
+            return itemController.CurrentLevel + 1;
         }
         else
         {
@@ -583,9 +592,6 @@ public class PlayerScript : MonoBehaviour
                 System.Type scriptType = (item.ControllerScript as MonoScript).GetClass();
                 ItemController controllerScript = NewSkill.AddComponent(scriptType) as ItemController;
                 controllerScript.SetWithSO(item);
-
-                //GameObject NewSkill = Instantiate(item.ControllerPrefab, _skillSlots.transform);
-                //ItemController newSkillController = NewSkill.GetComponent<ItemController>();
                 _skills.Add(item, controllerScript);
             }
             else if (item.ItemType == ItemType.WEAPON)
@@ -597,12 +603,8 @@ public class PlayerScript : MonoBehaviour
                 System.Type scriptType = (item.ControllerScript as MonoScript).GetClass();
                 ItemController controllerScript = NewWeapon.AddComponent(scriptType) as ItemController;
                 controllerScript.SetWithSO(item);
-                _obtainedWeaponCount++;
-
-
-                //GameObject NewWeapon = Instantiate(item.ControllerPrefab, _obtainedWeaponSlots.transform);
-                //ItemController newWeaponController = NewWeapon.GetComponent<ItemController>();
                 _weapons.Add(item, controllerScript);
+                _obtainedWeaponCount++;
             }
             else if (item.ItemType == ItemType.ITEM)
             {
@@ -613,14 +615,23 @@ public class PlayerScript : MonoBehaviour
                 System.Type scriptType = (item.ControllerScript as MonoScript).GetClass();
                 ItemController controllerScript = NewItem.AddComponent(scriptType) as ItemController;
                 controllerScript.SetWithSO(item);
-
-                //GameObject NewItem = Instantiate(item.ControllerPrefab, _obtainedItemSlots.transform);
-                //ItemController newItemController = NewItem.GetComponent<ItemController>();
                 _items.Add(item, controllerScript);
                 _obtainedItemCount++;
             }
+            else if (item.ItemType == ItemType.UPGRADE)
+            {
+                GameObject NewUpgrade = new GameObject(item.ItemName);
+                NewUpgrade.transform.parent = _upgradeSlots.transform;
+                NewUpgrade.transform.localPosition = Vector3.zero;
+
+                System.Type scriptType = (item.ControllerScript as MonoScript).GetClass();
+                ItemController controllerScript = NewUpgrade.AddComponent(scriptType) as ItemController;
+                controllerScript.SetWithSO(item);
+            }
         }
     }
+
+    
 
     public void SetShield(float shieldValue)
     {

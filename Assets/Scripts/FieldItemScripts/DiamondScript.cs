@@ -10,7 +10,7 @@ public class DiamondScript : FieldItemBase
 
     private void Start()
     {
-        _coinValue = 10;
+        _coinValue = GameManager.Instance.Rand.Next(1, 10);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

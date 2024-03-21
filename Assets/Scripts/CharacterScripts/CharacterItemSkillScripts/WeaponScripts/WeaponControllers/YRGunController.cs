@@ -21,7 +21,7 @@ public class YRGunController : ItemController
             GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
             Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
             ItemBehaviour projectileBehaviour = projectileRB.GetComponent<ItemBehaviour>();
-            projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentWeaponLevel, _currentSizeScale, _currentKnockbackValue);
+            projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentLevel, _currentSizeScale, _currentKnockbackValue);
             projectileRB.AddForce(PlayerControl.Instance.PlayerLineOfSight * 1500);
 
             yield return new WaitForSeconds(0.05f);

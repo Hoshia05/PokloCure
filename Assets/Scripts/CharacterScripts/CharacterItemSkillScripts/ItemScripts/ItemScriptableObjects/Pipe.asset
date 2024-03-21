@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae12a9c1cc1fff94aa39ed35c196fe83, type: 3}
+  m_Name: Pipe
+  m_EditorClassIdentifier: 
+  ItemName: "\uACF0\uBC29\uB300"
+  ItemDescription:
+  - "10\uCD08\uC5D0 \uD55C\uBC88 \uC2A4\uD0DC\uBBF8\uB098 10\uACFC \uCCB4\uB825 5\uB97C
+    \uD68C\uBCF5\uC2DC\uD0B5\uB2C8\uB2E4."
+  - "10\uCD08\uC5D0 \uD55C\uBC88 \uC2A4\uD0DC\uBBF8\uB098 12\uACFC \uCCB4\uB825 6\uB97C
+    \uD68C\uBCF5\uC2DC\uD0B5\uB2C8\uB2E4."
+  - "10\uCD08\uC5D0 \uD55C\uBC88 \uC2A4\uD0DC\uBBF8\uB098 15\uACFC \uCCB4\uB825 7\uB97C
+    \uD68C\uBCF5\uC2DC\uD0B5\uB2C8\uB2E4."
+  - "10\uCD08\uC5D0 \uD55C\uBC88 \uC2A4\uD0DC\uBBF8\uB098 17\uACFC \uCCB4\uB825 8\uB97C
+    \uD68C\uBCF5\uC2DC\uD0B5\uB2C8\uB2E4."
+  - "10\uCD08\uC5D0 \uD55C\uBC88 \uC2A4\uD0DC\uBBF8\uB098 20\uACFC \uCCB4\uB825 10\uB97C
+    \uD68C\uBCF5\uC2DC\uD0B5\uB2C8\uB2E4."
+  ItemType: 0
+  WeaponType: 2
+  ItemImage: {fileID: 21300000, guid: db005d11213e5da47b9769c2e6c56eee, type: 3}
+  ItemMaxLevel: 5
+  characterLabel: 0
+  ProjectileItemPrefab: {fileID: 0}
+  ControllerScript: {fileID: 11500000, guid: 6f9c4f0ab2eb81643806b6ef9b1f801d, type: 3}
+  Cost: 0
+  DamageMultiplier: 1
+  Speed: 0
+  CooldownDuration: 10
+  Pierce: 1
+  Deathtime: 4
+  ProjectileNum: 1
+  KnockbackValue: 0
+  Area: 1

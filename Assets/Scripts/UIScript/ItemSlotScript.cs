@@ -71,7 +71,7 @@ public class ItemSlotScript : MonoBehaviour
 
                     TextMeshProUGUI lvlText = Weapons[i].GetComponentInChildren<TextMeshProUGUI>();
 
-                    string currentWeaponLevel = PlayerWeapons.ElementAt(i).Value.CurrentWeaponLevel.ToString();
+                    string currentWeaponLevel = PlayerWeapons.ElementAt(i).Value.CurrentLevel.ToString();
                     lvlText.text = $"Lv.{currentWeaponLevel}";
                 }
 
@@ -92,7 +92,7 @@ public class ItemSlotScript : MonoBehaviour
 
                     TextMeshProUGUI lvlText = Items[i].GetComponentInChildren<TextMeshProUGUI>();
 
-                    string currentItemLevel = PlayerItems.ElementAt(i).Value.CurrentWeaponLevel.ToString();
+                    string currentItemLevel = PlayerItems.ElementAt(i).Value.CurrentLevel.ToString();
                     lvlText.text = $"Lv.{currentItemLevel}";
                 }
             }

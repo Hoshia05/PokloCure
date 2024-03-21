@@ -22,6 +22,7 @@ public class ItemSO : ScriptableObject
 
     public Object ControllerScript;
 
+    public int Cost = 0;
     public float DamageMultiplier = 1f;
     public float Speed;
     public float CooldownDuration = 1f;
@@ -36,7 +37,8 @@ public enum ItemType
 {
     ITEM,
     WEAPON,
-    SKILL
+    SKILL,
+    UPGRADE,
 }
 
 public enum WeaponType
