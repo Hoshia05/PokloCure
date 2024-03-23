@@ -7,13 +7,6 @@ public class ExpItemScript : FieldItemBase
     [SerializeField]
     private float _expValue = 0;
 
-    public bool IsDebug;
-
-    public void SetExpValue(float expValue)
-    {
-        _expValue = expValue;
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -22,7 +15,20 @@ public class ExpItemScript : FieldItemBase
             PlayerScript script = player.GetComponent<PlayerScript>();
             script.GainEXP(_expValue);
 
-            Destroy(gameObject);
+            Deactivate();
         }
     }
+
+    public void Deactivate()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void Activate(float expValue)
+    {
+        gameObject.SetActive(true);
+        _expValue = expValue;
+        gameObject.GetComponent<Collider2D>().enabled = true;
+    }
+
 }

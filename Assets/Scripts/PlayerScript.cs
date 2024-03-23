@@ -627,6 +627,7 @@ public class PlayerScript : MonoBehaviour
                 System.Type scriptType = (item.ControllerScript as MonoScript).GetClass();
                 ItemController controllerScript = NewUpgrade.AddComponent(scriptType) as ItemController;
                 controllerScript.SetWithSO(item);
+                _skills.Add(item, controllerScript);
             }
         }
     }

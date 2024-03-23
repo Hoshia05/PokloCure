@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     [Header("Prefabs")]
     public GameObject EnemyPrefab;
     public GameObject BossPrefab;
+    public GameObject EXPItemPrefab;
 
     public List<EnemyBase> EnemyList;
 

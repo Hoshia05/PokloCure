@@ -103,10 +103,13 @@ public class StageManager : MonoBehaviour
 
     private List<EnemyBase> _enemyList;
     private Dictionary<EnemyBase, List<GameObject>> _enemyPool = new();
+    private List<GameObject> _expItemPool = new();
 
     private int _swarmCoefficient = 7;
     private int _mediumCoefficient = 3;
     private int _eliteCoefficeint = 1;
+
+    private int _circleEnemyNum = 10;
 
     private int _totalEnemyCoefficient => _swarmCoefficient + _mediumCoefficient + _eliteCoefficeint;
 
@@ -164,6 +167,7 @@ public class StageManager : MonoBehaviour
 
         SpawnPlayerCharacter();
         EnemyObjectPoolCreate();
+        ExpItemPoolCreate();
         InitializeEnhanceFunctions();
 
         StartCoroutine(EnemyCircleSpawnCoroutine());
@@ -207,6 +211,29 @@ public class StageManager : MonoBehaviour
 
             _enemyPool.Add(enemy, enemyList);
         }
+    }
+
+    private void ExpItemPoolCreate()
+    {
+        int Count = 2000;
+        for(int i = 0; i < Count; i++)
+        {
+            GameObject newEXPItem = Instantiate(GameManager.Instance.ExpItemPrefab);
+            newEXPItem.SetActive(false);
+
+            _expItemPool.Add(newEXPItem);
+        }
+    }
+
+    public void GetEXPItemFromPool(Vector2 position, float expValue)
+    {
+        GameObject expItem = _expItemPool.First(x => x.activeSelf == false);
+
+        if (expItem == null)
+            return;
+
+        expItem.GetComponent<ExpItemScript>().Activate(expValue);
+        expItem.transform.position = position;
     }
 
     private void InitializeEnhanceFunctions()
@@ -311,7 +338,7 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    private void BasicCircleSpawn(int enemyNum = 15)
+    private void BasicCircleSpawn()
     {
         List<Vector2> spawnPositionList = new();
 
@@ -320,11 +347,11 @@ public class StageManager : MonoBehaviour
 
         float radius = 30f;
 
-        float degreeDif = 360 / enemyNum;
+        float degreeDif = 360 / _circleEnemyNum;
 
         float currentDegree = GameManager.Instance.Rand.Next(0, 360);
 
-        for (float i = 0; i <= enemyNum; i++)
+        for (float i = 0; i <= _circleEnemyNum; i++)
         {
             float xPosition = playerPosition.x + radius * Mathf.Cos(currentDegree);
             float yPosition = playerPosition.y + radius * Mathf.Sin(currentDegree);
@@ -436,7 +463,7 @@ public class StageManager : MonoBehaviour
         _currentEnemyCount++;
     }
 
-    public void EnemyDeathEvent(GameObject enemyObject, EnemyBase enemyType)
+    public void EnemyDeathEvent(GameObject enemyObject)
     {
         onEnemyKilled.Invoke();
         _currentEnemyCount--;
@@ -524,6 +551,8 @@ public class StageManager : MonoBehaviour
         int randNum = (int)((GameManager.Instance.Rand.NextDouble() * 20) % (_enemyEnhanceFuncitons.Count - 1));
 
         string promptText = _enemyEnhanceFuncitons[randNum]();
+
+        _circleEnemyNum += 2;
 
         GameObject AlertPrompt = Instantiate(_alertPromptPrefab);
         AlertPromptScript promptScript = AlertPrompt.GetComponent<AlertPromptScript>();

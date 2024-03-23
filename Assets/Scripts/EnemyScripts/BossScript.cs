@@ -39,9 +39,11 @@ public class BossScript : EnemyScript
 
         SpriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
 
-        GameObject expItem = Instantiate(GameManager.Instance.ExpItemPrefab, RandomNearPosition(), Quaternion.identity);
-        ExpItemScript expItemScript = expItem.GetComponent<ExpItemScript>();
-        expItemScript.SetExpValue(_dropExpValue);
+        StageManager.Instance.GetEXPItemFromPool(transform.position, _dropExpValue);
+
+        //GameObject expItem = Instantiate(GameManager.Instance.ExpItemPrefab, RandomNearPosition(), Quaternion.identity);
+        //ExpItemScript expItemScript = expItem.GetComponent<ExpItemScript>();
+        //expItemScript.SetExpValue(_dropExpValue);
 
         //버거소환
         DropBurger();

@@ -24,12 +24,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1085835152482982217}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.962, z: 0}
   m_LocalScale: {x: 3, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7375911810734498312}
+  m_Father: {fileID: 1360219700710114151}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7765615548742804754
@@ -488,10 +488,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7037410354359110575}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.114, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7703227971911050609}
   m_Father: {fileID: 7375911810734498312}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -536,12 +537,12 @@ SpriteRenderer:
   m_SortingLayerID: 392522869
   m_SortingLayer: 3
   m_SortingOrder: 3
-  m_Sprite: {fileID: 110017226, guid: 735dc189f05657146a36287a5b1b270a, type: 3}
+  m_Sprite: {fileID: -1776283240, guid: 1fc75496a7944594d87c7e4a596fc107, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -557,7 +558,7 @@ Animator:
   m_GameObject: {fileID: 7037410354359110575}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 26deedd06a037404fb6099fdf3128d07, type: 2}
+  m_Controller: {fileID: 9100000, guid: d2eb7b23de0730e4aa42826c4eed49b6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -602,7 +603,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1360219700710114151}
-  - {fileID: 7703227971911050609}
   - {fileID: 1469714000465491702}
   - {fileID: 3435203823413746949}
   - {fileID: 3031416774045544470}
