@@ -33,6 +33,8 @@ public class ItemController : MonoBehaviour, IItemController
     protected int _additionalPierce = 0;
     protected float _additionalKnockbackValue = 0;
 
+    protected float _stunTime = 0f;
+
     public List<ItemBehaviour> CurrentProjectiles = new();
 
     protected delegate void LevelUPEffects();
@@ -233,7 +235,7 @@ public class ItemController : MonoBehaviour, IItemController
     {
         GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
         ItemBehaviour projectileBehaviour = projectile.GetComponent<ItemBehaviour>();
-        projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentLevel, _currentSizeScale, _currentKnockbackValue);
+        projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentLevel, _currentSizeScale, _currentKnockbackValue, _stunTime);
 
         CurrentProjectiles.Add(projectileBehaviour);
 

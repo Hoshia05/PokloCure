@@ -22,9 +22,10 @@ MonoBehaviour:
   EnemyType: 0
   EnemyClass: 0
   HP: 18
-  SpeedMultiplier: 1
+  SpeedMultiplier: 1.2
   BodyDamage: 7
   AttackCooltime: 0
   CriticalChance: 0
   DropEXP: 10
   SizeScale: 1
+  EnemyScore: 10

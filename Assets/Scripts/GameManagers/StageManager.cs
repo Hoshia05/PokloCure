@@ -104,6 +104,8 @@ public class StageManager : MonoBehaviour
     private List<EnemyBase> _enemyList;
     private Dictionary<EnemyBase, List<GameObject>> _enemyPool = new();
     private List<GameObject> _expItemPool = new();
+    private List<GameObject> _damagePopupPool = new();
+    private List<GameObject> _criticalDamagePopupPool = new();
 
     private int _swarmCoefficient = 7;
     private int _mediumCoefficient = 3;
@@ -167,6 +169,7 @@ public class StageManager : MonoBehaviour
 
         SpawnPlayerCharacter();
         EnemyObjectPoolCreate();
+        DamageUIPoolCreate();
         ExpItemPoolCreate();
         InitializeEnhanceFunctions();
 
@@ -234,6 +237,55 @@ public class StageManager : MonoBehaviour
 
         expItem.GetComponent<ExpItemScript>().Activate(expValue);
         expItem.transform.position = position;
+    }
+
+    private void DamageUIPoolCreate()
+    {
+        int Count = 50;
+        for (int i = 0; i < Count; i++)
+        {
+            GameObject damageUI = Instantiate(GameManager.Instance.DamagePopUpPrefab);
+            damageUI.SetActive(false);
+
+            _damagePopupPool.Add(damageUI);
+
+            GameObject damageCriticalUI = Instantiate(GameManager.Instance.CriticalDamagePopUpPrefab);
+            damageCriticalUI.SetActive(false);
+
+            _criticalDamagePopupPool.Add(damageCriticalUI);
+        }
+    }
+
+    public void GetDamageUIFromPool(Vector2 position, float DamageValue, bool isCritical)
+    {
+        GameObject DamagePopup = isCritical ? _criticalDamagePopupPool.First(x => x.activeSelf == false) : _damagePopupPool.First(x => x.activeSelf == false);
+
+        DamagePopup.SetActive(true);
+        DamagePopup.transform.position = position;
+
+        TextMeshProUGUI tmp = DamagePopup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        tmp.text = DamageValue.ToString();
+
+        tmp.gameObject.transform.localPosition = Vector2.zero;
+
+        Rigidbody2D tmpRB = tmp.GetComponent<Rigidbody2D>();
+
+        double jumpRange = (GameManager.Instance.Rand.NextDouble() - 0.5) * 2;
+        Vector2 direction = new Vector2((float)jumpRange, 1);
+
+        float force = isCritical ? 200 : 150;
+
+        tmpRB.AddForce(direction * force);
+
+        StartCoroutine(DeactivateTimer(DamagePopup));
+
+    }
+
+    IEnumerator DeactivateTimer(GameObject deactiveObject)
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        deactiveObject.SetActive(false);
     }
 
     private void InitializeEnhanceFunctions()

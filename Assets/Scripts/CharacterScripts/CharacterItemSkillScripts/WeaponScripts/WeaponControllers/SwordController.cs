@@ -8,16 +8,18 @@ public class SwordController : ItemController
     {
         base.Launch();
 
-        GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
+        //GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
+
+        //ItemBehaviour projectileBehaviour = projectile.GetComponent<ItemBehaviour>();
+        //projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentLevel, _currentSizeScale, _currentKnockbackValue);
 
 
-        ItemBehaviour projectileBehaviour = projectile.GetComponent<ItemBehaviour>();
-        projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentLevel, _currentSizeScale, _currentKnockbackValue);
+        ItemBehaviour projectileBehaviour = InstantiateProjectile();
 
         Vector2 AttackDirection = FindClosestEnemy();
 
         float angle = Mathf.Atan2(AttackDirection.y, AttackDirection.x) * Mathf.Rad2Deg;
-        projectile.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        projectileBehaviour.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
     }
 
@@ -69,5 +71,24 @@ public class SwordController : ItemController
         }
 
         return BestDirection;
+    }
+
+    protected override void Level2Effect()
+    {
+        IncreaseDamagePercentage(0.1f);
+    }
+
+    protected override void Level3Effect()
+    {
+        AddPierceLimit(9999);
+    }
+    protected override void Level4Effect()
+    {
+        IncreaseKnockBack(0.5f);
+    }
+
+    protected override void Level5Effect()
+    {
+        DecreaseCooldownPercentage(0.15f);
     }
 }

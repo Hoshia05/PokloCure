@@ -53,11 +53,4 @@ public class LavaBehaviour : ItemBehaviour
 
         DeathCoroutine = StartCoroutine(DestroyProjectile(_deathTime));
     }
-
-
-    void Update()
-    {
-
-    }
-
 }

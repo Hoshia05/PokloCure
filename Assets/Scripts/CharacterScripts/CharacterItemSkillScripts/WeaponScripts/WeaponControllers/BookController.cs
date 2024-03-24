@@ -25,11 +25,8 @@ public class BookController : ItemController
 
             Vector2 initialPosition = new Vector2(x, y);
 
-            GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
-            BookBehaviour projectileBehaviour = projectile.GetComponent<BookBehaviour>();
-            projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentLevel, _currentSizeScale, _currentKnockbackValue);
-            projectileBehaviour.SetInitialPosition(initialPosition, i * angleDifference);
-            CurrentProjectiles.Add(projectileBehaviour);
+            BookBehaviour bookBehavior = (BookBehaviour)InstantiateProjectile();
+            bookBehavior.SetInitialPosition(initialPosition, i * angleDifference);
 
         }
 

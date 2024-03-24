@@ -22,7 +22,7 @@ MonoBehaviour:
   EnemyType: 0
   EnemyClass: 1
   HP: 100
-  SpeedMultiplier: 1.2
+  SpeedMultiplier: 1.5
   BodyDamage: 15
   AttackCooltime: 0
   CriticalChance: 0.01

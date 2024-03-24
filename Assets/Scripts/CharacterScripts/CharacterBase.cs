@@ -30,4 +30,9 @@ public class CharacterBase : ScriptableObject
     public float AttackMultiplier = 1f;
     public float CriticalMultiplier = 0.01f;
 
+
+    public float StaminaReplenishRate = 20f;
+    public float StaminaDepleteRate = 50f;
+    public float StaminaRedlineValue = 30f;
+
 }

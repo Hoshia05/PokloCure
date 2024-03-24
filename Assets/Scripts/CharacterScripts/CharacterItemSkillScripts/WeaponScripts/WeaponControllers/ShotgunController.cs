@@ -28,11 +28,16 @@ public class ShotgunController : ItemController
     {
         for (int i = 0; i < _projectileNum; i++)
         {
-            GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
-            Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
-            ItemBehaviour projectileBehaviour = projectileRB.GetComponent<ItemBehaviour>();
-            projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentLevel, _currentSizeScale, _currentKnockbackValue);
+            //GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
+            //Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
+            //ItemBehaviour projectileBehaviour = projectileRB.GetComponent<ItemBehaviour>();
+            //projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentLevel, _currentSizeScale, _currentKnockbackValue);
+            //projectileRB.AddForce(CreateSpread(PlayerControl.Instance.PlayerLineOfSight) * 2500);
+
+            ItemBehaviour projectileBehaviour = InstantiateProjectile();
+            Rigidbody2D projectileRB = projectileBehaviour.GetComponent<Rigidbody2D>();
             projectileRB.AddForce(CreateSpread(PlayerControl.Instance.PlayerLineOfSight) * 2500);
+
         }
 
         if(_shotNums == 1)
@@ -45,10 +50,8 @@ public class ShotgunController : ItemController
 
             for (int i = 0; i < _projectileNum; i++)
             {
-                GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
-                Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
-                ItemBehaviour projectileBehaviour = projectileRB.GetComponent<ItemBehaviour>();
-                projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentLevel, _currentSizeScale, _currentKnockbackValue);
+                ItemBehaviour projectileBehaviour = InstantiateProjectile();
+                Rigidbody2D projectileRB = projectileBehaviour.GetComponent<Rigidbody2D>();
                 projectileRB.AddForce(CreateSpread(PlayerControl.Instance.PlayerLineOfSight) * 2500);
             }
         }

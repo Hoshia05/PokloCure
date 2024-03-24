@@ -38,6 +38,7 @@ public class EnemyScript : MonoBehaviour
 
     //Pattern Spawn 관련
     private bool _isPatternSpawn;
+    private bool _isStunned;
 
 
     [Header("무기슬롯관련")]
@@ -49,7 +50,7 @@ public class EnemyScript : MonoBehaviour
 
     protected Animator _enemyAnim; //Not now...
 
-    List<ItemBehaviour> DamageList;
+    List<String> DamageList;
 
 
     protected void Awake()
@@ -68,7 +69,7 @@ public class EnemyScript : MonoBehaviour
     protected void Update()
     {
         _playerPosition = _playerCharacter != null ? _playerCharacter.transform.position : transform.position;
-        if(!_isPatternSpawn)
+        if(!_isPatternSpawn && !_isStunned)
             Movement();
         UpdateLOS();
     }
@@ -123,11 +124,6 @@ public class EnemyScript : MonoBehaviour
 
     }
 
-    public void HordeMovement(Vector2 targetPosition)
-    {
-
-    }
-
 
     protected void Movement()
     {
@@ -163,8 +159,9 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float rawDamage, float knockBack, bool isCritical = false, ItemBehaviour damageItem = null, float hitCooldown = 0)
+    public void TakeDamage(float rawDamage, float knockBack, bool isCritical = false, string damageItem = null, float hitCooldown = 0)
     {
+
         if(DamageList.Contains(damageItem))
         {
             return;
@@ -184,23 +181,7 @@ public class EnemyScript : MonoBehaviour
 
             //위에 데미지 뜨는 애니메이션
 
-            GameObject damagePopupPrefab = isCritical ? GameManager.Instance.CriticalDamagePopUpPrefab : GameManager.Instance.DamagePopUpPrefab;
-
-            GameObject DamagePopUp = Instantiate(damagePopupPrefab, transform);
-            TextMeshProUGUI tmp = DamagePopUp.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            tmp.text = damage.ToString();
-
-            Rigidbody2D tmpRB = tmp.GetComponent<Rigidbody2D>();
-
-            double jumpRange = (GameManager.Instance.Rand.NextDouble() - 0.5) * 2; 
-            //Vector2 direction = new Vector2(UnityEngine.Random.Range(-1, 1), 1);
-            Vector2 direction = new Vector2((float)jumpRange, 1);
-
-            float force = isCritical ? 200 : 150;
-
-            tmpRB.AddForce(direction * force);
-
-            Destroy(DamagePopUp, 0.5f);
+            StageManager.Instance.GetDamageUIFromPool(transform.position, damage, isCritical);
 
             CheckDeath();
 
@@ -210,7 +191,7 @@ public class EnemyScript : MonoBehaviour
 
     }
 
-    private IEnumerator DamageCoroutine(ItemBehaviour damageItem, float hitCooldown)
+    private IEnumerator DamageCoroutine(string damageItem, float hitCooldown)
     {
         DamageList.Add(damageItem);
 
@@ -350,6 +331,20 @@ public class EnemyScript : MonoBehaviour
 
         // Ensure the enemy reaches the exact target position
         transform.position = targetPosition;
+    }
+
+    public void StunEnemy(float stunTime)
+    {
+        StartCoroutine(StunCoroutine(stunTime));
+    }
+
+    IEnumerator StunCoroutine(float stunTime)
+    {
+        _isStunned = true;
+
+        yield return new WaitForSeconds(stunTime);
+
+        _isStunned = false;
     }
 
     public void BuffEnemy()

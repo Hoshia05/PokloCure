@@ -20,7 +20,7 @@ MonoBehaviour:
   CharacterName: Hoshia
   CharacterDescription: 
   Health: 50
-  Stamina: 100
+  Stamina: 80
   DashMultiplier: 2
   SpeedMultiplier: 1
   AttackMultiplier: 1.2

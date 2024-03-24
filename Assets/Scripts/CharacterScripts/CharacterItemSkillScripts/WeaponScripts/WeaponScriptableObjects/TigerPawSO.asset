@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae12a9c1cc1fff94aa39ed35c196fe83, type: 3}
+  m_Name: TigerPawSO
+  m_EditorClassIdentifier: 
+  ItemName: "\uD638\uB791\uC774 \uBC1C\uC790\uAD6D"
+  ItemDescription:
+  - "\uC9C0\uB098\uAC04 \uC790\uB9AC\uC5D0 \uC801\uC774 \uD53C\uD574\uB97C \uC785\uB294
+    \uBC1C\uC790\uAD6D\uC744 \uB0A8\uAE41\uB2C8\uB2E4."
+  - "\uBC1C\uC790\uAD6D\uC774 20% \uCEE4\uC9D1\uB2C8\uB2E4"
+  - "\uCFE8\uB2E4\uC6B4\uC774 30% \uAC10\uC18C\uD569\uB2C8\uB2E4"
+  - "\uBC1C\uC790\uAD6D\uC774 25% \uCEE4\uC9D1\uB2C8\uB2E4"
+  - "\uBC1C\uC790\uAD6D\uC744 \uBC1F\uC740 \uC801\uC774 0.2\uCD08\uAC04 \uC2A4\uD134
+    \uB2F9\uD569\uB2C8\uB2E4."
+  ItemType: 1
+  WeaponType: 2
+  ItemImage: {fileID: 21300000, guid: 80e159dab3e6f1142bc5062eb184ccaf, type: 3}
+  ItemMaxLevel: 5
+  characterLabel: 0
+  ProjectileItemPrefab: {fileID: 429641142634744645, guid: f8f361e80d871ee4bacc27af9aed06ab, type: 3}
+  ControllerScript: {fileID: 11500000, guid: b1e1d4a3ba24eba418c4b0fd605a83e7, type: 3}
+  Cost: 0
+  DamageMultiplier: 0.6
+  Speed: 0
+  CooldownDuration: 1.5
+  Pierce: 9999
+  Deathtime: 6
+  ProjectileNum: 1
+  KnockbackValue: 0
+  Area: 0.6

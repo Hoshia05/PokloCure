@@ -102,6 +102,11 @@ public class PlayerScript : MonoBehaviour
     //실드
     private float _shield;
 
+    //스테미나
+    private float _staminaReplenishRate;
+    private float _staminaDepleteRate;
+    private float _staminaRedlineValue;
+
     //버프 관리용 Dictionary
     public Dictionary<ItemController, BuffObject> BuffDictionary = new();
 
@@ -260,13 +265,13 @@ public class PlayerScript : MonoBehaviour
 
         _characterLabel = SelectedCharacter.characterLabel;
 
-        //_defensePoints = SelectedCharacter.DefensePoints;
-
         _spriteRenderer.sprite = SelectedCharacter.CharacterSprite;
         _playerAnim.runtimeAnimatorController = SelectedCharacter.AnimatorController;
 
-        //_basicWeaponSlot = Instantiate(SelectedCharacter.BasicWeaponController, _basicWeaponSlot.transform);
-        //_basicWeapon = _basicWeaponSlot.GetComponent<ItemController>();
+
+        _staminaReplenishRate = SelectedCharacter.StaminaReplenishRate;
+        _staminaDepleteRate = SelectedCharacter.StaminaDepleteRate;
+        _staminaRedlineValue = SelectedCharacter.StaminaRedlineValue;
 
         GameObject NewWeapon = new GameObject(SelectedCharacter.BaseWeapon.ItemName);
         NewWeapon.transform.parent = _basicWeaponSlot.transform;
@@ -295,7 +300,7 @@ public class PlayerScript : MonoBehaviour
     {
         if(!PlayerControl.Instance.IsDashing && _currentStamina < _currentMaxStamina && !_redlineCharging)
         {
-            _currentStamina += Time.deltaTime * 20;
+            _currentStamina += Time.deltaTime * _staminaReplenishRate;
             UIStaminaBar.Instance.UpdateStamina(_currentStamina);
         }
         else if(_currentStamina <= 0)
@@ -314,7 +319,7 @@ public class PlayerScript : MonoBehaviour
 
         UIStaminaBar.Instance.EndRedline();
         _redlineCharging = false;
-        _currentStamina = 30f;
+        _currentStamina = _staminaRedlineValue;
     }
 
     void ApplyMovement()
@@ -329,7 +334,7 @@ public class PlayerScript : MonoBehaviour
         if (PlayerControl.Instance.IsDashing && _currentStamina > 0)
         {
             currentMovement = _currentMovementSpeed * _selectedCharacter.DashMultiplier;
-            _currentStamina -= Time.deltaTime * 50;
+            _currentStamina -= Time.deltaTime * _staminaDepleteRate;
             UIStaminaBar.Instance.UpdateStamina(_currentStamina);
         }
         else
@@ -719,6 +724,7 @@ public class PlayerScript : MonoBehaviour
     {
         isInvulnerable = true;
         _playerAnim.SetTrigger("hurt");
+        _spriteRenderer.color = Color.red;
 
         _characterCurrentHP -= damage;
 
@@ -733,6 +739,7 @@ public class PlayerScript : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
+        _spriteRenderer.color = Color.white;
         isInvulnerable = false;
         _playerAnim.SetTrigger("hurtEnd");
 

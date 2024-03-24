@@ -7,12 +7,14 @@ public class ItemBehaviour : MonoBehaviour
 {
     protected ItemController _controller;
 
+    protected string _itemName;
     protected float _damage;
     protected float _deathTime;
     protected int _pierce;
     protected float _speed;
     protected float _knockback;
     protected float _hitCooldown = 0;
+    protected float _stunTime = 0f;
 
     private bool _isHitCooldown;
 
@@ -21,7 +23,7 @@ public class ItemBehaviour : MonoBehaviour
     protected Coroutine DeathCoroutine;
 
 
-    public void InitializeValue(ItemController controller, float damage, float deathtime, int pierce, float speed, int level, float sizeScale, float knockback)
+    public void InitializeValue(ItemController controller, float damage, float deathtime, int pierce, float speed, int level, float sizeScale, float knockback, float stunTime)
     {
         _controller = controller;
         _damage = damage;
@@ -30,6 +32,9 @@ public class ItemBehaviour : MonoBehaviour
         _speed = speed;
         _itemLevel = level;
         _knockback = knockback;
+        _stunTime = stunTime;
+
+        _itemName = controller.ItemData.ItemName;
 
         transform.localScale += new Vector3(sizeScale - 1f, sizeScale - 1f, 0);
 
@@ -83,17 +88,17 @@ public class ItemBehaviour : MonoBehaviour
 
         if (PlayerScript.Instance.CriticalCheck())
         {
-            script.TakeDamage(PlayerScript.Instance.GetCritDamage(_damage), _knockback, true, this, _hitCooldown);
+            script.TakeDamage(PlayerScript.Instance.GetCritDamage(_damage), _knockback, true, _itemName, _hitCooldown);
         }
         else
         {
-            script.TakeDamage(_damage, _knockback, false, this, _hitCooldown);
+            script.TakeDamage(_damage, _knockback, false, _itemName, _hitCooldown);
         }
 
-        //if (_knockback != 0)
-        //{
-        //    script.KnockbackEnemy(transform.position, _knockback);
-        //}
+        if(_stunTime > 0)
+        {
+            script.StunEnemy(_stunTime);
+        }
 
         CheckPierce();
 
