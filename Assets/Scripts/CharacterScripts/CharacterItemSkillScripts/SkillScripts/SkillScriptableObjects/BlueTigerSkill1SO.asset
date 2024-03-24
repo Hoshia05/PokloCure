@@ -24,11 +24,13 @@ MonoBehaviour:
     \uBC84\uD504(1.5%, \uCD5C\uB300 15\uC2A4\uD0DD)\uB97C \uC5BB\uC2B5\uB2C8\uB2E4.
     \uD53C\uACA9\uC2DC \uCD08\uAE30\uD654"
   ItemType: 2
+  WeaponType: 2
   ItemImage: {fileID: 21300000, guid: b0f36b460de7e724d9fe1ba6784c3ef7, type: 3}
   ItemMaxLevel: 3
   characterLabel: 2
   ProjectileItemPrefab: {fileID: 0}
   ControllerScript: {fileID: 11500000, guid: beb941ba1692bb549813bfb15c9319ae, type: 3}
+  Cost: 0
   DamageMultiplier: 1
   Speed: 0
   CooldownDuration: 0
@@ -37,3 +39,4 @@ MonoBehaviour:
   ProjectileNum: 1
   KnockbackValue: 0
   Area: 1
+  Priority: 6

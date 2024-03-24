@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class ExpItemScript : FieldItemBase
@@ -21,6 +22,7 @@ public class ExpItemScript : FieldItemBase
 
     public void Deactivate()
     {
+        isPicked = false;
         gameObject.SetActive(false);
     }
 

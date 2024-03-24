@@ -324,7 +324,7 @@ public class PlayerScript : MonoBehaviour
 
     void ApplyMovement()
     {
-        if (PlayerControl.Instance.PlayerMovement != Vector2.zero)
+        if (PlayerControl.Instance.GetPlayerMovement() != Vector2.zero)
             _playerAnim.SetBool("Move", true);
         else
             _playerAnim.SetBool("Move", false);
@@ -342,8 +342,8 @@ public class PlayerScript : MonoBehaviour
             currentMovement = _currentMovementSpeed;
         }
 
-        _xVelocity = PlayerControl.Instance.PlayerMovement.x * currentMovement;
-        _yVelocity = PlayerControl.Instance.PlayerMovement.y * currentMovement;
+        _xVelocity = PlayerControl.Instance.GetPlayerMovement().x * currentMovement;
+        _yVelocity = PlayerControl.Instance.GetPlayerMovement().y * currentMovement;
 
         _rb.velocity = new Vector2(_xVelocity, _yVelocity);
     }

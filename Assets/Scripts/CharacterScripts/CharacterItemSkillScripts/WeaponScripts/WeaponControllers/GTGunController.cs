@@ -16,11 +16,13 @@ public class GTGunController : ItemController
 
     IEnumerator FireGun()
     {
+        Vector2 fireVector = PlayerControl.Instance.PlayerLineOfSight;
+
         for (int i = 0; i < _projectileNum; i++)
         {
             ItemBehaviour projectileBehaviour = InstantiateProjectile();
             Rigidbody2D projectileRB = projectileBehaviour.GetComponent<Rigidbody2D>();
-            projectileRB.AddForce(PlayerControl.Instance.PlayerLineOfSight * 1500);
+            projectileRB.AddForce(fireVector * 1500);
 
             yield return new WaitForSeconds(0.05f);
         }

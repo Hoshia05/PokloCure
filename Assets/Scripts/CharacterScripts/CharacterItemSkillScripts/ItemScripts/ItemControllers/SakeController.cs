@@ -9,7 +9,11 @@ public class SakeController : ItemController
 
     private const float EVERYSECOND = 1.0f;
 
-    private bool _ateFood = false;
+    private bool _ateFood;
+    private bool _isDrunk;
+    private bool _finalLevel;
+
+    private Coroutine _drunkCoroutine;
 
     void Start()
     {
@@ -23,6 +27,16 @@ public class SakeController : ItemController
         _currentCooldownDuration = EVERYSECOND;
     }
 
+    protected override void Update()
+    {
+        base.Update();
+
+        if (_buffStack == _maxStack && !_isDrunk && _finalLevel)
+        {
+            _drunkCoroutine = StartCoroutine(DrunkEffect());
+        }
+    }
+
     protected override void Launch()
     {
         base.Launch();
@@ -30,6 +44,7 @@ public class SakeController : ItemController
         _buffStack++;
 
         _buff.CritMultiplierBuff = _buffStack * buffValue;
+        _buff.AttackMultiplierBuff = _buffStack * buffValue;
         
         if(_buffStack >= _maxStack)
         {
@@ -42,6 +57,7 @@ public class SakeController : ItemController
     private void WhenHit()
     {
         _buffStack = _buffStack / 2;
+        BreakDrunk();
 
         UpdateBuff();
     }
@@ -73,6 +89,34 @@ public class SakeController : ItemController
 
     }
 
+    IEnumerator DrunkEffect()
+    {
+        _isDrunk = true;
+
+        float waitTime = GameManager.Instance.Rand.Next(1, 5);
+        float drunkTime = GameManager.Instance.Rand.Next(1, 5);
+
+        yield return new WaitForSeconds(waitTime);
+
+        PlayerControl.Instance.IsDrunk = true;
+
+        yield return new WaitForSeconds(drunkTime);
+
+        PlayerControl.Instance.IsDrunk = false;
+
+        _isDrunk = false;
+    }
+
+    void BreakDrunk()
+    {
+        _isDrunk = false;
+        PlayerControl.Instance.IsDrunk = false;
+        
+        if(_drunkCoroutine != null)
+            StopCoroutine(_drunkCoroutine);
+    }
+
+
     protected override void Level2Effect()
     {
         _maxStack = 15;
@@ -81,5 +125,6 @@ public class SakeController : ItemController
     protected override void Level3Effect()
     {
         _maxStack = 20;
+        _finalLevel = true;
     }
 }

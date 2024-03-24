@@ -70,7 +70,7 @@ public class StageManager : MonoBehaviour
     private Vector2 min;
     private Vector2 max;
 
-    private const int ENEMYLIMIT = 1000;
+    private const int ENEMYLIMIT = 3000;
 
     private float _currentTime = 0f;
     private int _killCount = 0;
@@ -122,7 +122,7 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     public float BuffInterval = 10f;
     [SerializeField]
-    private float _circleSpawnInterval = 10f;
+    private float _circleSpawnInterval = 5f;
     [SerializeField]
     private float _mteSpawnInvterval = 15f;
 
@@ -191,15 +191,15 @@ public class StageManager : MonoBehaviour
         {
             List<GameObject> enemyList = new();
 
-            int Count = 1000;
+            int Count = 3000;
 
             if(enemy.EnemyClass == EnemyClass.MEDIUM)
             {
-                Count = 150;
+                Count = 500;
             }
             else if(enemy.EnemyClass == EnemyClass.ELITE)
             {
-                Count = 100;
+                Count = 200;
             }
 
             for(int i = 0; i < Count; i++)
@@ -397,16 +397,17 @@ public class StageManager : MonoBehaviour
         PlayerScript playerScript = StageManager.Instance.CurrentPlayer;
         Vector2 playerPosition = playerScript.transform.position;
 
-        float radius = 30f;
+        float radius = 40f;
 
         float degreeDif = 360 / _circleEnemyNum;
 
-        float currentDegree = GameManager.Instance.Rand.Next(0, 360);
-
-        for (float i = 0; i <= _circleEnemyNum; i++)
+        for (float i = 0; i < _circleEnemyNum; i++)
         {
-            float xPosition = playerPosition.x + radius * Mathf.Cos(currentDegree);
-            float yPosition = playerPosition.y + radius * Mathf.Sin(currentDegree);
+            float angle = i * 360f / _circleEnemyNum;
+            float radians = Mathf.Deg2Rad * angle;
+
+            float xPosition = playerPosition.x + (radius * Mathf.Cos(radians));
+            float yPosition = playerPosition.y + (radius * Mathf.Sin(radians));
 
             Vector2 newSpawnPosition = new Vector2(xPosition, yPosition);
 
@@ -415,10 +416,10 @@ public class StageManager : MonoBehaviour
                 spawnPositionList.Add(newSpawnPosition);
             }
 
-            currentDegree += degreeDif;
+
         }
 
-        foreach(Vector2 spawnPosition in spawnPositionList)
+        foreach (Vector2 spawnPosition in spawnPositionList)
         {
             PullFromObjectPool(EnemyClass.SWARM, spawnPosition);
         }

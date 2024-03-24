@@ -30,3 +30,4 @@ MonoBehaviour:
   ProjectileNum: 1
   KnockbackValue: 0
   Area: 1
+  Priority: 1

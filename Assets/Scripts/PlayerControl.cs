@@ -15,6 +15,7 @@ public class PlayerControl : MonoBehaviour
     public Vector2 PlayerLineOfSight;
 
     public bool IsDashing;
+    public bool IsDrunk;
 
     public UnityEvent PauseMenu;
 
@@ -66,5 +67,29 @@ public class PlayerControl : MonoBehaviour
         Debug.Log("Debug Button");
 
         PlayerScript.Instance.IncreaseWeaponSlot();
+    }
+
+    public Vector2 GetPlayerMovement()
+    {
+        if (IsDrunk)
+        {
+            return new Vector2(-PlayerMovement.x, -PlayerMovement.y);
+        }
+        else
+        {
+            return PlayerMovement;
+        }
+    }
+
+    Vector2 RandomizeMovement()
+    {
+        int IsRandom = GameManager.Instance.Rand.Next(0, 1);
+        int IsRandom2 = GameManager.Instance.Rand.Next(0, 1);
+
+
+        float x = IsRandom == 1 ? -PlayerMovement.x : PlayerMovement.x ;
+        float y = IsRandom2 == 1 ? -PlayerMovement.y : PlayerMovement.y ;
+
+        return new Vector2(x, y);
     }
 }

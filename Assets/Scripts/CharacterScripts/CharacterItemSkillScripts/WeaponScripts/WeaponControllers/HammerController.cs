@@ -8,8 +8,21 @@ public class HammerController : ItemController
     {
         base.Launch();
 
-        ItemBehaviour projectileBehaviour = InstantiateProjectile();
+        StartCoroutine(SpawnProjectile());
+
     }
+
+    IEnumerator SpawnProjectile()
+    {
+        for (int i = 0; i < _projectileNum; i++)
+        {
+            ItemBehaviour projectileBehaviour = InstantiateProjectile();
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+    }
+
 
     protected override void Level2Effect()
     {

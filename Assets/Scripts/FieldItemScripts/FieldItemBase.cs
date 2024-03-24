@@ -7,7 +7,7 @@ public class FieldItemBase : MonoBehaviour
 {
     private float _movementSpeed = 20f;
 
-    private bool isPicked = false;
+    protected bool isPicked = false;
     private Transform _playerTransform;
 
     protected virtual void Update()

@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae12a9c1cc1fff94aa39ed35c196fe83, type: 3}
-  m_Name: Headphone
+  m_Name: Harness
   m_EditorClassIdentifier: 
-  ItemName: "\uD5E4\uB4DC\uD3F0"
+  ItemName: "\uD558\uB124\uC2A4"
   ItemDescription:
-  - "15% \uD655\uB960\uB85C \uACF5\uACA9\uC744 1\uBC88 \uC539\uACE0 \uC8FC\uBCC0
-    \uC801\uB4E4\uC744 \uBC00\uC5B4\uB0B4\uB294 \uCDA9\uACA9\uD30C\uB97C \uBC1C\uC0DD\uD569\uB2C8\uB2E4."
+  - "\uC0B0\uAD70\uC774 \uC4F0\uB358 \uD558\uB124\uC2A4. 15% \uD655\uB960\uB85C \uACF5\uACA9\uC744
+    1\uBC88 \uC539\uACE0 \uC8FC\uBCC0 \uC801\uB4E4\uC744 \uBC00\uC5B4\uB0B4\uB294
+    \uCDA9\uACA9\uD30C\uB97C \uBC1C\uC0DD\uD569\uB2C8\uB2E4."
   - "20% \uD655\uB960\uB85C \uACF5\uACA9\uC744 1\uBC88 \uC539\uACE0 \uC8FC\uBCC0
     \uC801\uB4E4\uC744 \uBC00\uC5B4\uB0B4\uB294 \uCDA9\uACA9\uD30C\uB97C \uBC1C\uC0DD\uD569\uB2C8\uB2E4."
   - "25% \uD655\uB960\uB85C \uACF5\uACA9\uC744 1\uBC88 \uC539\uACE0 \uC8FC\uBCC0
@@ -25,15 +26,19 @@ MonoBehaviour:
   - "35% \uD655\uB960\uB85C \uACF5\uACA9\uC744 1\uBC88 \uC539\uACE0 \uC8FC\uBCC0
     \uC801\uB4E4\uC744 \uBC00\uC5B4\uB0B4\uB294 \uCDA9\uACA9\uD30C\uB97C \uBC1C\uC0DD\uD569\uB2C8\uB2E4."
   ItemType: 0
+  WeaponType: 2
   ItemImage: {fileID: 21300000, guid: f6d4fe1a2608eab439e601beadc5fb65, type: 3}
   ItemMaxLevel: 5
   characterLabel: 0
-  ControllerPrefab: {fileID: 3780977769202291255, guid: 42122d20e0e12cc4ca687dd7f2df1de4, type: 3}
   ProjectileItemPrefab: {fileID: 0}
   ControllerScript: {fileID: 11500000, guid: 504cc98aeb7e2b54eb1a7442e0e64e4e, type: 3}
+  Cost: 0
   DamageMultiplier: 1
   Speed: 0
   CooldownDuration: 0
   Pierce: 1
   Deathtime: 4
   ProjectileNum: 1
+  KnockbackValue: 0
+  Area: 1
+  Priority: 3

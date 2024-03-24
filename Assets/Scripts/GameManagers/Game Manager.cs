@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
+
         DontDestroyOnLoad(gameObject);
     }
 
@@ -77,27 +78,29 @@ public class GameManager : MonoBehaviour
 
     public ItemSO GetRandomItem(List<ItemSO> exemptList = null)
     {
-        return _isDebug ? GetFromDebugList(exemptList) : GetFromFullList(exemptList);
+        return _isDebug ? GetFromList(DebugItemList, exemptList) : GetFromList(ItemList, exemptList);
     }
 
-    private ItemSO GetFromFullList(List<ItemSO> exemptList = null)
+    private ItemSO GetFromList(List<ItemSO> targetList, List<ItemSO> exemptList = null)
     {
-        if (!ItemList.Except(exemptList).Any())
+        if (!targetList.Except(exemptList).Any())
             return null;
 
-        List<ItemSO> possibleItemList = ItemList.Except(exemptList).ToList();
+        List<ItemSO> possibleItemList = targetList.Except(exemptList).ToList();
 
-        return possibleItemList[Rand.Next(possibleItemList.Count)];
-    }
+        int TotalWeight = possibleItemList.Sum(x => x.Priority);
 
-    private ItemSO GetFromDebugList(List<ItemSO> exemptList = null)
-    {
-        if (!DebugItemList.Except(exemptList).Any())
-            return null;
+        int priorityCheck = GameManager.Instance.Rand.Next(1, TotalWeight);
 
-        List<ItemSO> possibleItemList = DebugItemList.Except(exemptList).ToList();
+        foreach(ItemSO item in possibleItemList)
+        {
+            priorityCheck -= item.Priority;
 
-        return possibleItemList[Rand.Next(possibleItemList.Count)];
+            if (priorityCheck < 0)
+                return item;
+        }
+
+        return null;
     }
 
     //ForSelectScreen

@@ -27,6 +27,7 @@ MonoBehaviour:
   characterLabel: 3
   ProjectileItemPrefab: {fileID: 0}
   ControllerScript: {fileID: 11500000, guid: aa6a5f4681564894b9fa063232379e02, type: 3}
+  Cost: 0
   DamageMultiplier: 1
   Speed: 0
   CooldownDuration: 0
@@ -35,3 +36,4 @@ MonoBehaviour:
   ProjectileNum: 1
   KnockbackValue: 0
   Area: 1
+  Priority: 6

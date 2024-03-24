@@ -31,6 +31,7 @@ public class ItemSO : ScriptableObject
     public int ProjectileNum = 1;
     public float KnockbackValue = 0f;
     public float Area = 1f;
+    public int Priority = 4;
 }
 
 public enum ItemType
