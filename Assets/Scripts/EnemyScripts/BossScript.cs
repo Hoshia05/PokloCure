@@ -37,13 +37,9 @@ public class BossScript : EnemyScript
             yield return null;
         }
 
-        SpriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
+        SpriteRenderer.color = Color.white;
 
         StageManager.Instance.GetEXPItemFromPool(transform.position, _dropExpValue);
-
-        //GameObject expItem = Instantiate(GameManager.Instance.ExpItemPrefab, RandomNearPosition(), Quaternion.identity);
-        //ExpItemScript expItemScript = expItem.GetComponent<ExpItemScript>();
-        //expItemScript.SetExpValue(_dropExpValue);
 
         //버거소환
         DropBurger();

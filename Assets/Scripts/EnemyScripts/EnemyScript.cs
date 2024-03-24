@@ -263,11 +263,8 @@ public class EnemyScript : MonoBehaviour
 
         SpriteRenderer.color = Color.white;
 
+        //경험치템 소환
         StageManager.Instance.GetEXPItemFromPool(transform.position, _dropExpValue);
-
-        //GameObject expItem = Instantiate(GameManager.Instance.ExpItemPrefab, RandomNearPosition(), Quaternion.identity);
-        //ExpItemScript expItemScript = expItem.GetComponent<ExpItemScript>();
-        //expItemScript.SetExpValue(_dropExpValue);
 
         //버거소환
         DropBurger();
