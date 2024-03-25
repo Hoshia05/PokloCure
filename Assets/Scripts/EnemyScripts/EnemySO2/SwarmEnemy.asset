@@ -28,4 +28,9 @@ MonoBehaviour:
   CriticalChance: 0
   DropEXP: 10
   SizeScale: 1
+  RangedAttackProjectilePrefab: {fileID: 0}
+  _projectileNum: 0
+  _rangedAttackDamage: 0
+  RangedAttackDistance: 0
+  RangedAttackCooltime: 0
   EnemyScore: 10

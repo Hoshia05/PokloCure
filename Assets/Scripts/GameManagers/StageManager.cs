@@ -107,7 +107,7 @@ public class StageManager : MonoBehaviour
     private List<GameObject> _damagePopupPool = new();
     private List<GameObject> _criticalDamagePopupPool = new();
 
-    private int _swarmCoefficient = 7;
+    private int _swarmCoefficient = 15;
     private int _mediumCoefficient = 3;
     private int _eliteCoefficeint = 1;
 
@@ -354,7 +354,7 @@ public class StageManager : MonoBehaviour
         ItemSlotScript.Instance.SlotUpdate(_currentPlayer);
     }
 
-    IEnumerator EnemyCircleSpawnCoroutine()
+    IEnumerator EnemyCircleSpawnCoroutine(int spawnNum = 2)
     {
         while (true)
         {
@@ -367,7 +367,12 @@ public class StageManager : MonoBehaviour
             yield return new WaitForSeconds(waitTime);
             if (_currentEnemyCount < ENEMYLIMIT)
             {
-                BasicCircleSpawn();
+                for(int i = 0; i < spawnNum; i++)
+                {
+                    BasicCircleSpawn();
+                    yield return new WaitForSeconds(1f);
+                }
+
             }
         }
     }
@@ -421,9 +426,21 @@ public class StageManager : MonoBehaviour
 
         foreach (Vector2 spawnPosition in spawnPositionList)
         {
-            PullFromObjectPool(EnemyClass.SWARM, spawnPosition);
+            PullFromObjectPool(RandomizeEnemyCircleSpawn(), spawnPosition);
         }
 
+    }
+
+    private EnemyClass RandomizeEnemyCircleSpawn()
+    {
+        int randNum = GameManager.Instance.Rand.Next(1, 10);
+
+        if( randNum < 10)
+        {
+            return EnemyClass.SWARM;
+        }
+
+        return randNum < 10 ? EnemyClass.SWARM : EnemyClass.MEDIUM;
     }
 
     private void MTESpawn()
@@ -496,11 +513,6 @@ public class StageManager : MonoBehaviour
             return;
 
         SetEnemyActive(enemy);
-
-        //EnemyScript enemyScript = enemy.GetComponent<EnemyScript>();
-        //enemyScript.InitializeWithSO(enemyType);
-        //enemy.SetActive(true);
-        //_currentEnemyCount++;
 
         enemy.transform.position = spawnPosition;
 

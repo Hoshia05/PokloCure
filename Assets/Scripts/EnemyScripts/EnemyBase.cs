@@ -31,6 +31,17 @@ public class EnemyBase : ScriptableObject
     public float DropEXP;
     public float SizeScale = 1f;
 
+    //RangedAttackRelated
+
+    public GameObject RangedAttackProjectilePrefab;
+    public float _projectileNum = 0;
+
+    [SerializeField]
+    public float _rangedAttackDamage = 0;
+    public float RangedAttackDistance = 0;
+    public float RangedAttackCooltime = 0;
+
+
     public int EnemyScore = 10;
 }
 

@@ -32,10 +32,10 @@ MonoBehaviour:
   Cost: 0
   DamageMultiplier: 1
   Speed: 0
-  CooldownDuration: 2
+  CooldownDuration: 1.5
   Pierce: 2
   Deathtime: 4
   ProjectileNum: 3
   KnockbackValue: 0
-  Area: 1
+  Area: 0.8
   Priority: 6

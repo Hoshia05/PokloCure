@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 1391997354435105766}
   - component: {fileID: 2342070220659284535}
   - component: {fileID: -1654011549760285957}
+  - component: {fileID: 1885204627672376502}
   m_Layer: 6
   m_Name: EnemyCharacter
   m_TagString: Enemy
@@ -285,6 +286,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyData: {fileID: 0}
   EClass: 0
+  IsPatternSpawn: 0
+  IsStunned: 0
+  RangedAttackProjectilePrefab: {fileID: 429641142634744645, guid: 4ec7941aff471af44b9c51e1c05b4842, type: 3}
+  _projectileNum: 8
+  _rangedAttackDamage: 5
+  RangedAttackDistance: 10
+  RangedAttackCooltime: 1
   _weaponSlot: {fileID: 2501353271568022681}
   SpriteRenderer: {fileID: 7725466693573987731}
 --- !u!50 &-1654011549760285957
@@ -314,3 +322,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &1885204627672376502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6866567978285184781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf5087b573554c04894992b3d48e68fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
