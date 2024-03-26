@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae12a9c1cc1fff94aa39ed35c196fe83, type: 3}
+  m_Name: TomahawkSO
+  m_EditorClassIdentifier: 
+  ItemName: "\uD1A0\uB9C8\uD638\uD06C"
+  ItemDescription:
+  - "\uD1A0\uB9C8\uD638\uD06C\uAC00 \uCE90\uB9AD\uD130\uC758 \uC8FC\uC704\uB97C \uBE59\uAE00\uBE59\uAE00
+    \uB3C4\uB294 \uD1A0\uB9C8\uD638\uD06C\uB97C \uC18C\uD658\uD569\uB2C8\uB2E4"
+  - "\uD1A0\uB9C8\uD638\uD06C\uC758 \uD06C\uAE30\uAC00 20% \uCEE4\uC9C0\uACE0 \uB300\uBBF8\uC9C0\uAC00
+    20% \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  - "\uCFE8\uD0C0\uC784\uC774 20% \uAC10\uC18C\uD569\uB2C8\uB2E4"
+  - "\uB300\uBBF8\uC9C0\uAC00 33% \uC99D\uAC00\uD558\uACE0 \uD06C\uAE30\uAC00 20%
+    \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  - "\uD788\uD2B8 \uC218 \uC81C\uD55C\uC774 \uC0AC\uB77C\uC9C0\uACE0, \uC9C0\uC18D
+    \uC2DC\uAC04\uC774 1\uCD08 \uC0C1\uC2B9\uD569\uB2C8\uB2E4"
+  ItemType: 1
+  WeaponType: 1
+  ItemImage: {fileID: 21300000, guid: c85ec54085f787e4081658c0eab0fc13, type: 3}
+  ItemMaxLevel: 5
+  characterLabel: 0
+  ProjectileItemPrefab: {fileID: 429641142634744645, guid: a0135f9be72ff9644afac2f0107f00b0, type: 3}
+  ControllerScript: {fileID: 11500000, guid: 67076a42e544e7d48801b1a347b1cb80, type: 3}
+  Cost: 0
+  DamageMultiplier: 1.2
+  Speed: 20
+  CooldownDuration: 4
+  Pierce: 4
+  Deathtime: 5
+  ProjectileNum: 1
+  KnockbackValue: 0
+  Area: 1
+  Priority: 3

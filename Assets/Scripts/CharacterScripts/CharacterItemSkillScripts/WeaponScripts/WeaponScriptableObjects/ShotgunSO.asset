@@ -21,7 +21,7 @@ MonoBehaviour:
   - "\uC0F7\uAC74\uC744 2\uD68C \uBC1C\uC0AC\uD569\uB2C8\uB2E4"
   ItemType: 1
   WeaponType: 1
-  ItemImage: {fileID: 21300000, guid: 837bde0e349efa24fa4fd77808011006, type: 3}
+  ItemImage: {fileID: 21300000, guid: aabd7d1f519c0b444abf279e8f07660c, type: 3}
   ItemMaxLevel: 5
   characterLabel: 0
   ProjectileItemPrefab: {fileID: 429641142634744645, guid: a8acffa51bee30f4b9b4b1998479b3d5, type: 3}
