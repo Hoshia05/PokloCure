@@ -24,7 +24,7 @@ MonoBehaviour:
     \uD0C4\uC885\uC744 \uBCC0\uACBD\uD569\uB2C8\uB2E4"
   ItemType: 1
   WeaponType: 1
-  ItemImage: {fileID: 21300000, guid: a3550049f1e867b47a7037be5eff1fef, type: 3}
+  ItemImage: {fileID: 21300000, guid: 9aff36d56dd00aa4c96223821ae944ef, type: 3}
   ItemMaxLevel: 7
   characterLabel: 3
   ProjectileItemPrefab: {fileID: 429641142634744645, guid: a995eeea6128666428be48b4e27a9974, type: 3}
