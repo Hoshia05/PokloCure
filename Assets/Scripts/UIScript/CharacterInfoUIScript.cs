@@ -14,7 +14,6 @@ public class CharacterInfoUIScript : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _atkSlot;
     [SerializeField] private TextMeshProUGUI _spdSlot;
     [SerializeField] private TextMeshProUGUI _crtSlot;
-    [SerializeField] private TextMeshProUGUI _pickupSlot;
     [SerializeField] private TextMeshProUGUI _hasteSlot;
 
     private void Awake()
@@ -50,11 +49,6 @@ public class CharacterInfoUIScript : MonoBehaviour
     public void SetCrt(float crtValue)
     {
         _crtSlot.text = $"+{crtValue * 100}%";
-    }
-
-    public void SetPickup(float pickupValue)
-    {
-        _pickupSlot.text = $"+{(pickupValue - 1) * 100}%";
     }
 
     public void SetHaste(float hasteValue)

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 583199cfa19d6e348bf7155a23fdafc5, type: 3}
   m_Name: GreenTiger
   m_EditorClassIdentifier: 
-  CharacterPortrait: {fileID: 21300000, guid: d09ab8c095064c0409d879bf23812b9e, type: 3}
-  CharacterSprite: {fileID: -1470461918, guid: ce569ac958af9d044b5d3e58ecf73746, type: 3}
+  CharacterPortrait: {fileID: 21300000, guid: 9a51626b1e0129841b0eb466339b8eef, type: 3}
+  CharacterSprite: {fileID: -1776283240, guid: 1fc75496a7944594d87c7e4a596fc107, type: 3}
   characterLabel: 3
   AnimatorController: {fileID: 9100000, guid: 26deedd06a037404fb6099fdf3128d07, type: 2}
   BaseWeapon: {fileID: 11400000, guid: d411eec8657b7b74797c368ae4d4c8c0, type: 2}
@@ -25,3 +25,6 @@ MonoBehaviour:
   SpeedMultiplier: 1
   AttackMultiplier: 1.2
   CriticalMultiplier: 0.01
+  StaminaReplenishRate: 20
+  StaminaDepleteRate: 50
+  StaminaRedlineValue: 30

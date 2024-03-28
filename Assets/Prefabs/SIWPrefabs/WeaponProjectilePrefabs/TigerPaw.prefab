@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 2675290101501031932}
   - component: {fileID: 1268096993703172586}
   m_Layer: 8
-  m_Name: LavaGround
+  m_Name: TigerPawSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

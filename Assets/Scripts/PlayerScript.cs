@@ -292,7 +292,6 @@ public class PlayerScript : MonoBehaviour
         CharacterInfoUIScript.Instance.SetAtk(_currentAttackMultiplier);
         CharacterInfoUIScript.Instance.SetSpd(_currentSpeedMultiplier);
         CharacterInfoUIScript.Instance.SetCrt(_currentCriticalMultiplier);
-        CharacterInfoUIScript.Instance.SetPickup(_eatDistanceMultiplier);
         CharacterInfoUIScript.Instance.SetHaste(_eatDistanceMultiplier);
     }
 

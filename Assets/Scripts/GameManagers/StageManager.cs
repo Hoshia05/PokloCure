@@ -127,6 +127,7 @@ public class StageManager : MonoBehaviour
     private float _mteSpawnInvterval = 15f;
 
     private bool _gamePaused;
+    private bool _pauseEvent;
 
     private void Awake()
     {
@@ -344,7 +345,7 @@ public class StageManager : MonoBehaviour
         GameObject playerCharacter = Instantiate(GameManager.Instance.PlayerCharacterPrefab, _characterSpawnPoint.position, Quaternion.identity);
         _currentPlayer = playerCharacter.GetComponent<PlayerScript>();
 
-        _characterThumbnail.sprite = GameManager.Instance.SelectedCharacter.CharacterPortrait;
+        _characterThumbnail.sprite = GameManager.Instance.SelectedCharacter.CharacterSprite;
         _virtualCamera.Follow = playerCharacter.transform;
 
         PlayerControl.Instance.PauseMenu.AddListener(PauseMenu);
@@ -714,8 +715,11 @@ public class StageManager : MonoBehaviour
         }
     }
 
+    //Pause events
+
     public void LevelUpEvent()
     {
+        _pauseEvent = true;
         Time.timeScale = 0;
         SetupItemExemptList();
         OpenCharacterInfoUI();
@@ -726,6 +730,7 @@ public class StageManager : MonoBehaviour
 
     public void LevelUpEventEnd()
     {
+        _pauseEvent = false;
         Time.timeScale = 1;
         CloseCharacterInfoUI();
         _levelUPUI.SetActive(false);
@@ -734,6 +739,7 @@ public class StageManager : MonoBehaviour
 
     public void FieldBoxEvent()
     {
+        _pauseEvent = true;
         Time.timeScale = 0;
         SetupItemExemptList();
         _darkScreen.SetActive(true);
@@ -743,6 +749,7 @@ public class StageManager : MonoBehaviour
 
     public void EndBoxUI()
     {
+        _pauseEvent = false;
         Time.timeScale = 1;
         _BoxItemUI.SetActive(false);
         _darkScreen.SetActive(false);
@@ -754,6 +761,8 @@ public class StageManager : MonoBehaviour
         PlayerControl.Instance.PauseMenu.RemoveListener(PauseMenu);
         PlayerScript.Instance.onTakeDamage.RemoveListener(ComboBreak);
 
+
+        _pauseEvent = true;
         Time.timeScale = 0;
         GameObject AlertPrompt = Instantiate(_gameOverPromptPrefab);
         GameOverPromptScript GOPScript = AlertPrompt.GetComponent<GameOverPromptScript>();
@@ -762,6 +771,9 @@ public class StageManager : MonoBehaviour
 
     public void PauseMenu()
     {
+        if (_pauseEvent)
+            return;
+
         if (_gamePaused)
         {
             _gamePaused = false;
@@ -769,6 +781,7 @@ public class StageManager : MonoBehaviour
             _currentPlayer.IsPaused = false;
 
 
+            CloseCharacterInfoUI();
             _darkScreen.SetActive(false);
             _pauseScreen.SetActive(false);
         }
@@ -778,7 +791,7 @@ public class StageManager : MonoBehaviour
             Time.timeScale = 0;
             _currentPlayer.IsPaused = true;
 
-
+            OpenCharacterInfoUI();
             _darkScreen.SetActive(true);
             _pauseScreen.SetActive(true);
         }
