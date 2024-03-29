@@ -1,11 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
-using static UnityEditor.Progress;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -277,8 +275,7 @@ public class PlayerScript : MonoBehaviour
         NewWeapon.transform.parent = _basicWeaponSlot.transform;
         NewWeapon.transform.localPosition = Vector3.zero;
 
-        System.Type scriptType = (SelectedCharacter.BaseWeapon.ControllerScript as MonoScript).GetClass();
-        _basicWeapon = NewWeapon.AddComponent(scriptType) as ItemController;
+        _basicWeapon = NewWeapon.AddComponent(SelectedCharacter.BaseWeapon.ControllerType) as ItemController;
         _basicWeapon.SetWithSO(SelectedCharacter.BaseWeapon);
 
         UpdateInfoUI();
@@ -593,8 +590,7 @@ public class PlayerScript : MonoBehaviour
                 NewSkill.transform.parent = _skillSlots.transform;
                 NewSkill.transform.localPosition = Vector3.zero;
 
-                System.Type scriptType = (item.ControllerScript as MonoScript).GetClass();
-                ItemController controllerScript = NewSkill.AddComponent(scriptType) as ItemController;
+                ItemController controllerScript = NewSkill.AddComponent(item.ControllerType) as ItemController;
                 controllerScript.SetWithSO(item);
                 _skills.Add(item, controllerScript);
             }
@@ -604,8 +600,7 @@ public class PlayerScript : MonoBehaviour
                 NewWeapon.transform.parent = _obtainedWeaponSlots.transform;
                 NewWeapon.transform.localPosition = Vector3.zero;
 
-                System.Type scriptType = (item.ControllerScript as MonoScript).GetClass();
-                ItemController controllerScript = NewWeapon.AddComponent(scriptType) as ItemController;
+                ItemController controllerScript = NewWeapon.AddComponent(item.ControllerType) as ItemController;
                 controllerScript.SetWithSO(item);
                 _weapons.Add(item, controllerScript);
                 _obtainedWeaponCount++;
@@ -616,8 +611,7 @@ public class PlayerScript : MonoBehaviour
                 NewItem.transform.parent = _obtainedItemSlots.transform;
                 NewItem.transform.localPosition = Vector3.zero;
 
-                System.Type scriptType = (item.ControllerScript as MonoScript).GetClass();
-                ItemController controllerScript = NewItem.AddComponent(scriptType) as ItemController;
+                ItemController controllerScript = NewItem.AddComponent(item.ControllerType) as ItemController;
                 controllerScript.SetWithSO(item);
                 _items.Add(item, controllerScript);
                 _obtainedItemCount++;
@@ -628,8 +622,7 @@ public class PlayerScript : MonoBehaviour
                 NewUpgrade.transform.parent = _upgradeSlots.transform;
                 NewUpgrade.transform.localPosition = Vector3.zero;
 
-                System.Type scriptType = (item.ControllerScript as MonoScript).GetClass();
-                ItemController controllerScript = NewUpgrade.AddComponent(scriptType) as ItemController;
+                ItemController controllerScript = NewUpgrade.AddComponent(item.ControllerType) as ItemController;
                 controllerScript.SetWithSO(item);
                 _skills.Add(item, controllerScript);
             }

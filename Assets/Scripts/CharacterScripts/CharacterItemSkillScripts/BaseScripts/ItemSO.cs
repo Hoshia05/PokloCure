@@ -22,6 +22,8 @@ public class ItemSO : ScriptableObject
 
     public Object ControllerScript;
 
+    public System.Type ControllerType => System.Type.GetType(ControllerScript.name.ToString());
+
     [SerializeField]
     private int _cost = 0;
 
@@ -43,6 +45,7 @@ public class ItemSO : ScriptableObject
         return _cost * currentLevel;
 
     }
+
 }
 
 public enum ItemType
