@@ -111,12 +111,16 @@ public class EnemyScript : MonoBehaviour
         _dropExpValue = EnemyData.DropEXP * _buffMultiplier;
         _isBoss = EnemyData.isBossEnemy;
 
-        //원거리 공격 관련
-        RangedAttackProjectilePrefab = _enemyData.RangedAttackProjectilePrefab;
-        _projectileNum = _enemyData._projectileNum;
-        _rangedAttackDamage = _enemyData._rangedAttackDamage;
-        _rangedAttackDistance = _enemyData.RangedAttackDistance;
-        _rangedAttackCooltime = _enemyData.RangedAttackCooltime;
+        if (EnemyData.EnemyType == EnemyType.RANGED)
+        {
+            //원거리 공격 관련
+            RangedAttackProjectilePrefab = _enemyData.RangedAttackProjectilePrefab;
+            _projectileNum = _enemyData._projectileNum;
+            _rangedAttackDamage = _enemyData._rangedAttackDamage;
+            _rangedAttackDistance = _enemyData.RangedAttackDistance;
+            _rangedAttackCooltime = _enemyData.RangedAttackCooltime;
+
+        }
 
 
         SpriteRenderer.sprite = EnemyData.EnemySprite;
@@ -173,7 +177,7 @@ public class EnemyScript : MonoBehaviour
             float angle = i * degreeDif;
             Vector2 direction = Quaternion.Euler(0f, 0f, angle) * Vector2.up;
 
-            GameObject projectile = Instantiate(RangedAttackProjectilePrefab, transform);
+            GameObject projectile = Instantiate(RangedAttackProjectilePrefab, transform.position, Quaternion.identity);
             Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
             EnemyProjectileScript epScript = projectile.GetComponent<EnemyProjectileScript>();
             epScript.InitializeProjectile(_rangedAttackDamage);
@@ -295,7 +299,7 @@ public class EnemyScript : MonoBehaviour
         //다이아소환
         DropDiamond();
 
-        if(_enemyData.EnemyClass == EnemyClass.ELITE && GameManager.Instance.RollRandom(33f))
+        if(_enemyData.EnemyClass == EnemyClass.ELITE && GameManager.Instance.RollRandom(5f))
         {
             Instantiate(GameManager.Instance.TreasureBoxPrefab, RandomNearPosition(), Quaternion.identity);
         }

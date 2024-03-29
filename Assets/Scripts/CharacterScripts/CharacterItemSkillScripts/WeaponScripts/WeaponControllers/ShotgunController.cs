@@ -52,7 +52,7 @@ public class ShotgunController : ItemController
             {
                 ItemBehaviour projectileBehaviour = InstantiateProjectile();
                 Rigidbody2D projectileRB = projectileBehaviour.GetComponent<Rigidbody2D>();
-                projectileRB.AddForce(CreateSpread(PlayerControl.Instance.PlayerLineOfSight) * 2500);
+                projectileRB.AddForce(CreateSpread(PlayerControl.Instance.PlayerLineOfSight) * 1000);
             }
         }
     }

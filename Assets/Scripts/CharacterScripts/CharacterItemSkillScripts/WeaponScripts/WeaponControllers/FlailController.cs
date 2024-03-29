@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class FlailController : ItemController
 {
+    private void Start()
+    {
+    }
+
     protected override void Launch()
     {
         ItemBehaviour projectileBehaviour = InstantiateProjectile();
@@ -42,11 +46,13 @@ public class FlailController : ItemController
 
     protected override void Level3Effect()
     {
-        AddPierceLimit(3);
+        IncreaseSizePercentage(0.3f);
+        AddPierceLimit(5);
     }
 
     protected override void Level4Effect()
     {
+        IncreaseDamagePercentage(0.3f);
         IncreaseSizePercentage(0.2f);
     }
     protected override void Level5Effect()
@@ -55,8 +61,7 @@ public class FlailController : ItemController
     }
     protected override void Level6Effect()
     {
-        IncreaseSizePercentage(0.5f);
-        AddPierceLimit(3);
+        AddPierceLimit(5);
     }
 
     protected override void Level7Effect()

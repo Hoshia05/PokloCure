@@ -116,13 +116,15 @@ public class ItemController : MonoBehaviour, IItemController
         if(_currentCooldown <= 0f && !_hasLaunchedSinceReset)
         {
             _hasLaunchedSinceReset = true;
+            _currentCooldown = _currentCooldownDuration;
             Launch();
         }
     }
 
     protected virtual void Launch()
     {
-        ResetCooldown();
+        if(!_deathTimeCoolTimeCumulative)
+            ResetCooldown();
     }
 
     public void ResetCooldown()

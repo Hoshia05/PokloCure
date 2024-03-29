@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShotgunHitController : ItemController
 {
-    private float _radius = 4f;
+    private float _radius = 10f;
 
     protected override void Launch()
     {
@@ -60,7 +60,7 @@ public class ShotgunHitController : ItemController
     }
     protected override void Level5Effect()
     {
-        _radius = 8f;
+        _radius = 20f;
     }
 
     void OnDrawGizmos()

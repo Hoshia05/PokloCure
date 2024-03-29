@@ -94,9 +94,15 @@ public class GameManager : MonoBehaviour
 
         foreach(ItemSO item in possibleItemList)
         {
-            priorityCheck -= item.Priority;
+            int currentPriority = item.Priority;
+            if(item.characterLabel == _selectedCharacter.characterLabel)
+            {
+                currentPriority *= 2;
+            }
 
-            if (priorityCheck < 0)
+            priorityCheck -= currentPriority;
+
+            if (priorityCheck <= 0)
                 return item;
         }
 

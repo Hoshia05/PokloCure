@@ -3101,6 +3101,7 @@ MonoBehaviour:
   _itemName: {fileID: 7628854405241807314}
   _type: {fileID: 9017501185720694343}
   _itemDescription: {fileID: 7794133922970003031}
+  _itemCostObject: {fileID: 0}
   _itemIcon: {fileID: 0}
 --- !u!1 &3217816763329318283
 GameObject:
@@ -3135,10 +3136,10 @@ RectTransform:
   m_Father: {fileID: 7371316218139904879}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMin: {x: 0.05, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6903226372156746524
 CanvasRenderer:
@@ -3202,7 +3203,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -3870,14 +3871,6 @@ MonoBehaviour:
   _utilityPrefab: {fileID: 6522852194240907303, guid: a7791127cca5c0e44b2c5b3d219e22e0, type: 3}
   _weaponParent: {fileID: 4112863629466498207}
   _utilityParent: {fileID: 3943055293288897569}
-  Weapons:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  Items:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!1 &3943055293288897569
 GameObject:
   m_ObjectHideFlags: 0
@@ -4487,7 +4480,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8306474546888882642
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4503,10 +4496,10 @@ RectTransform:
   m_Father: {fileID: 7954162847103645385}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0.95, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7391212963140903173
 CanvasRenderer:
@@ -4570,7 +4563,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -5646,11 +5639,12 @@ MonoBehaviour:
   _itemSlotScript: {fileID: 2539653358074118537}
   _comboObject: {fileID: 8693346460259352701}
   _comboCountText: {fileID: 449249832996694567}
+  _coinCount: 0
   ItemExemptList: []
   onEnemyKilled:
     m_PersistentCalls:
       m_Calls: []
-  BuffInterval: 120
+  BuffInterval: 60
   _circleSpawnInterval: 5
   _mteSpawnInvterval: 10
 --- !u!114 &4800785151461608958
@@ -7732,7 +7726,6 @@ MonoBehaviour:
   _atkSlot: {fileID: 2051322509971544494}
   _spdSlot: {fileID: 180950284837426335}
   _crtSlot: {fileID: 4185551125105879451}
-  _pickupSlot: {fileID: 7515219178196756874}
   _hasteSlot: {fileID: 8983210871825423813}
 --- !u!1 &7698693810826950321
 GameObject:

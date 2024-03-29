@@ -22,7 +22,12 @@ public class ItemSO : ScriptableObject
 
     public Object ControllerScript;
 
-    public int Cost = 0;
+    [SerializeField]
+    private int _cost = 0;
+
+    [SerializeField]
+    private int _costMultiplier = 1;
+
     public float DamageMultiplier = 1f;
     public float Speed;
     public float CooldownDuration = 1f;
@@ -32,6 +37,12 @@ public class ItemSO : ScriptableObject
     public float KnockbackValue = 0f;
     public float Area = 1f;
     public int Priority = 4;
+
+    public int GetCost(int currentLevel)
+    {
+        return _cost * currentLevel;
+
+    }
 }
 
 public enum ItemType

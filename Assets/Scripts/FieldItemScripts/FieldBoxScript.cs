@@ -19,8 +19,6 @@ public class FieldBoxScript : FieldItemBase
             GameObject player = collision.gameObject;
             PlayerScript script = player.GetComponent<PlayerScript>();
 
-            //½Ã°£ ¸ØÃß±â
-            //½ÀµæUI »ý¼º
             StageManager.Instance.FieldBoxEvent();
 
             Destroy(gameObject);

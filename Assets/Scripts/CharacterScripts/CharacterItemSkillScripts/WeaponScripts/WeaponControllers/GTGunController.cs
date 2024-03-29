@@ -55,6 +55,6 @@ public class GTGunController : ItemController
     {
         _projectileNum++;
         _projectileNum++;
-        AddPierceLimit(9999);
+        AddPierceLimit(2);
     }
 }

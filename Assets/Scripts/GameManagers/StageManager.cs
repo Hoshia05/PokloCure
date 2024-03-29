@@ -291,10 +291,10 @@ public class StageManager : MonoBehaviour
 
     private void InitializeEnhanceFunctions()
     {
-        _enemyEnhanceFuncitons.Add(IncreaseSwarm);
-        _enemyEnhanceFuncitons.Add(IncreaseMedium);
-        _enemyEnhanceFuncitons.Add(IncreaseElite);
-        _enemyEnhanceFuncitons.Add(IncreaseAll);
+        //_enemyEnhanceFuncitons.Add(IncreaseSwarm);
+        //_enemyEnhanceFuncitons.Add(IncreaseMedium);
+        //_enemyEnhanceFuncitons.Add(IncreaseElite);
+        //_enemyEnhanceFuncitons.Add(IncreaseAll);
         _enemyEnhanceFuncitons.Add(BuffSwarm);
         _enemyEnhanceFuncitons.Add(BuffMedium);
         _enemyEnhanceFuncitons.Add(BuffElite);
@@ -617,6 +617,8 @@ public class StageManager : MonoBehaviour
         int randNum = (int)((GameManager.Instance.Rand.NextDouble() * 20) % (_enemyEnhanceFuncitons.Count - 1));
 
         string promptText = _enemyEnhanceFuncitons[randNum]();
+
+        IncreaseAll();
 
         _circleEnemyNum += 2;
 

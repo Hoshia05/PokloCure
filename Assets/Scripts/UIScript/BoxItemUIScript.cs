@@ -43,7 +43,9 @@ public class BoxItemUIScript : MonoBehaviour
 
     public void InitializeUI()
     {
-        ItemNum = GameManager.Instance.Rand.Next(1, 3);
+        //ItemNum = GameManager.Instance.Rand.Next(1, 3);
+        ItemNum = 1;
+
 
         _boxes.ForEach(x => x.SetActive(false));
         _itemPositions.ForEach(x => x.SetActive(false));

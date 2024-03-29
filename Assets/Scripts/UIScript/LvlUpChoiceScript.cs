@@ -21,6 +21,7 @@ public class LvlUpChoiceScript : MonoBehaviour
 
     private LvlUPListScript _parentList;
 
+    private int _currentCost;
 
     public void InitializeWithData(ItemSO ISData, int NextLevel, LvlUPListScript ParentList)
     {
@@ -31,15 +32,17 @@ public class LvlUpChoiceScript : MonoBehaviour
         _itemName.text = $"{ISData.ItemName}  Lv.{nextLevelText}";
         _itemDescription.text = ISData.ItemDescription[NextLevel-1];
 
-        if(_itemSkillData.Cost == 0)
+        _currentCost = _itemSkillData.GetCost(NextLevel);
+
+        if (_currentCost == 0)
         {
             _itemCostObject.SetActive(false);
         }
         else
         {
             TextMeshProUGUI itemCostText = _itemCostObject.GetComponentInChildren<TextMeshProUGUI>();
-            itemCostText.text = _itemSkillData.Cost.ToString();
-            itemCostText.color = _itemSkillData.Cost > StageManager.Instance.CoinCount ? Color.red : Color.white;
+            itemCostText.text = _currentCost.ToString();
+            itemCostText.color = _currentCost > StageManager.Instance.CoinCount ? Color.red : Color.white;
         }
 
         _itemIcon.sprite = ISData.ItemImage;
@@ -50,15 +53,15 @@ public class LvlUpChoiceScript : MonoBehaviour
     public void SelectThisChoice()
     {
         //CheckCost
-        if (_itemSkillData.Cost > 0)
+        if (_currentCost > 0)
         {
-            if(_itemSkillData.Cost > StageManager.Instance.CoinCount)
+            if(_currentCost > StageManager.Instance.CoinCount)
             {
                 return;
             }
             else
             {
-                StageManager.Instance.GainCoins(-_itemSkillData.Cost);
+                StageManager.Instance.GainCoins(-_currentCost);
                 StageManager.Instance.GivePlayerItem(_itemSkillData);
                 StageManager.Instance.LevelUpEventEnd();
                 _parentList.DeleteList();

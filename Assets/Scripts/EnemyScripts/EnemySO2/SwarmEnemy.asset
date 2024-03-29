@@ -21,7 +21,7 @@ MonoBehaviour:
   isBossEnemy: 0
   EnemyType: 0
   EnemyClass: 0
-  HP: 18
+  HP: 10
   SpeedMultiplier: 1.2
   BodyDamage: 7
   AttackCooltime: 0

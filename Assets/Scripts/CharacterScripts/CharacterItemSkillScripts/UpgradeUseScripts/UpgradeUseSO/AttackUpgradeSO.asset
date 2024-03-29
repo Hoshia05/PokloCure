@@ -12,16 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae12a9c1cc1fff94aa39ed35c196fe83, type: 3}
   m_Name: AttackUpgradeSO
   m_EditorClassIdentifier: 
-  ItemName: 
-  ItemDescription: []
-  ItemType: 1
+  ItemName: "\uACF5\uACA9\uB825 \uAC15\uD654"
+  ItemDescription:
+  - "\uACF5\uACA9\uB825\uC744 5% \uAC15\uD654\uD569\uB2C8\uB2E4"
+  - "\uACF5\uACA9\uB825\uC744 10% \uAC15\uD654\uD569\uB2C8\uB2E4"
+  - "\uACF5\uACA9\uB825\uC744 15% \uAC15\uD654\uD569\uB2C8\uB2E4"
+  - "\uACF5\uACA9\uB825\uC744 20% \uAC15\uD654\uD569\uB2C8\uB2E4"
+  - "\uACF5\uACA9\uB825\uC744 25% \uAC15\uD654\uD569\uB2C8\uB2E4"
+  - "\uACF5\uACA9\uB825\uC744 30% \uAC15\uD654\uD569\uB2C8\uB2E4"
+  - "\uACF5\uACA9\uB825\uC744 40% \uAC15\uD654\uD569\uB2C8\uB2E4"
+  ItemType: 3
   WeaponType: 2
-  ItemImage: {fileID: 0}
+  ItemImage: {fileID: 2045515341, guid: 082629f849052c440b7863e693e3c97a, type: 3}
   ItemMaxLevel: 5
   characterLabel: 0
   ProjectileItemPrefab: {fileID: 0}
-  ControllerScript: {fileID: 0}
-  Cost: 0
+  ControllerScript: {fileID: 11500000, guid: d44b834e22435dc4bb873db3d2aa6848, type: 3}
+  _cost: 150
   DamageMultiplier: 1
   Speed: 0
   CooldownDuration: 1

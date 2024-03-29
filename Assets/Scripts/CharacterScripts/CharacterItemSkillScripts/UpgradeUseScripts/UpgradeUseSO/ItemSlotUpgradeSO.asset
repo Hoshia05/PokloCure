@@ -15,27 +15,23 @@ MonoBehaviour:
   ItemName: "\uC544\uC774\uD15C \uC2AC\uB86F"
   ItemDescription:
   - "\uC544\uC774\uD15C \uC2AC\uB86F\uC744 1\uAC1C \uB298\uB824\uC90D\uB2C8\uB2E4
-    (\uCD5C\uB300 7\uAC1C)"
+    (\uCD5C\uB300 5\uAC1C)"
   - "\uC544\uC774\uD15C \uC2AC\uB86F\uC744 1\uAC1C \uB298\uB824\uC90D\uB2C8\uB2E4
-    (\uCD5C\uB300 7\uAC1C)"
+    (\uCD5C\uB300 5\uAC1C)"
   - "\uC544\uC774\uD15C \uC2AC\uB86F\uC744 1\uAC1C \uB298\uB824\uC90D\uB2C8\uB2E4
-    (\uCD5C\uB300 7\uAC1C)"
+    (\uCD5C\uB300 5\uAC1C)"
   - "\uC544\uC774\uD15C \uC2AC\uB86F\uC744 1\uAC1C \uB298\uB824\uC90D\uB2C8\uB2E4
-    (\uCD5C\uB300 7\uAC1C)"
+    (\uCD5C\uB300 5\uAC1C)"
   - "\uC544\uC774\uD15C \uC2AC\uB86F\uC744 1\uAC1C \uB298\uB824\uC90D\uB2C8\uB2E4
-    (\uCD5C\uB300 7\uAC1C)"
-  - "\uC544\uC774\uD15C \uC2AC\uB86F\uC744 1\uAC1C \uB298\uB824\uC90D\uB2C8\uB2E4
-    (\uCD5C\uB300 7\uAC1C)"
-  - "\uC544\uC774\uD15C \uC2AC\uB86F\uC744 1\uAC1C \uB298\uB824\uC90D\uB2C8\uB2E4
-    (\uCD5C\uB300 7\uAC1C)"
+    (\uCD5C\uB300 5\uAC1C)"
   ItemType: 3
   WeaponType: 2
   ItemImage: {fileID: 21300000, guid: e828181400a5c9e4a8a1be3357344d23, type: 3}
-  ItemMaxLevel: 7
+  ItemMaxLevel: 5
   characterLabel: 0
   ProjectileItemPrefab: {fileID: 0}
   ControllerScript: {fileID: 11500000, guid: f79227e5b2f76dd46932f336ef109f1b, type: 3}
-  Cost: 100
+  _cost: 100
   DamageMultiplier: 1
   Speed: 0
   CooldownDuration: 1

@@ -24,7 +24,7 @@ MonoBehaviour:
   DashMultiplier: 2
   SpeedMultiplier: 1
   AttackMultiplier: 1.2
-  CriticalMultiplier: 0.01
+  CriticalMultiplier: 0.05
   StaminaReplenishRate: 20
   StaminaDepleteRate: 50
   StaminaRedlineValue: 30
