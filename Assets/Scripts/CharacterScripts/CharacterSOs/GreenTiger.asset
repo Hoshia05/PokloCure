@@ -19,7 +19,7 @@ MonoBehaviour:
   BaseWeapon: {fileID: 11400000, guid: d411eec8657b7b74797c368ae4d4c8c0, type: 2}
   CharacterName: Hoshia
   CharacterDescription: 
-  Health: 50
+  Health: 80
   Stamina: 80
   DashMultiplier: 2
   SpeedMultiplier: 1

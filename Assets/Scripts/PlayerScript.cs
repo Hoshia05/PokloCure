@@ -24,9 +24,6 @@ public class PlayerScript : MonoBehaviour
 
     private Coroutine _HPBarDisappearCoroutine;
 
-    [SerializeField]
-    private GameObject _projectilePrefab;
-
     //경험치 관련
     private float _currentExperience = 0;
     private int _level = 1;
@@ -182,6 +179,8 @@ public class PlayerScript : MonoBehaviour
     [SerializeField]
     private GameObject _cursor;
     [SerializeField]
+    private GameObject _mouseCursor;
+    [SerializeField]
     private float _cursorDistance;
 
     public Coroutine DamageCoroutine;
@@ -221,11 +220,18 @@ public class PlayerScript : MonoBehaviour
             EatItemRadius();
             ApplyMovement();
             ApplyFlip();
-            CursorUpdate();
             StaminaReplenish();
         }
     }
-    
+
+    private void FixedUpdate()
+    {
+        if (!IsPaused && !IsDead)
+        {
+            CursorUpdate();
+        }
+    }
+
     public void InitializeFromGM()
     {
         _selectedCharacter = GameManager.Instance.SelectedCharacter;
@@ -350,6 +356,7 @@ public class PlayerScript : MonoBehaviour
 
         _cursor.transform.position = (Vector2)transform.position + cursorVector;
 
+        _mouseCursor.transform.position = PlayerControl.Instance.MousePosition;
 
         Vector2 AttackDirection = PlayerControl.Instance.PlayerLineOfSight;
 

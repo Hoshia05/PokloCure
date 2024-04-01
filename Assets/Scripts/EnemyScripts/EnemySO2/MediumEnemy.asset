@@ -19,16 +19,16 @@ MonoBehaviour:
   EnemyName: "\uC911\uAE09 \uC801"
   EnemyDescription: "\uC911\uAE09 \uCCB4\uAE09\uC758 \uC801"
   isBossEnemy: 0
-  EnemyType: 0
+  EnemyType: 1
   EnemyClass: 1
-  HP: 100
+  HP: 50
   SpeedMultiplier: 1.5
   BodyDamage: 15
   AttackCooltime: 0
   CriticalChance: 0.01
   DropEXP: 25
   SizeScale: 1.5
-  RangedAttackProjectilePrefab: {fileID: 0}
+  RangedAttackProjectilePrefab: {fileID: 429641142634744645, guid: 4ec7941aff471af44b9c51e1c05b4842, type: 3}
   _projectileNum: 8
   _rangedAttackDamage: 5
   RangedAttackDistance: 10

@@ -13,6 +13,7 @@ public class PlayerControl : MonoBehaviour
 
     public Vector2 PlayerMovement;
     public Vector2 PlayerLineOfSight;
+    public Vector2 MousePosition;
 
     public bool IsDashing;
     public bool IsDrunk;
@@ -55,9 +56,9 @@ public class PlayerControl : MonoBehaviour
     {
         if(Instance != null)
         {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(inputmousePosition.x, inputmousePosition.y, Camera.main.nearClipPlane));
+            MousePosition = Camera.main.ScreenToWorldPoint(new Vector3(inputmousePosition.x, inputmousePosition.y, Camera.main.nearClipPlane));
             Vector2 characterPosition = transform.position;
-            PlayerLineOfSight = (mousePosition - characterPosition).normalized;
+            PlayerLineOfSight = (MousePosition - characterPosition).normalized;
         }
 
     }

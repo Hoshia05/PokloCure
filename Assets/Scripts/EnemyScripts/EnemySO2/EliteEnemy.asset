@@ -19,7 +19,7 @@ MonoBehaviour:
   EnemyName: "\uC5D8\uB9AC\uD2B8 \uC801"
   EnemyDescription: "\uC5D8\uB9AC\uD2B8 \uD074\uB798\uC2A4 \uC801"
   isBossEnemy: 0
-  EnemyType: 1
+  EnemyType: 0
   EnemyClass: 2
   HP: 200
   SpeedMultiplier: 1.5

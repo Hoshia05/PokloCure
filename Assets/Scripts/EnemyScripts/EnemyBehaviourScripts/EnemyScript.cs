@@ -61,6 +61,11 @@ public class EnemyScript : MonoBehaviour
 
     List<String> DamageList;
 
+    [Header("사운드관련")]
+
+    [SerializeField]
+    private AudioClip _damageSoundClip;
+
 
     protected void Awake()
     {
@@ -177,7 +182,7 @@ public class EnemyScript : MonoBehaviour
             Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
             EnemyProjectileScript epScript = projectile.GetComponent<EnemyProjectileScript>();
             epScript.InitializeProjectile(_rangedAttackDamage);
-            rb.AddForce(direction * 400);
+            rb.AddForce(direction * 300);
 
         }
     }
@@ -245,6 +250,8 @@ public class EnemyScript : MonoBehaviour
 
     protected IEnumerator HitAnimation()
     {
+        SoundFXManager.Instance.PlaySoundFXClip(_damageSoundClip, transform, 0.2f);
+
         SpriteRenderer.color = Color.red;
 
         GameObject HitEffect = Instantiate(GameManager.Instance.HitEffectPrefab, transform);
