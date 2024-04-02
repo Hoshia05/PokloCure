@@ -8,12 +8,9 @@ public class FoodItemScript : FieldItemBase
     [SerializeField]
     private FoodBase _foodData;
 
-    [SerializeField]
-    private SpriteRenderer _foodSprite;
-
     private void Awake()
     {
-        _foodSprite.sprite = _foodData.FoodSprite;
+        _itemSprite.sprite = _foodData.FoodSprite;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

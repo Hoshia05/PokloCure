@@ -18,7 +18,6 @@ public class SwordBehaviour : ItemBehaviour
 
     public void Terminate()
     {
-        ResetCooldown();
-        Destroy(gameObject);
+        DestroyProjectileImmediately();
     }
 }

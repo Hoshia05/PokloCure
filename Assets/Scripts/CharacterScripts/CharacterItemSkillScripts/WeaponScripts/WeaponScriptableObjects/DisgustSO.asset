@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae12a9c1cc1fff94aa39ed35c196fe83, type: 3}
+  m_Name: DisgustSO
+  m_EditorClassIdentifier: 
+  ItemName: "\uB9E4\uB3C4\uC758 \uAE30\uC6B4"
+  ItemDescription:
+  - "\uD638\uC2DC\uC544\uAC00 \uB178\uACE8\uC801\uC73C\uB85C \uC5ED\uACA8\uC6CC\uD569\uB2C8\uB2E4.
+    \uC601\uC5ED\uC5D0 \uB4E4\uC5B4\uC628 \uC801\uB4E4\uC5D0\uAC8C \uC11C\uC11C\uD788
+    \uB370\uBBF8\uC9C0\uB97C \uC785\uD799\uB2C8\uB2E4"
+  - "\uBC94\uC704\uAC00 15% \uB113\uC5B4\uC9D1\uB2C8\uB2E4."
+  - "\uB370\uBBF8\uC9C0\uAC00 30% \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  - "\uBC94\uC704\uAC00 25% \uB113\uC5B4\uC9D1\uB2C8\uB2E4."
+  - "\uBC94\uC704\uC5D0 \uB4E4\uC5B4\uC628 \uC801\uC774 20% \uB354 \uC790\uC8FC \uB370\uBBF8\uC9C0\uB97C
+    \uC785\uC2B5\uB2C8\uB2E4"
+  ItemType: 1
+  WeaponType: 0
+  ItemImage: {fileID: 21300000, guid: 2467c24647155d4499430a7076dff899, type: 3}
+  ItemMaxLevel: 5
+  characterLabel: 0
+  ProjectileItemPrefab: {fileID: 429641142634744645, guid: 2d2b0eac9dd612042ae9ae1253390290, type: 3}
+  ControllerScript: {fileID: 11500000, guid: 5b2bc4a368a616c4a9365fc432dfc7dd, type: 3}
+  _cost: 0
+  _costMultiplier: 1
+  DamageMultiplier: 0.5
+  Speed: 0
+  CooldownDuration: 5
+  Pierce: 99999
+  Deathtime: 5.01
+  ProjectileNum: 1
+  KnockbackValue: 0
+  Area: 1.1
+  Priority: 3

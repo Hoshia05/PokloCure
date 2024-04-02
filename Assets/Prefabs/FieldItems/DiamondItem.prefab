@@ -166,6 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da441c5a4f3732948b703654bd83ef2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _itemSprite: {fileID: 289211801434040852}
   IsDebug: 0
 --- !u!1 &6406847136506455136
 GameObject:

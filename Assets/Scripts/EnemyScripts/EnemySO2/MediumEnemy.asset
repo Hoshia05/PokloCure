@@ -29,8 +29,8 @@ MonoBehaviour:
   DropEXP: 25
   SizeScale: 1.5
   RangedAttackProjectilePrefab: {fileID: 429641142634744645, guid: 4ec7941aff471af44b9c51e1c05b4842, type: 3}
-  _projectileNum: 8
+  _projectileNum: 5
   _rangedAttackDamage: 5
-  RangedAttackDistance: 10
+  RangedAttackDistance: 5
   RangedAttackCooltime: 3
   EnemyScore: 50

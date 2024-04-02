@@ -6,11 +6,6 @@ using UnityEngine.Events;
 public class FlailBehaviour : ItemBehaviour
 {
     [SerializeField]
-    private Collider2D _shaftCollider;
-    [SerializeField]
-    private Collider2D _headCollider;
-
-    [SerializeField]
     private Animator _flailAnimation;
 
     public UnityEvent OnAnimationEnd;
@@ -28,8 +23,7 @@ public class FlailBehaviour : ItemBehaviour
 
     public void FlailParentEnd()
     {
-        ResetCooldown();
-        Destroy(gameObject);
+        DestroyProjectileImmediately();
     }
 
 }

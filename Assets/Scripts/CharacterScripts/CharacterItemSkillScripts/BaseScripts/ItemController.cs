@@ -218,15 +218,15 @@ public class ItemController : MonoBehaviour, IItemController
     }
 
 
-    public void AddPierceLimit(int amount)
-    {
-        _additionalPierce *= 2;
-    }
-
     //public void AddPierceLimit(int amount)
     //{
-    //    _additionalPierce += amount;
+    //    _additionalPierce *= 2;
     //}
+
+    public void AddPierceLimit(int amount)
+    {
+        _additionalPierce += amount;
+    }
 
     public void IncreaseKnockBack(float amount)
     {

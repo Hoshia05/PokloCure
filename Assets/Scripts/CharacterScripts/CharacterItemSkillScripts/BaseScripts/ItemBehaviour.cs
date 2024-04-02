@@ -16,12 +16,12 @@ public class ItemBehaviour : MonoBehaviour
     protected float _hitCooldown = 0;
     protected float _stunTime = 0f;
 
-    private bool _isHitCooldown;
-
     protected int _itemLevel;
 
     protected Coroutine DeathCoroutine;
 
+    protected bool _reachedPierceLimit;
+    protected bool _weaponDestroyedOnDeath;
 
     public void InitializeValue(ItemController controller, float damage, float deathtime, int pierce, float speed, int level, float sizeScale, float knockback, float stunTime)
     {
@@ -53,8 +53,7 @@ public class ItemBehaviour : MonoBehaviour
 
         if( _pierce <= 0)
         {
-            ResetCooldown();
-            Destroy(gameObject);
+            DisengageWeapon();
         }
     }
 
@@ -62,6 +61,9 @@ public class ItemBehaviour : MonoBehaviour
     {
         //if (_hitCooldown == 0)
         //    return;
+
+        if (_reachedPierceLimit)
+            return;
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
@@ -71,6 +73,9 @@ public class ItemBehaviour : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        if (_reachedPierceLimit)
+            return;
+
         if (_hitCooldown == 0)
             return;
 
@@ -105,22 +110,42 @@ public class ItemBehaviour : MonoBehaviour
         yield return new WaitForSeconds(_hitCooldown);
     }
 
+    public void DestroyProjectileImmediately()
+    {
+        _controller.CurrentProjectiles.Remove(this);
+        EndProcess();
+    }
+
     protected IEnumerator DestroyProjectile(float time = 0f)
     {
         yield return new WaitForSeconds(time);
 
         _controller.CurrentProjectiles.Remove(this);
-        Destroy(gameObject);
+        EndProcess();
     }
 
     public void DestroyProjectilesNow()
     {
-        Destroy(gameObject);
+        EndProcess();
+    }
+
+    protected void DisengageWeapon()
+    {
+        _reachedPierceLimit = true;
+        if (_weaponDestroyedOnDeath)
+            EndProcess();
     }
 
     public void ResetCooldown()
     {
-        _controller.ResetCooldown();
+        if(_controller != null)
+            _controller.ResetCooldown();
+    }
+
+    public void EndProcess()
+    {
+        ResetCooldown();
+        Destroy(gameObject);
     }
 
 }
