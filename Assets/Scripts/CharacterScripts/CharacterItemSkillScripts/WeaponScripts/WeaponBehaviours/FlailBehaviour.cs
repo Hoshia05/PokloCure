@@ -14,6 +14,7 @@ public class FlailBehaviour : ItemBehaviour
     {
         if(_flailAnimation != null)
             _flailAnimation.SetFloat("animSpeed", _speed);
+
     }
 
     public void FlailAnimationEnd()

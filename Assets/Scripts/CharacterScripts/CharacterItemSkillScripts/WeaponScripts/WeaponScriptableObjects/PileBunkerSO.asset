@@ -29,8 +29,9 @@ MonoBehaviour:
   characterLabel: 0
   ProjectileItemPrefab: {fileID: 429641142634744645, guid: 67922d30f6d5dc0418ef1b227ac8eafd, type: 3}
   ControllerScript: {fileID: 11500000, guid: 088e327c7928e4841a1e7752ba52753f, type: 3}
-  Cost: 0
-  DamageMultiplier: 5
+  _cost: 0
+  _costMultiplier: 1
+  DamageMultiplier: 10
   Speed: 0
   CooldownDuration: 6
   Pierce: 5
@@ -39,3 +40,5 @@ MonoBehaviour:
   KnockbackValue: 5
   Area: 1
   Priority: 3
+  DeathTimeCumulative: 0
+  CooldownWaitUntilProjectileDeath: 0

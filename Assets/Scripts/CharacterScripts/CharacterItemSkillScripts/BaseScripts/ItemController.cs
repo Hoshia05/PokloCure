@@ -42,9 +42,9 @@ public class ItemController : MonoBehaviour, IItemController
 
     protected BuffObject _buff = new();
 
-    protected bool _deathTimeCoolTimeCumulative;
     protected bool _hasLaunchedSinceReset;
 
+    protected bool _cooldownWaitUntilProjectileDeath;
 
     protected int _currentLevel = 1;
     public int CurrentLevel
@@ -99,9 +99,11 @@ public class ItemController : MonoBehaviour, IItemController
         {
             CooldownBuff = PlayerScript.Instance.RangedCooldownBuff;
         }
-        _currentCooldownDuration = _deathTimeCoolTimeCumulative ?
-           _currentDeathtime + ItemData.CooldownDuration * _localCooldownBuff * PlayerScript.Instance.CurrentHasteMultiplier * CooldownBuff : 
-            ItemData.CooldownDuration * _localCooldownBuff * PlayerScript.Instance.CurrentHasteMultiplier * CooldownBuff;
+
+        _cooldownWaitUntilProjectileDeath = ItemData.CooldownWaitUntilProjectileDeath;
+
+
+        _currentCooldownDuration = ItemData.CooldownDuration * _localCooldownBuff * PlayerScript.Instance.CurrentHasteMultiplier * CooldownBuff;
 
         int RangedProjectileBuff = ItemData.WeaponType == WeaponType.RANGED ? PlayerScript.Instance.RangedProjectileBuff : 0;
         _projectileNum = ItemData.ProjectileNum + _additionalProjectiles + RangedProjectileBuff;
@@ -123,12 +125,16 @@ public class ItemController : MonoBehaviour, IItemController
 
     protected virtual void Launch()
     {
-        if(!_deathTimeCoolTimeCumulative)
+
+        Debug.Log($"{ItemData.name} Launch");
+
+        if (!_cooldownWaitUntilProjectileDeath)
             ResetCooldown();
     }
 
     public void ResetCooldown()
     {
+        Debug.Log($"{ItemData.name} Reset");
         _currentCooldown = _currentCooldownDuration;
         _hasLaunchedSinceReset = false;
     }
@@ -244,6 +250,8 @@ public class ItemController : MonoBehaviour, IItemController
         GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
         ItemBehaviour projectileBehaviour = projectile.GetComponent<ItemBehaviour>();
         projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentLevel, _currentSizeScale, _currentKnockbackValue, _stunTime);
+        if (_cooldownWaitUntilProjectileDeath)
+            projectileBehaviour.CooldownWaitUntilprojectileDeath = true;
 
         CurrentProjectiles.Add(projectileBehaviour);
 

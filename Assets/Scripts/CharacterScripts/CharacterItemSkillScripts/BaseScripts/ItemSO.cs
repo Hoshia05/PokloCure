@@ -40,10 +40,11 @@ public class ItemSO : ScriptableObject
     public float Area = 1f;
     public int Priority = 4;
 
+    public bool CooldownWaitUntilProjectileDeath = false;
+
     public int GetCost(int currentLevel)
     {
         return _cost * currentLevel;
-
     }
 
 }

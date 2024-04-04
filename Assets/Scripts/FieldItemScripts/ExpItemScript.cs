@@ -15,6 +15,7 @@ public class ExpItemScript : FieldItemBase
             GameObject player = collision.gameObject;
             PlayerScript script = player.GetComponent<PlayerScript>();
             script.GainEXP(_expValue);
+            SoundFXManager.Instance.PlaySoundFXClip(_obtainSound, transform, 0.2f);
 
             Deactivate();
         }

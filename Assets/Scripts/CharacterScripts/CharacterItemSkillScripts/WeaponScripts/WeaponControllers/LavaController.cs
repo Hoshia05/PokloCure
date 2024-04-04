@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class LavaController : ItemController
 {
-    protected override void Awake()
-    {
-        _deathTimeCoolTimeCumulative = true;
-
-        base.Awake();
-    }
-
     protected override void Launch()
     {
         base.Launch();

@@ -23,6 +23,9 @@ public class ItemBehaviour : MonoBehaviour
     protected bool _reachedPierceLimit;
     protected bool _weaponDestroyedOnDeath;
 
+    protected bool _cooldownWaitUntilProjectileDeath;
+    public bool CooldownWaitUntilprojectileDeath { set => _cooldownWaitUntilProjectileDeath = value; }
+
     public void InitializeValue(ItemController controller, float damage, float deathtime, int pierce, float speed, int level, float sizeScale, float knockback, float stunTime)
     {
         _controller = controller;
@@ -126,7 +129,7 @@ public class ItemBehaviour : MonoBehaviour
 
     public void DestroyProjectilesNow()
     {
-        EndProcess();
+        Destroy(gameObject);
     }
 
     protected void DisengageWeapon()
@@ -144,7 +147,8 @@ public class ItemBehaviour : MonoBehaviour
 
     public void EndProcess()
     {
-        ResetCooldown();
+        if(_cooldownWaitUntilProjectileDeath)
+            ResetCooldown();
         Destroy(gameObject);
     }
 

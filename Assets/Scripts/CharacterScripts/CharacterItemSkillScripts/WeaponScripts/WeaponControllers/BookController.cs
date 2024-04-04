@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class BookController : ItemController
 {
-    protected override void Awake()
-    {
-        _deathTimeCoolTimeCumulative = true;
-
-        base.Awake();
-    }
 
     protected override void Launch()
     {

@@ -250,7 +250,7 @@ public class EnemyScript : MonoBehaviour
 
     protected IEnumerator HitAnimation()
     {
-        SoundFXManager.Instance.PlaySoundFXClip(_damageSoundClip, transform, 0.2f);
+        //SoundFXManager.Instance.PlaySoundFXClip(_damageSoundClip, transform, 0.2f);
 
         SpriteRenderer.color = Color.red;
 

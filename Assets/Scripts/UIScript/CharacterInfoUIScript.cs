@@ -38,21 +38,35 @@ public class CharacterInfoUIScript : MonoBehaviour
 
     public void SetAtk(float atkValue)
     {
-        _atkSlot.text = $"+{(atkValue-1) * 100}%";
+        float percentage = (atkValue - 1) * 100;
+        string formattedPercentage = (Mathf.Round(percentage * 100) / 100f).ToString();
+
+        _atkSlot.text = $"+{formattedPercentage}%";
     }
 
     public void SetSpd(float spdValue)
     {
-        _spdSlot.text = $"+{(spdValue - 1) * 100}%";
+        float percentage = (spdValue - 1) * 100;
+        string formattedPercentage = (Mathf.Round(percentage * 100) / 100f).ToString();
+
+
+        _spdSlot.text = $"+{formattedPercentage}%";
     }
 
     public void SetCrt(float crtValue)
     {
-        _crtSlot.text = $"+{crtValue * 100}%";
+
+        float percentage = crtValue * 100;
+        string formattedPercentage = (Mathf.Round(percentage * 100) / 100f).ToString();
+
+        _crtSlot.text = $"+{formattedPercentage}%";
     }
 
     public void SetHaste(float hasteValue)
     {
-        _hasteSlot.text = $"+{(hasteValue - 1) * 100}%";
+        float percentage = (hasteValue - 1) * 100;
+        string formattedPercentage = (Mathf.Round(percentage * 100) / 100f).ToString();
+
+        _hasteSlot.text = $"+{formattedPercentage}%";
     }
 }

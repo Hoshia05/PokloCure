@@ -291,7 +291,7 @@ MonoBehaviour:
   IsStunned: 0
   _weaponSlot: {fileID: 2501353271568022681}
   SpriteRenderer: {fileID: 7725466693573987731}
-  _damageSoundClip: {fileID: 8300000, guid: e11a5a019377fbd4c81caa0adcb4c236, type: 3}
+  _damageSoundClip: {fileID: 8300000, guid: facf2a8976979e84d926c58c36fbf66d, type: 3}
 --- !u!50 &-1654011549760285957
 Rigidbody2D:
   serializedVersion: 4

@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae12a9c1cc1fff94aa39ed35c196fe83, type: 3}
+  m_Name: CriticalUpgradeSO
+  m_EditorClassIdentifier: 
+  ItemName: "\uCE58\uBA85 \uAC15\uD654"
+  ItemDescription:
+  - "\uCE58\uBA85\uD0C0\uB960\uACFC \uCE58\uBA85\uB370\uBBF8\uC9C0\uAC00 5% \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  - "\uCE58\uBA85\uD0C0\uB960\uACFC \uCE58\uBA85\uB370\uBBF8\uC9C0\uAC00 10% \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  - "\uCE58\uBA85\uD0C0\uB960\uACFC \uCE58\uBA85\uB370\uBBF8\uC9C0\uAC00 15% \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  - "\uCE58\uBA85\uD0C0\uB960\uACFC \uCE58\uBA85\uB370\uBBF8\uC9C0\uAC00 20% \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  - "\uCE58\uBA85\uD0C0\uB960\uACFC \uCE58\uBA85\uB370\uBBF8\uC9C0\uAC00 25% \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  - "\uCE58\uBA85\uD0C0\uB960\uACFC \uCE58\uBA85\uB370\uBBF8\uC9C0\uAC00 30% \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  - "\uCE58\uBA85\uD0C0\uB960\uACFC \uCE58\uBA85\uB370\uBBF8\uC9C0\uAC00 40% \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  ItemType: 3
+  WeaponType: 2
+  ItemImage: {fileID: 21300000, guid: f1cae950070db3a44b7715ecdc41e40c, type: 3}
+  ItemMaxLevel: 5
+  characterLabel: 0
+  ProjectileItemPrefab: {fileID: 0}
+  ControllerScript: {fileID: 11500000, guid: 3aee016ac6472af4bb1ec81defc7c830, type: 3}
+  _cost: 150
+  _costMultiplier: 1
+  DamageMultiplier: 1
+  Speed: 0
+  CooldownDuration: 1
+  Pierce: 1
+  Deathtime: 4
+  ProjectileNum: 1
+  KnockbackValue: 0
+  Area: 1
+  Priority: 1

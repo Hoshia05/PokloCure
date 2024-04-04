@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class FlailController : ItemController
 {
-    private void Start()
-    {
-    }
 
     protected override void Launch()
     {
+        base.Launch();
+
         ItemBehaviour projectileBehaviour = InstantiateProjectile();
 
         float angle = Mathf.Atan2(PlayerControl.Instance.PlayerLineOfSight.y, PlayerControl.Instance.PlayerLineOfSight.x) * Mathf.Rad2Deg;

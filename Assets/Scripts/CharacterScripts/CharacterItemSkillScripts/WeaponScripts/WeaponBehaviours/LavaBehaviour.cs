@@ -27,12 +27,12 @@ public class LavaBehaviour : ItemBehaviour
 
         //launch towards random up direction
 
-        float yDirection = Random.Range(0.1f, 1f); ;
+        float yDirection = Random.Range(1f, 2f); ;
         float xDirection = Random.Range(-0.5f, 0.5f);
 
         Vector2 launchDirection = new Vector2(xDirection, yDirection);
 
-        _rb.AddForce(launchDirection * 1000);
+        _rb.AddForce(launchDirection * 500);
         _rb.AddTorque(5f);
 
         StartCoroutine(TurnToLava());

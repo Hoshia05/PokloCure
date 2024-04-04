@@ -33,10 +33,12 @@ MonoBehaviour:
   _costMultiplier: 1
   DamageMultiplier: 0.5
   Speed: 0
-  CooldownDuration: 5
+  CooldownDuration: 0.01
   Pierce: 99999
-  Deathtime: 5.01
+  Deathtime: 5
   ProjectileNum: 1
   KnockbackValue: 0
   Area: 1.1
   Priority: 3
+  DeathTimeCumulative: 0
+  CooldownWaitUntilProjectileDeath: 1

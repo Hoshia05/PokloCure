@@ -277,6 +277,7 @@ public class PlayerScript : MonoBehaviour
         _staminaDepleteRate = SelectedCharacter.StaminaDepleteRate;
         _staminaRedlineValue = SelectedCharacter.StaminaRedlineValue;
 
+        //set up basic weapon
         GameObject NewWeapon = new GameObject(SelectedCharacter.BaseWeapon.ItemName);
         NewWeapon.transform.parent = _basicWeaponSlot.transform;
         NewWeapon.transform.localPosition = Vector3.zero;

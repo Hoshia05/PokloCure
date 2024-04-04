@@ -12,6 +12,10 @@ public class AttackUpgradeController : ItemController
         ApplyAtkBuff();
     }
 
+    protected override void Update()
+    {
+
+    }
 
     protected override void LevelUpEffect()
     {

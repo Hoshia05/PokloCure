@@ -7,6 +7,8 @@ public class FieldItemBase : MonoBehaviour
 {
     [SerializeField]
     protected SpriteRenderer _itemSprite;
+    [SerializeField]
+    public AudioClip _obtainSound;
 
     private float _movementSpeed = 20f;
 
@@ -18,6 +20,7 @@ public class FieldItemBase : MonoBehaviour
     private Transform _playerTransform;
 
     private Coroutine _floatCoroutine;
+
 
     private void OnEnable()
     {
