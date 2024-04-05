@@ -16,7 +16,7 @@ public class GameOverPromptScript : MonoBehaviour
     public void TitleScreenButton()
     {
         Time.timeScale = 1;
-        GameManager.Instance.MoveToTitleScene();
+        GameManager.Instance.MoveToCharacterSelectionScreen();
     }
 
     public void QuitGameButton()

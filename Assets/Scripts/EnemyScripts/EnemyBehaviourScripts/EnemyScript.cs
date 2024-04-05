@@ -170,12 +170,13 @@ public class EnemyScript : MonoBehaviour
     {
         if(_projectileNum == 0) return;
 
+        float startOffset = GameManager.Instance.Rand.Next(30);
 
         float degreeDif = 360 / _projectileNum;
 
         for (int i = 0; i < _projectileNum; i++)
         {
-            float angle = i * degreeDif;
+            float angle = startOffset + (i * degreeDif);
             Vector2 direction = Quaternion.Euler(0f, 0f, angle) * Vector2.up;
 
             GameObject projectile = Instantiate(RangedAttackProjectilePrefab, transform.position, Quaternion.identity);
@@ -183,6 +184,7 @@ public class EnemyScript : MonoBehaviour
             EnemyProjectileScript epScript = projectile.GetComponent<EnemyProjectileScript>();
             epScript.InitializeProjectile(_rangedAttackDamage);
             rb.AddForce(direction * 300);
+            rb.AddTorque(500f);
 
         }
     }
@@ -327,7 +329,7 @@ public class EnemyScript : MonoBehaviour
 
         if(randval <= dropChance) 
         {
-            Instantiate(GameManager.Instance.BurgerPrefab, RandomNearPosition(), Quaternion.identity);
+            Instantiate(GameManager.Instance.SteakPrefab, RandomNearPosition(), Quaternion.identity);
         }
     }
 

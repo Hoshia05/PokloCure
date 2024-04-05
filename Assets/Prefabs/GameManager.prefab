@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7497525255776810005
 MonoBehaviour:
@@ -46,7 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyPrefab: {fileID: 6866567978285184781, guid: 24482696c81187c46a523a3f943f4753, type: 3}
   BossPrefab: {fileID: 6866567978285184781, guid: 88822052681175f47ba798d893ab2ab5, type: 3}
-  EXPItemPrefab: {fileID: 0}
   EnemyList:
   - {fileID: 11400000, guid: 55d3ee122da72f3458a06636856da46c, type: 2}
   - {fileID: 11400000, guid: 187701d1486cd2f4582edbedd206a6fc, type: 2}
@@ -60,7 +59,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b2bbd7daff7082d4a83f1f860850fbff, type: 2}
   - {fileID: 11400000, guid: 17ef1ce5c8f51e644bcecefca87e9133, type: 2}
   - {fileID: 11400000, guid: e3ffc2b840613b74cba38a14609672df, type: 2}
-  - {fileID: 11400000, guid: def7373233a587549874d9ed8818b775, type: 2}
   - {fileID: 11400000, guid: afae2633339fe7d418e8a1a4a1b88288, type: 2}
   - {fileID: 11400000, guid: d411eec8657b7b74797c368ae4d4c8c0, type: 2}
   - {fileID: 11400000, guid: 659a4421520915e469b98c5acb47ee6b, type: 2}
@@ -73,22 +71,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d2f0eddb1f8821e48ab8e7c97c3fd8da, type: 2}
   - {fileID: 11400000, guid: 35fa5240e64cdb342b015e858f029749, type: 2}
   - {fileID: 11400000, guid: c516085273071da4d9d8b94ee3a6dab4, type: 2}
+  - {fileID: 11400000, guid: 05c7d9814cf7c4a459733e9cc08042ae, type: 2}
+  - {fileID: 11400000, guid: 9a66fbd8ca191cf4f9fa3bf0d9f007c9, type: 2}
+  - {fileID: 11400000, guid: c02eda36682de2b4788dca43e9651ed7, type: 2}
   DebugItemList:
-  - {fileID: 11400000, guid: 659a4421520915e469b98c5acb47ee6b, type: 2}
-  - {fileID: 11400000, guid: f898c500df306b14586e929503664c7f, type: 2}
-  - {fileID: 11400000, guid: 765cc5b2f261102409673694b42d4851, type: 2}
   - {fileID: 11400000, guid: d411eec8657b7b74797c368ae4d4c8c0, type: 2}
-  - {fileID: 11400000, guid: 10ddce762e6963c4a8246718b7306400, type: 2}
-  - {fileID: 11400000, guid: f564c1a4ebbe87742b06710d477dd0b8, type: 2}
+  - {fileID: 11400000, guid: afae2633339fe7d418e8a1a4a1b88288, type: 2}
   PlayerCharacterPrefab: {fileID: 8438766113470524038, guid: 4b0804e9b0ab99e4cade03185f864d6d, type: 3}
   DamagePopUpPrefab: {fileID: 5271240959729347560, guid: f69cb61873c2372468194f31debf07a1, type: 3}
   CriticalDamagePopUpPrefab: {fileID: 5271240959729347560, guid: c88895a7a31c4f14699e99770f1c51a9, type: 3}
-  BurgerPrefab: {fileID: 5710734456166026490, guid: 86488bbf00decb84ca160741f62b89b9, type: 3}
+  SteakPrefab: {fileID: 5710734456166026490, guid: 86488bbf00decb84ca160741f62b89b9, type: 3}
   DiamondPrefab: {fileID: 5710734456166026490, guid: 45580285e8559dd408a2ff8884b2f40d, type: 3}
   TreasureBoxPrefab: {fileID: 8764263367731458104, guid: d4d2f2f414d321247944ad4b8838c8f6, type: 3}
   ExpItemPrefab: {fileID: 5710734456166026490, guid: 813449b9b6085284c808b2fa3b7d97c5, type: 3}
   HitEffectPrefab: {fileID: 3786841545655333041, guid: 8166554853349dc41a33c86ccdd2cb47, type: 3}
   _greenTiger: {fileID: 11400000, guid: f5838de0fb1587443a0ca9be7fceb468, type: 2}
   _blueTiger: {fileID: 11400000, guid: 01c86b682733d6042949163fbb9a0341, type: 2}
-  _isDebug: 1
-  _selectedCharacter: {fileID: 11400000, guid: f5838de0fb1587443a0ca9be7fceb468, type: 2}
+  _isDebug: 0
+  _selectedCharacter: {fileID: 11400000, guid: 01c86b682733d6042949163fbb9a0341, type: 2}

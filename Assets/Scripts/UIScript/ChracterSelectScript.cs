@@ -9,6 +9,8 @@ public class ChracterSelectScript : MonoBehaviour
     [SerializeField] Image _blueTigerSprite;
     [SerializeField] Animator _greenTigerAnimation;
     [SerializeField] Image _greenTigerSprite;
+    [SerializeField] AudioClip _hoverSound;
+    [SerializeField] AudioClip _selectSound;
 
     private Color _blueTigerInitialColor;
     private Color _greenTigerInitialColor;
@@ -21,16 +23,19 @@ public class ChracterSelectScript : MonoBehaviour
 
     public void SelectBlueTiger()
     {
+        SoundFXManager.Instance.PlaySoundFXClip(_selectSound, transform, 1f);
         GameManager.Instance.SelectBlueTiger();
     }
 
     public void SelectGreenTiger()
     {
+        SoundFXManager.Instance.PlaySoundFXClip(_selectSound, transform, 1f);
         GameManager.Instance.SelectGreenTiger();
     }
 
     public void HoverOnBlueTiger()
     {
+        SoundFXManager.Instance.PlaySoundFXClip(_hoverSound, transform, 1f);
         _blueTigerAnimation.SetBool("Select", true);
         _blueTigerSprite.color = Color.white;
 
@@ -45,6 +50,7 @@ public class ChracterSelectScript : MonoBehaviour
 
     public void HoverOnGreenTiger()
     {
+        SoundFXManager.Instance.PlaySoundFXClip(_hoverSound, transform, 1f);
         _greenTigerAnimation.SetBool("Select", true);
         _greenTigerSprite.color = Color.white;
     }

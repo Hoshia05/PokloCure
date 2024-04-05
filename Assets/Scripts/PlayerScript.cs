@@ -731,7 +731,7 @@ public class PlayerScript : MonoBehaviour
     IEnumerator TakeDamageCoroutine(float damage)
     {
         isInvulnerable = true;
-        _playerAnim.SetTrigger("hurt");
+        //_playerAnim.SetTrigger("hurt");
         _spriteRenderer.color = Color.red;
 
         _characterCurrentHP -= damage;
@@ -749,7 +749,7 @@ public class PlayerScript : MonoBehaviour
 
         _spriteRenderer.color = Color.white;
         isInvulnerable = false;
-        _playerAnim.SetTrigger("hurtEnd");
+        //_playerAnim.SetTrigger("hurtEnd");
 
     }
 

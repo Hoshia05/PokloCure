@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GarlicController : ItemController
 {
-    private float _hitCooldown = 1f;
+    private float _hitCooldown = 0.75f;
 
     // Start is called before the first frame update
     protected override void Launch()

@@ -20,6 +20,7 @@ public class ItemSO : ScriptableObject
     //public GameObject ControllerPrefab;
     public GameObject ProjectileItemPrefab;
     public AudioClip ProjectileSound;
+    [Range(0.0f, 1.0f)] public float Volume = 0.5f;
 
     public Object ControllerScript;
 
@@ -42,6 +43,7 @@ public class ItemSO : ScriptableObject
     public int Priority = 4;
 
     public bool CooldownWaitUntilProjectileDeath = false;
+    public bool WeaponDestroyedAfterPierce = false;
 
     public int GetCost(int currentLevel)
     {

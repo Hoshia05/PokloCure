@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SoundFXManager : MonoBehaviour
 {
@@ -14,7 +15,8 @@ public class SoundFXManager : MonoBehaviour
     private List<AudioSource> _soundClipPool = new();
 
     [Header("Global Sounds")]
-    [SerializeField] private List<AudioClip> _backgroundMusics;
+    [SerializeField] private AudioClip _menuMusic;
+    [SerializeField] private List<AudioClip> _gameSceneBackgroundMusics;
     [SerializeField] private AudioClip _clickSoundClip;
     [SerializeField] private AudioClip _basicWhoosh;
 
@@ -25,6 +27,7 @@ public class SoundFXManager : MonoBehaviour
         if (Instance != null)
         {
             Destroy(gameObject);
+            return;
         }
         else
         {
@@ -33,18 +36,59 @@ public class SoundFXManager : MonoBehaviour
 
 
         DontDestroyOnLoad(gameObject);
+
+        PlayBackgroundMusic(SceneManager.GetActiveScene().name);
     }
 
     private void Start()
     {
+        SceneManager.activeSceneChanged += OnSceneChanged;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.activeSceneChanged -= OnSceneChanged;
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
+    }
+
+    private void OnSceneChanged(Scene previousScene, Scene newScene)
+    {
+        PlayBackgroundMusic(newScene.name); 
+    }
+    private void OnSceneUnloaded(Scene scene)
+    {
+        StopAllCoroutines();
+    }
+
+    private void PlayBackgroundMusic(string CurrentSceneName)
+    {
+
         CreateSoundClipPool();
 
-        _backgroundAudio.clip = _backgroundMusics[GameManager.Instance.Rand.Next(_backgroundMusics.Count)];
-        _backgroundAudio.Play();
+        AudioClip nextClip;
+
+        if (CurrentSceneName.Equals("GameScene"))
+        {
+
+            nextClip = _gameSceneBackgroundMusics[GameManager.Instance.Rand.Next(_gameSceneBackgroundMusics.Count)];
+        }
+        else
+        {
+            nextClip = _menuMusic;
+        }
+
+        if(_backgroundAudio.clip != nextClip)
+        {
+            _backgroundAudio.clip = nextClip;
+            _backgroundAudio.Play();
+        }
+
     }
 
     private void CreateSoundClipPool()
     {
+        _soundClipPool = new();
         for (int i = 0; i < 200; i++)
         {
             AudioSource audioSource = Instantiate(soundFXObject, Vector2.zero, Quaternion.identity);

@@ -21,7 +21,8 @@ public class ItemBehaviour : MonoBehaviour
     protected Coroutine DeathCoroutine;
 
     protected bool _reachedPierceLimit;
-    protected bool _weaponDestroyedOnDeath;
+    protected bool _weaponDestroyedAfterPierce;
+    public bool WeaponDestroyedAfterPierce { set => _weaponDestroyedAfterPierce = value; }
 
     protected bool _cooldownWaitUntilProjectileDeath;
     public bool CooldownWaitUntilprojectileDeath { set => _cooldownWaitUntilProjectileDeath = value; }
@@ -135,7 +136,7 @@ public class ItemBehaviour : MonoBehaviour
     protected void DisengageWeapon()
     {
         _reachedPierceLimit = true;
-        if (_weaponDestroyedOnDeath)
+        if (_weaponDestroyedAfterPierce)
             EndProcess();
     }
 

@@ -28,17 +28,18 @@ MonoBehaviour:
   ItemMaxLevel: 5
   characterLabel: 0
   ProjectileItemPrefab: {fileID: 429641142634744645, guid: 2d2b0eac9dd612042ae9ae1253390290, type: 3}
+  ProjectileSound: {fileID: 0}
   ControllerScript: {fileID: 11500000, guid: 5b2bc4a368a616c4a9365fc432dfc7dd, type: 3}
   _cost: 0
   _costMultiplier: 1
   DamageMultiplier: 0.5
   Speed: 0
-  CooldownDuration: 0.01
+  CooldownDuration: 0.001
   Pierce: 99999
   Deathtime: 5
   ProjectileNum: 1
   KnockbackValue: 0
   Area: 1.1
   Priority: 3
-  DeathTimeCumulative: 0
   CooldownWaitUntilProjectileDeath: 1
+  WeaponDestroyedAfterPierce: 0

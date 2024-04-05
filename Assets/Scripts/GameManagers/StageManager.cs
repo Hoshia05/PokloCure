@@ -26,6 +26,12 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     private GameObject _gameOverPromptPrefab;
 
+    [Header("Sounds")]
+    [SerializeField]
+    private AudioClip _pauseMenuSound;
+    [SerializeField]
+    private AudioClip _levelUpSound;
+
     [Header("Within Prefab")]
     [SerializeField]
     private GameObject _darkScreen;
@@ -87,8 +93,8 @@ public class StageManager : MonoBehaviour
     public List<ItemSO> ItemExemptList;
 
 
-    //[Header("Enemy Related")]
 
+    [HideInInspector]
     public UnityEvent onEnemyKilled;
 
     public int CurrentEnemyCount 
@@ -105,10 +111,15 @@ public class StageManager : MonoBehaviour
     private List<GameObject> _criticalDamagePopupPool = new();
     private List<GameObject> _enemyHitAnimationPool = new();
 
+    [Header("Enemy Related")]
+    [SerializeField]
     private int _swarmCoefficient = 15;
+    [SerializeField]
     private int _mediumCoefficient = 3;
+    [SerializeField]
     private int _eliteCoefficeint = 1;
 
+    [SerializeField]
     private int _circleEnemyNum = 10;
 
     private int _totalEnemyCoefficient => _swarmCoefficient + _mediumCoefficient + _eliteCoefficeint;
@@ -232,6 +243,11 @@ public class StageManager : MonoBehaviour
 
     public void GetEXPItemFromPool(Vector2 position, float expValue)
     {
+
+        if (!_expItemPool.Any(x => x.activeSelf == false))
+            return;
+
+
         GameObject expItem = _expItemPool.First(x => x.activeSelf == false);
 
         if (expItem == null)
@@ -243,7 +259,7 @@ public class StageManager : MonoBehaviour
 
     private void MoneyItemPoolCreate()
     {
-        int Count = 100;
+        int Count = 1000;
         for (int i = 0; i < Count; i++)
         {
             GameObject newMoneyItem = Instantiate(GameManager.Instance.DiamondPrefab);
@@ -255,6 +271,9 @@ public class StageManager : MonoBehaviour
 
     public void GetMoneyItemFromPool(Vector2 targetPosition)
     {
+        if (!_moneyItemPool.Any(x => x.activeSelf == false))
+            return;
+
         GameObject moneyItem = _moneyItemPool.First(x => x.activeSelf == false);
 
         moneyItem.SetActive(true);
@@ -281,6 +300,13 @@ public class StageManager : MonoBehaviour
 
     public void GetDamageUIFromPool(Vector2 position, float DamageValue, bool isCritical)
     {
+        if(isCritical && !_criticalDamagePopupPool.Any(x => x.activeSelf == false))
+            return;
+
+        if (!isCritical && !_damagePopupPool.Any(x => x.activeSelf == false))
+            return;
+
+
         GameObject DamagePopup = isCritical ? _criticalDamagePopupPool.First(x => x.activeSelf == false) : _damagePopupPool.First(x => x.activeSelf == false);
 
         DamagePopup.SetActive(true);
@@ -318,6 +344,9 @@ public class StageManager : MonoBehaviour
 
     public void GetHitAnimationFromPool(Vector2 targetPosition)
     {
+        if (!_enemyHitAnimationPool.Any(x => x.activeSelf == false))
+            return;
+
         GameObject animationObject = _enemyHitAnimationPool.First(x => x.activeSelf == false);
 
         animationObject.transform.position = targetPosition;
@@ -399,7 +428,7 @@ public class StageManager : MonoBehaviour
         ItemSlotScript.Instance.SlotUpdate(_currentPlayer);
     }
 
-    IEnumerator EnemyCircleSpawnCoroutine(int spawnNum = 2)
+    IEnumerator EnemyCircleSpawnCoroutine(int spawnNum = 1)
     {
         while (true)
         {
@@ -447,7 +476,7 @@ public class StageManager : MonoBehaviour
         PlayerScript playerScript = StageManager.Instance.CurrentPlayer;
         Vector2 playerPosition = playerScript.transform.position;
 
-        float radius = 40f;
+        float radius = 30f;
 
         float degreeDif = 360 / _circleEnemyNum;
 
@@ -471,7 +500,7 @@ public class StageManager : MonoBehaviour
 
         foreach (Vector2 spawnPosition in spawnPositionList)
         {
-            PullFromObjectPool(RandomizeEnemyCircleSpawn(), spawnPosition);
+            PullEnemyFromObjectPool(RandomizeEnemyCircleSpawn(), spawnPosition);
         }
 
     }
@@ -505,7 +534,7 @@ public class StageManager : MonoBehaviour
         for (int i = 0; i < _totalEnemyCoefficient; i++)
         {
             LastEnemyPosition = EnemySpawnManager.GetRandomPositionInRadius(LastEnemyPosition, 5f);
-            PullFromObjectPool(GetClassBasedOnCoefficient(), LastEnemyPosition);
+            PullEnemyFromObjectPool(GetClassBasedOnCoefficient(), LastEnemyPosition);
         }
 
     }
@@ -532,7 +561,7 @@ public class StageManager : MonoBehaviour
 
     }
 
-    private void PullFromObjectPool(EnemyClass enemyClass, Vector2 spawnPosition)
+    private void PullEnemyFromObjectPool(EnemyClass enemyClass, Vector2 spawnPosition)
     {
         EnemyBase enemyType;
 
@@ -549,7 +578,8 @@ public class StageManager : MonoBehaviour
 
         List<GameObject> enemyQueue = _enemyPool[enemyType];
 
-        if (enemyQueue == null || enemyQueue.Count == 0)
+
+        if (enemyQueue == null || enemyQueue.Count == 0 || !enemyQueue.Any(x => x.activeSelf == false))
             return;
 
         GameObject enemy = enemyQueue.First(x => x.activeSelf == false) ;
@@ -603,9 +633,9 @@ public class StageManager : MonoBehaviour
 
     private string IncreaseAll()
     {
-        _swarmCoefficient *= 2;
-        _mediumCoefficient *= 2;
-        _eliteCoefficeint *= 2;
+        _swarmCoefficient += 5;
+        _mediumCoefficient += 2;
+        _eliteCoefficeint += 1;
         return "모든 적이 더 많이 등장합니다!";
     }
 
@@ -765,7 +795,9 @@ public class StageManager : MonoBehaviour
 
     public void LevelUpEvent()
     {
+        SoundFXManager.Instance.PlaySoundFXClip(_levelUpSound, transform, 1f);
         _pauseEvent = true;
+        _currentPlayer.IsPaused = true;
         Time.timeScale = 0;
         SetupItemExemptList();
         OpenCharacterInfoUI();
@@ -777,6 +809,7 @@ public class StageManager : MonoBehaviour
     public void LevelUpEventEnd()
     {
         _pauseEvent = false;
+        _currentPlayer.IsPaused = false;
         Time.timeScale = 1;
         CloseCharacterInfoUI();
         _levelUPUI.SetActive(false);
@@ -786,6 +819,7 @@ public class StageManager : MonoBehaviour
     public void FieldBoxEvent()
     {
         _pauseEvent = true;
+        _currentPlayer.IsPaused = true;
         Time.timeScale = 0;
         SetupItemExemptList();
         _darkScreen.SetActive(true);
@@ -796,6 +830,7 @@ public class StageManager : MonoBehaviour
     public void EndBoxUI()
     {
         _pauseEvent = false;
+        _currentPlayer.IsPaused = false;
         Time.timeScale = 1;
         _BoxItemUI.SetActive(false);
         _darkScreen.SetActive(false);
@@ -822,6 +857,7 @@ public class StageManager : MonoBehaviour
 
         if (_gamePaused)
         {
+            SoundFXManager.Instance.PlaySoundFXClip(_pauseMenuSound, transform, 1f);
             _gamePaused = false;
             Time.timeScale = 1;
             _currentPlayer.IsPaused = false;
@@ -833,6 +869,7 @@ public class StageManager : MonoBehaviour
         }
         else
         {
+            SoundFXManager.Instance.PlaySoundFXClip(_pauseMenuSound, transform, 1f);
             _gamePaused = true;
             Time.timeScale = 0;
             _currentPlayer.IsPaused = true;

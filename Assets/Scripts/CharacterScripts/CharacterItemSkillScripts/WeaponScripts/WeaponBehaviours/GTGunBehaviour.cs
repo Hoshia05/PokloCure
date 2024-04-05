@@ -6,6 +6,6 @@ public class GTGunBehaviour : ItemBehaviour
 {
     private void OnEnable()
     {
-        _cooldownWaitUntilProjectileDeath = false;
+        //_weaponDestroyedAfterPierce = true;
     }
 }

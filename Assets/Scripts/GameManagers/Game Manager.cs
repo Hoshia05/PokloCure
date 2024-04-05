@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     [Header("Prefabs")]
     public GameObject EnemyPrefab;
     public GameObject BossPrefab;
-    public GameObject EXPItemPrefab;
 
     public List<EnemyBase> EnemyList;
 
@@ -25,7 +24,7 @@ public class GameManager : MonoBehaviour
     public GameObject DamagePopUpPrefab;
     public GameObject CriticalDamagePopUpPrefab;
 
-    public GameObject BurgerPrefab;
+    public GameObject SteakPrefab;
     public GameObject DiamondPrefab;
     public GameObject TreasureBoxPrefab;
     public GameObject ExpItemPrefab;
@@ -127,14 +126,14 @@ public class GameManager : MonoBehaviour
 
     //SceneChange
 
-    public void MoveToTitleScene()
-    {
-        SceneManager.LoadScene("TitleScreen");
-    }
+    //public void MoveToTitleScene()
+    //{
+    //    SceneManager.LoadScene("TitleScreen");
+    //}
 
     public void MoveToCharacterSelectionScreen()
     {
-        SceneManager.LoadScene("CharSelectScene");
+        SceneManager.LoadScene("SelectScreen");
     }
 
     public void MoveToPlayScene()

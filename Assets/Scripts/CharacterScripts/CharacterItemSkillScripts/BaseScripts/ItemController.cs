@@ -45,6 +45,7 @@ public class ItemController : MonoBehaviour, IItemController
     protected bool _hasLaunchedSinceReset;
 
     protected bool _cooldownWaitUntilProjectileDeath;
+    protected bool _weaponDestroyedAfterPierce;
 
     protected int _currentLevel = 1;
     public int CurrentLevel
@@ -101,6 +102,7 @@ public class ItemController : MonoBehaviour, IItemController
         }
 
         _cooldownWaitUntilProjectileDeath = ItemData.CooldownWaitUntilProjectileDeath;
+        _weaponDestroyedAfterPierce = ItemData.WeaponDestroyedAfterPierce;
 
 
         _currentCooldownDuration = ItemData.CooldownDuration * _localCooldownBuff * PlayerScript.Instance.CurrentHasteMultiplier * CooldownBuff;
@@ -248,11 +250,11 @@ public class ItemController : MonoBehaviour, IItemController
     {
         if (ItemData.ProjectileSound != null)
         {
-            SoundFXManager.Instance.PlaySoundFXClip(ItemData.ProjectileSound, transform, 0.1f);
+            SoundFXManager.Instance.PlaySoundFXClip(ItemData.ProjectileSound, transform, ItemData.Volume);
         }
         else
         {
-            SoundFXManager.Instance.PlayBasicWhoosh(transform, 0.5f);
+            SoundFXManager.Instance.PlayBasicWhoosh(transform, 1f);
         }
 
         GameObject projectile;
@@ -273,6 +275,8 @@ public class ItemController : MonoBehaviour, IItemController
             projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentLevel, _currentSizeScale, _currentKnockbackValue, _stunTime);
             if (_cooldownWaitUntilProjectileDeath)
                 projectileBehaviour.CooldownWaitUntilprojectileDeath = true;
+            if (_weaponDestroyedAfterPierce)
+                projectileBehaviour.WeaponDestroyedAfterPierce = true;
 
             CurrentProjectiles.Add(projectileBehaviour);
 

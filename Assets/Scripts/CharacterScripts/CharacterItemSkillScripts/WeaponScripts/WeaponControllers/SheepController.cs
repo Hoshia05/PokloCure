@@ -34,7 +34,7 @@ public class SheepController : ItemController
 
     void SummonBurger()
     {
-        Instantiate(GameManager.Instance.BurgerPrefab, RandomNearPosition(), Quaternion.identity);
+        Instantiate(GameManager.Instance.SteakPrefab, RandomNearPosition(), Quaternion.identity);
     }
 
     private Vector2 RandomNearPosition()

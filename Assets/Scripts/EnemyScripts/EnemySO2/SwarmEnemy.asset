@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efa97230004be834aadba4c8af4dbe8d, type: 3}
   m_Name: SwarmEnemy
   m_EditorClassIdentifier: 
-  EnemyPortrait: {fileID: -1529342448, guid: d8da2e7fad4176245afd96bb0eefa352, type: 3}
-  EnemySprite: {fileID: -1529342448, guid: d8da2e7fad4176245afd96bb0eefa352, type: 3}
+  EnemyPortrait: {fileID: 21300000, guid: c2f341216f4712946a98629669700c88, type: 3}
+  EnemySprite: {fileID: 21300000, guid: c2f341216f4712946a98629669700c88, type: 3}
   AnimatorController: {fileID: 0}
   BasicWeaponController: {fileID: 0}
   EnemyName: "\uD558\uAE09 \uC801"
