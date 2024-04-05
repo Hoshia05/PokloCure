@@ -167,6 +167,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemSprite: {fileID: 289211801434040852}
+  _obtainSound: {fileID: 8300000, guid: f6488c91a9782fe4b98347540e6ae532, type: 3}
+  _spriteRenderer: {fileID: 289211801434040852}
   IsDebug: 0
 --- !u!1 &6406847136506455136
 GameObject:

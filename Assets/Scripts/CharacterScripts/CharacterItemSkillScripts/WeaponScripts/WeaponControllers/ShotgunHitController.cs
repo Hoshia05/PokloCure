@@ -11,7 +11,10 @@ public class ShotgunHitController : ItemController
         base.Launch();
 
 
-        GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
+        //GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
+
+        InstantiateProjectile();
+
         Shockwave();
 
     }

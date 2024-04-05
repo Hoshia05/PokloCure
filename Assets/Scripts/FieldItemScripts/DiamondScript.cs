@@ -4,13 +4,34 @@ using UnityEngine;
 
 public class DiamondScript : FieldItemBase
 {
+    [SerializeField]
+    private SpriteRenderer _spriteRenderer;
+
     private int _coinValue;
 
     public bool IsDebug;
 
-    private void Start()
+    protected override void OnEnable()
     {
-        _coinValue = GameManager.Instance.Rand.Next(1, 10);
+        base.OnEnable();
+
+        ResetValue();
+    }
+    
+    public void ResetValue()
+    {
+        if(GameManager.Instance.RollRandom(1))
+        {
+            _coinValue = 500;
+            _spriteRenderer.color = Color.black;
+
+        }
+        else
+        {
+            _spriteRenderer.color = Color.white;
+            _coinValue = GameManager.Instance.Rand.Next(3, 20);
+
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -19,7 +40,7 @@ public class DiamondScript : FieldItemBase
         {
             StageManager.Instance.GainCoins(_coinValue);
 
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

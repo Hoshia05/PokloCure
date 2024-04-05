@@ -126,7 +126,6 @@ public class ItemController : MonoBehaviour, IItemController
     protected virtual void Launch()
     {
 
-        Debug.Log($"{ItemData.name} Launch");
 
         if (!_cooldownWaitUntilProjectileDeath)
             ResetCooldown();
@@ -134,7 +133,7 @@ public class ItemController : MonoBehaviour, IItemController
 
     public void ResetCooldown()
     {
-        Debug.Log($"{ItemData.name} Reset");
+        //Debug.Log($"{ItemData.name} Reset");
         _currentCooldown = _currentCooldownDuration;
         _hasLaunchedSinceReset = false;
     }
@@ -245,15 +244,39 @@ public class ItemController : MonoBehaviour, IItemController
         BuffUIScript.Instance.UpdateBuff(ItemData, _buffStack);
     }
 
-    protected ItemBehaviour InstantiateProjectile()
+    protected ItemBehaviour InstantiateProjectile(bool independent = false)
     {
-        GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
-        ItemBehaviour projectileBehaviour = projectile.GetComponent<ItemBehaviour>();
-        projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentLevel, _currentSizeScale, _currentKnockbackValue, _stunTime);
-        if (_cooldownWaitUntilProjectileDeath)
-            projectileBehaviour.CooldownWaitUntilprojectileDeath = true;
+        if (ItemData.ProjectileSound != null)
+        {
+            SoundFXManager.Instance.PlaySoundFXClip(ItemData.ProjectileSound, transform, 0.1f);
+        }
+        else
+        {
+            SoundFXManager.Instance.PlayBasicWhoosh(transform, 0.5f);
+        }
 
-        CurrentProjectiles.Add(projectileBehaviour);
+        GameObject projectile;
+
+        if (independent)
+        {
+            projectile = Instantiate(ItemData.ProjectileItemPrefab, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
+        }
+
+        ItemBehaviour projectileBehaviour = projectile.GetComponent<ItemBehaviour>();
+
+        if (projectileBehaviour != null)
+        {
+            projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentLevel, _currentSizeScale, _currentKnockbackValue, _stunTime);
+            if (_cooldownWaitUntilProjectileDeath)
+                projectileBehaviour.CooldownWaitUntilprojectileDeath = true;
+
+            CurrentProjectiles.Add(projectileBehaviour);
+
+        }
 
         return projectileBehaviour;
     }

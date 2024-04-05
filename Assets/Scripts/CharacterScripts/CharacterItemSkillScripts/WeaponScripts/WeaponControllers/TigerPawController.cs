@@ -10,11 +10,7 @@ public class TigerPawController : ItemController
     {
         base.Launch();
 
-        GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform.position, Quaternion.identity);
-        ItemBehaviour projectileBehaviour = projectile.GetComponent<ItemBehaviour>();
-        projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentLevel, _currentSizeScale, _currentKnockbackValue, _stunTime);
-
-        CurrentProjectiles.Add(projectileBehaviour);
+        ItemBehaviour projectileBehaviour = InstantiateProjectile(true);
 
         projectileBehaviour.SetHitCooldown(_hitCooldown);
     }

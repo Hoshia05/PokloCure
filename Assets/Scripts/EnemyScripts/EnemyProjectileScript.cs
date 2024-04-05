@@ -20,7 +20,7 @@ public class EnemyProjectileScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerScript playerScript = collision.gameObject.GetComponent<PlayerScript>();
-            playerScript.TakeDamage(_damage);
+            playerScript.TakeHit(_damage);
 
             Destroy(gameObject);
         }

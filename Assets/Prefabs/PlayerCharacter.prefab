@@ -738,6 +738,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerMovement: {x: 0, y: 0}
   PlayerLineOfSight: {x: 0, y: 0}
+  MousePosition: {x: 0, y: 0}
   IsDashing: 0
   IsDrunk: 0
   PauseMenu:
@@ -758,6 +759,7 @@ MonoBehaviour:
   _spriteRenderer: {fileID: 5534165642090980500}
   _playerAnim: {fileID: 2908893155120491947}
   _hpBar: {fileID: 8537638929941363780}
+  _takeDamageSound: {fileID: 8300000, guid: 369eda40c50d2ab41a6c82b5126f76fa, type: 3}
   _characterSO: {fileID: 11400000, guid: a367cd36c56dc6d4fb4213df3ab5b472, type: 2}
   BurgerDropChanceMultiplier: 0
   _attackCoolTime: 0.5

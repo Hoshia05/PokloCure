@@ -73,6 +73,8 @@ public class GameManager : MonoBehaviour
 
     public List<ItemSO> GetFullList()
     {
+        ItemList.Shuffle();
+
         return _isDebug ? DebugItemList : ItemList;
     }
 

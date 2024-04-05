@@ -100,8 +100,10 @@ public class StageManager : MonoBehaviour
     private List<EnemyBase> _enemyList;
     private Dictionary<EnemyBase, List<GameObject>> _enemyPool = new();
     private List<GameObject> _expItemPool = new();
+    private List<GameObject> _moneyItemPool = new();
     private List<GameObject> _damagePopupPool = new();
     private List<GameObject> _criticalDamagePopupPool = new();
+    private List<GameObject> _enemyHitAnimationPool = new();
 
     private int _swarmCoefficient = 15;
     private int _mediumCoefficient = 3;
@@ -168,6 +170,9 @@ public class StageManager : MonoBehaviour
         EnemyObjectPoolCreate();
         DamageUIPoolCreate();
         ExpItemPoolCreate();
+        MoneyItemPoolCreate();
+        EnemyHitAnimationpoolCreate();
+
         InitializeEnhanceFunctions();
 
         StartCoroutine(EnemyCircleSpawnCoroutine());
@@ -236,6 +241,27 @@ public class StageManager : MonoBehaviour
         expItem.transform.position = position;
     }
 
+    private void MoneyItemPoolCreate()
+    {
+        int Count = 100;
+        for (int i = 0; i < Count; i++)
+        {
+            GameObject newMoneyItem = Instantiate(GameManager.Instance.DiamondPrefab);
+            newMoneyItem.SetActive(false);
+
+            _moneyItemPool.Add(newMoneyItem);
+        }
+    }
+
+    public void GetMoneyItemFromPool(Vector2 targetPosition)
+    {
+        GameObject moneyItem = _moneyItemPool.First(x => x.activeSelf == false);
+
+        moneyItem.SetActive(true);
+        moneyItem.transform.position = targetPosition;
+
+    }
+
     private void DamageUIPoolCreate()
     {
         int Count = 50;
@@ -275,6 +301,28 @@ public class StageManager : MonoBehaviour
         tmpRB.AddForce(direction * force);
 
         StartCoroutine(DeactivateTimer(DamagePopup));
+
+    }
+
+    private void EnemyHitAnimationpoolCreate()
+    {
+        int Count = 100;
+        for (int i = 0; i < Count; i++)
+        {
+            GameObject hitAnimation = Instantiate(GameManager.Instance.HitEffectPrefab, Vector2.zero, Quaternion.identity);
+            hitAnimation.SetActive(false);
+
+            _enemyHitAnimationPool.Add(hitAnimation);
+        }
+    }
+
+    public void GetHitAnimationFromPool(Vector2 targetPosition)
+    {
+        GameObject animationObject = _enemyHitAnimationPool.First(x => x.activeSelf == false);
+
+        animationObject.transform.position = targetPosition;
+
+        animationObject.SetActive(true);
 
     }
 

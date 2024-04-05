@@ -22,10 +22,16 @@ public class FieldItemBase : MonoBehaviour
     private Coroutine _floatCoroutine;
 
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         startPos = _itemSprite.transform.localPosition;
         _floatCoroutine = StartCoroutine(FloatItem());
+    }
+
+    protected virtual void OnDisable()
+    {
+        isPicked = false;
+
     }
 
     protected virtual void Update()

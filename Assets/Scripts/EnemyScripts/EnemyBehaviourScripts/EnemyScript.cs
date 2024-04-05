@@ -193,7 +193,7 @@ public class EnemyScript : MonoBehaviour
         {
             GameObject player = collision.gameObject;
             PlayerScript script = player.GetComponent<PlayerScript>();
-            script.TakeDamage(_currentBodyDamage);
+            script.TakeHit(_currentBodyDamage);
         }
     }
 
@@ -203,7 +203,7 @@ public class EnemyScript : MonoBehaviour
         {
             GameObject player = collision.gameObject;
             PlayerScript script = player.GetComponent<PlayerScript>();
-            script.TakeDamage(_currentBodyDamage);
+            script.TakeHit(_currentBodyDamage);
         }
     }
 
@@ -250,11 +250,12 @@ public class EnemyScript : MonoBehaviour
 
     protected IEnumerator HitAnimation()
     {
-        //SoundFXManager.Instance.PlaySoundFXClip(_damageSoundClip, transform, 0.2f);
+        SoundFXManager.Instance.PlaySoundFXClip(_damageSoundClip, transform, 0.3f);
 
         SpriteRenderer.color = Color.red;
 
-        GameObject HitEffect = Instantiate(GameManager.Instance.HitEffectPrefab, transform);
+        //GameObject HitEffect = Instantiate(GameManager.Instance.HitEffectPrefab, transform);
+        StageManager.Instance.GetHitAnimationFromPool(transform.position);
 
         yield return new WaitForSeconds(0.4f);
         SpriteRenderer.color = Color.white;
@@ -336,7 +337,8 @@ public class EnemyScript : MonoBehaviour
 
         if (randval <= 33)
         {
-            Instantiate(GameManager.Instance.DiamondPrefab, RandomNearPosition(), Quaternion.identity);
+            StageManager.Instance.GetMoneyItemFromPool(RandomNearPosition());
+            //Instantiate(GameManager.Instance.DiamondPrefab, RandomNearPosition(), Quaternion.identity);
         }
     }
 

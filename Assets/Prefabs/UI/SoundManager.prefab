@@ -46,6 +46,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundFXObject: {fileID: 6394743720224606691, guid: 8b41a00c755402d4ba70737ca4bab4b6, type: 3}
+  _backgroundAudio: {fileID: 2762479869579926106}
+  _backgroundMusics:
+  - {fileID: 8300000, guid: 799fd3968efc3824caa77320160f7eb8, type: 3}
+  - {fileID: 8300000, guid: 04fdf4a9e256dcd45b1cf49fa99cebe5, type: 3}
+  - {fileID: 8300000, guid: 2601fffb076fffb4cb0927895d575a3c, type: 3}
+  _clickSoundClip: {fileID: 8300000, guid: 3b1e4720238b3694dbc2b4f7af4bcdae, type: 3}
 --- !u!82 &2762479869579926106
 AudioSource:
   m_ObjectHideFlags: 0
@@ -56,8 +62,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 799fd3968efc3824caa77320160f7eb8, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
   m_Volume: 0.114
   m_Pitch: 1
   Loop: 1

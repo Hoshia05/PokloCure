@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae12a9c1cc1fff94aa39ed35c196fe83, type: 3}
   m_Name: ShotgunHitSO
   m_EditorClassIdentifier: 
-  ItemName: "\uC0F7\uAC74(\uBB3C\uB9AC)"
+  ItemName: "\uD0C0\uC774\uAC70 \uD30C\uC6B4\uB529"
   ItemDescription:
   - "\uB610 \uC84C\uC5B4! \uCF85! \uC8FC\uBCC0\uC758 \uC801\uB4E4\uC744 \uBC00\uC5B4\uB0B4\uB294
     \uACF5\uACA9\uC744 \uD569\uB2C8\uB2E4"
@@ -26,6 +26,7 @@ MonoBehaviour:
   ItemMaxLevel: 5
   characterLabel: 0
   ProjectileItemPrefab: {fileID: 3786841545655333041, guid: d68d3c0062df03f47be103bd9b321a81, type: 3}
+  ProjectileSound: {fileID: 8300000, guid: 5ff823f546b52574a931e1d9b44290a6, type: 3}
   ControllerScript: {fileID: 11500000, guid: f8d65ccdd0732f441b8f135c6a77e46d, type: 3}
   _cost: 0
   _costMultiplier: 1
@@ -38,3 +39,4 @@ MonoBehaviour:
   KnockbackValue: 3
   Area: 1
   Priority: 3
+  CooldownWaitUntilProjectileDeath: 0

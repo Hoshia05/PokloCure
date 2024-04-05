@@ -25,8 +25,10 @@ MonoBehaviour:
   ItemMaxLevel: 5
   characterLabel: 0
   ProjectileItemPrefab: {fileID: 429641142634744645, guid: a8acffa51bee30f4b9b4b1998479b3d5, type: 3}
+  ProjectileSound: {fileID: 8300000, guid: 34b439bf70b80a6409eadecc6be92d68, type: 3}
   ControllerScript: {fileID: 11500000, guid: ce4cffee1eeb28143af3b97ecce05039, type: 3}
-  Cost: 0
+  _cost: 0
+  _costMultiplier: 1
   DamageMultiplier: 0.4
   Speed: 0
   CooldownDuration: 2
@@ -36,3 +38,4 @@ MonoBehaviour:
   KnockbackValue: 0.5
   Area: 1
   Priority: 3
+  CooldownWaitUntilProjectileDeath: 0

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae12a9c1cc1fff94aa39ed35c196fe83, type: 3}
-  m_Name: VanillaCOke
+  m_Name: VanillaCoke
   m_EditorClassIdentifier: 
   ItemName: "\uBC14\uB2D0\uB77C \uCF54\uD06C"
   ItemDescription:

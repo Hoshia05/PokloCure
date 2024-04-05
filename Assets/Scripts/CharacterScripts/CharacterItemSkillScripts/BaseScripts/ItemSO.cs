@@ -19,6 +19,7 @@ public class ItemSO : ScriptableObject
 
     //public GameObject ControllerPrefab;
     public GameObject ProjectileItemPrefab;
+    public AudioClip ProjectileSound;
 
     public Object ControllerScript;
 

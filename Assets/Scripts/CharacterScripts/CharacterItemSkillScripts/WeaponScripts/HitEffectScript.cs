@@ -7,6 +7,6 @@ public class HitEffectScript : MonoBehaviour
     // Start is called before the first frame update
     public void EndAnimation()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

@@ -29,6 +29,9 @@ public class PlayerScript : MonoBehaviour
     private int _level = 1;
     private float _expRequirement = 79;
 
+    [Header("사운드")]
+    [SerializeField]
+    private AudioClip _takeDamageSound;
 
     [Header("디버깅용")]
     [SerializeField]
@@ -660,7 +663,7 @@ public class PlayerScript : MonoBehaviour
         return ItemController.RoundValue(baseDamage * _currentCriticalDamage);
     }
 
-    public void TakeDamage(float damage)
+    public void TakeHit(float damage)
     {
         //데미지 받는 단계
         // 무적상태 확인 -> 템중에서 피격 무효화 확인 -> 쉴드 데미지 -> HP 데미지 -> 데미지 받음 Invoke
@@ -685,8 +688,7 @@ public class PlayerScript : MonoBehaviour
 
                 UIShieldBar.Instance.UpdateShield(_shield);
 
-                onTakeDamage.Invoke();
-                DamageCoroutine = StartCoroutine(TakeDamageCoroutine(leftoverDamage));
+                TakeDamage(leftoverDamage);
             }
             else
             {
@@ -697,11 +699,17 @@ public class PlayerScript : MonoBehaviour
         }
         else
         {
-            onTakeDamage.Invoke();
-            DamageCoroutine = StartCoroutine(TakeDamageCoroutine(ActualDamage));
+            TakeDamage(ActualDamage);
         }
 
 
+    }
+
+    private void TakeDamage(float damage)
+    {
+        onTakeDamage.Invoke();
+        SoundFXManager.Instance.PlaySoundFXClip(_takeDamageSound, transform, 0.7f);
+        DamageCoroutine = StartCoroutine(TakeDamageCoroutine(damage));
     }
 
     private bool ResolveDamageNegation(DamageTakenDelegate<bool> OnDamageTakenBool)
