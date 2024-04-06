@@ -30,7 +30,7 @@ public class ItemSO : ScriptableObject
     private int _cost = 0;
 
     [SerializeField]
-    private int _costMultiplier = 1;
+    private int _costMultiplier = 2;
 
     public float DamageMultiplier = 1f;
     public float Speed;
@@ -47,7 +47,7 @@ public class ItemSO : ScriptableObject
 
     public int GetCost(int currentLevel)
     {
-        return _cost * currentLevel;
+        return _cost * (int)Mathf.Pow(_costMultiplier, currentLevel);
     }
 
 }

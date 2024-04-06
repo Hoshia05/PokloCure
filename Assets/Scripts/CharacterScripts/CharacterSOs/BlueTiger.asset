@@ -19,7 +19,7 @@ MonoBehaviour:
   BaseWeapon: {fileID: 11400000, guid: 659a4421520915e469b98c5acb47ee6b, type: 2}
   CharacterName: "\uD638\uC2DC\uC544"
   CharacterDescription: 
-  Health: 100
+  Health: 120
   Stamina: 100
   DashMultiplier: 2
   SpeedMultiplier: 1.1

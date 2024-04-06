@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class GTSkill1Controller : ItemController
 {
-    private int _additionalProjectile = 1;
+    private int _additionalProjectile = 0;
     private float _rangedCooldownBuff = 0.05f;
+    private float _rangedAttackBonus = 0.05f;
 
     private void Start()
     {
@@ -19,19 +20,22 @@ public class GTSkill1Controller : ItemController
     void ApplyBuff()
     {
         _buff.RangedCooldownBuff = _rangedCooldownBuff;
+        _buff.RangedAttackBonus = _rangedAttackBonus;
         _buff.RangedProjectileBuff = _additionalProjectile;
         UpdateBuff();
     }
 
     protected override void Level2Effect()
     {
-        _additionalProjectile = 2;
+        _additionalProjectile = 0;
         _rangedCooldownBuff = 0.1f;
+        _rangedAttackBonus = 0.15f;
     }
 
     protected override void Level3Effect()
     {
-        _additionalProjectile = 3;
+        _additionalProjectile = 1;
         _rangedCooldownBuff = 0.12f;
+        _rangedAttackBonus = 0.30f;
     }
 }

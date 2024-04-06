@@ -24,12 +24,14 @@ MonoBehaviour:
   ItemType: 3
   WeaponType: 2
   ItemImage: {fileID: 21300000, guid: f1cae950070db3a44b7715ecdc41e40c, type: 3}
-  ItemMaxLevel: 5
+  ItemMaxLevel: 7
   characterLabel: 0
   ProjectileItemPrefab: {fileID: 0}
+  ProjectileSound: {fileID: 0}
+  Volume: 0.5
   ControllerScript: {fileID: 11500000, guid: 3aee016ac6472af4bb1ec81defc7c830, type: 3}
   _cost: 150
-  _costMultiplier: 1
+  _costMultiplier: 2
   DamageMultiplier: 1
   Speed: 0
   CooldownDuration: 1
@@ -39,3 +41,5 @@ MonoBehaviour:
   KnockbackValue: 0
   Area: 1
   Priority: 1
+  CooldownWaitUntilProjectileDeath: 0
+  WeaponDestroyedAfterPierce: 0

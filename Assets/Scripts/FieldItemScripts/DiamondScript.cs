@@ -29,7 +29,7 @@ public class DiamondScript : FieldItemBase
         else
         {
             _spriteRenderer.color = Color.white;
-            _coinValue = GameManager.Instance.Rand.Next(3, 20);
+            _coinValue = GameManager.Instance.Rand.Next(3, 15);
 
         }
     }

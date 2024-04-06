@@ -21,10 +21,10 @@ MonoBehaviour:
   CharacterDescription: 
   Health: 80
   Stamina: 80
-  DashMultiplier: 2
+  DashMultiplier: 1.8
   SpeedMultiplier: 1
   AttackMultiplier: 1.2
-  CriticalMultiplier: 0.05
+  CriticalMultiplier: 0.1
   StaminaReplenishRate: 20
   StaminaDepleteRate: 50
   StaminaRedlineValue: 30

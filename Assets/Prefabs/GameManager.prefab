@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7497525255776810005
 MonoBehaviour:
@@ -77,7 +77,7 @@ MonoBehaviour:
   DebugItemList:
   - {fileID: 11400000, guid: d411eec8657b7b74797c368ae4d4c8c0, type: 2}
   - {fileID: 11400000, guid: afae2633339fe7d418e8a1a4a1b88288, type: 2}
-  PlayerCharacterPrefab: {fileID: 8438766113470524038, guid: 4b0804e9b0ab99e4cade03185f864d6d, type: 3}
+  PlayerCharacterPrefab: {fileID: 4991815592943155484, guid: 4b0804e9b0ab99e4cade03185f864d6d, type: 3}
   DamagePopUpPrefab: {fileID: 5271240959729347560, guid: f69cb61873c2372468194f31debf07a1, type: 3}
   CriticalDamagePopUpPrefab: {fileID: 5271240959729347560, guid: c88895a7a31c4f14699e99770f1c51a9, type: 3}
   SteakPrefab: {fileID: 5710734456166026490, guid: 86488bbf00decb84ca160741f62b89b9, type: 3}

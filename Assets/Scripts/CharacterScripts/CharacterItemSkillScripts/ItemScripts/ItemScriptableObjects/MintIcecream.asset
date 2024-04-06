@@ -14,18 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: "\uBBFC\uD2B8\uCD08\uCF54 \uC544\uC774\uC2A4\uD06C\uB9BC"
   ItemDescription:
-  - "\uCD5C\uB300 \uCCB4\uB825\uC774 15 \uC99D\uAC00\uD55C\uB2E4. \uCD5C\uB300\uCCB4\uB825\uC774
-    6 \uC99D\uAC00\uD560 \uB54C \uB9C8\uB2E4 \uACF5\uACA9\uB825\uC774 1% \uC99D\uAC00\uD55C\uB2E4. "
-  - "\uCD5C\uB300 \uCCB4\uB825\uC774 20 \uC99D\uAC00\uD55C\uB2E4. \uCD5C\uB300\uCCB4\uB825\uC774
-    5 \uC99D\uAC00\uD560 \uB54C \uB9C8\uB2E4 \uACF5\uACA9\uB825\uC774 1% \uC99D\uAC00\uD55C\uB2E4. "
-  - "\uCD5C\uB300 \uCCB4\uB825\uC774 25 \uC99D\uAC00\uD55C\uB2E4. \uCD5C\uB300\uCCB4\uB825\uC774
-    4 \uC99D\uAC00\uD560 \uB54C \uB9C8\uB2E4 \uACF5\uACA9\uB825\uC774 1% \uC99D\uAC00\uD55C\uB2E4. "
+  - "\uCD5C\uB300 \uCCB4\uB825\uC774 15 \uC99D\uAC00\uD55C\uB2E4. \uCD5C\uB300\uCCB4\uB825
+    6 \uB9C8\uB2E4 \uACF5\uACA9\uB825\uC774 1% \uC99D\uAC00\uD55C\uB2E4. "
+  - "\uCD5C\uB300 \uCCB4\uB825\uC774 20 \uC99D\uAC00\uD55C\uB2E4. \uCD5C\uB300\uCCB4\uB825
+    5 \uB9C8\uB2E4 \uACF5\uACA9\uB825\uC774 1% \uC99D\uAC00\uD55C\uB2E4. "
+  - "\uCD5C\uB300 \uCCB4\uB825\uC774 25 \uC99D\uAC00\uD55C\uB2E4. \uCD5C\uB300\uCCB4\uB825
+    4 \uB9C8\uB2E4 \uACF5\uACA9\uB825\uC774 1% \uC99D\uAC00\uD55C\uB2E4. "
   ItemType: 0
   WeaponType: 2
   ItemImage: {fileID: 21300000, guid: ca183426106df9c4aadd45b076be1ebd, type: 3}
   ItemMaxLevel: 3
   characterLabel: 0
   ProjectileItemPrefab: {fileID: 0}
+  ProjectileSound: {fileID: 0}
+  Volume: 0.5
   ControllerScript: {fileID: 11500000, guid: 6e987726212f2944d84c090313922a24, type: 3}
   _cost: 0
   _costMultiplier: 1
@@ -38,3 +40,5 @@ MonoBehaviour:
   KnockbackValue: 0
   Area: 1
   Priority: 4
+  CooldownWaitUntilProjectileDeath: 0
+  WeaponDestroyedAfterPierce: 0

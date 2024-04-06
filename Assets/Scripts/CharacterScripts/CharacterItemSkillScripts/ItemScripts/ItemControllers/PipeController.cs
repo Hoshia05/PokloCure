@@ -4,43 +4,34 @@ using UnityEngine;
 
 public class PipeController : ItemController
 {
-    private float _hpHeal = 5f;
-    private float _staminaHeal = 10f;
+    private float _speedBuff = 0.15f;
+    private float _hasteBuff = 0.1f;
 
-    // Start is called before the first frame update
     protected override void Launch()
     {
-        base.Launch();
-        ApplyHeal();
+        ApplyBuff();
+    }
+    protected override void LevelUpEffect()
+    {
+        ApplyBuff();
     }
 
-    // Update is called once per frame
-    private void ApplyHeal()
+    void ApplyBuff()
     {
-        PlayerScript.Instance.HealHP(_hpHeal, false);
-        PlayerScript.Instance.HealStamina(_staminaHeal);
+        _buff.SpeedMultiplierBuff = _speedBuff;
+        _buff.HasteMultiplierBuff = _hasteBuff;
+        UpdateBuff();
     }
 
     protected override void Level2Effect()
     {
-        _hpHeal = 6f; 
-        _staminaHeal = 12f;
+        _speedBuff = 0.3f;
+        _hasteBuff = 0.2f;
     }
 
     protected override void Level3Effect()
     {
-        _hpHeal = 7f;
-        _staminaHeal = 15f;
-    }
-    protected override void Level4Effect()
-    {
-        _hpHeal = 8f;
-        _staminaHeal = 17f;
-    }
-
-    protected override void Level5Effect()
-    {
-        _hpHeal = 10f;
-        _staminaHeal = 20f;
+        _speedBuff = 0.45f;
+        _hasteBuff = 0.3f;
     }
 }

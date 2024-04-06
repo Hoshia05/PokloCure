@@ -174,19 +174,28 @@ public class EnemyScript : MonoBehaviour
 
         float degreeDif = 360 / _projectileNum;
 
-        for (int i = 0; i < _projectileNum; i++)
-        {
-            float angle = startOffset + (i * degreeDif);
-            Vector2 direction = Quaternion.Euler(0f, 0f, angle) * Vector2.up;
+        //for (int i = 0; i < _projectileNum; i++)
+        //{
+        //    float angle = startOffset + (i * degreeDif);
+        //    Vector2 direction = Quaternion.Euler(0f, 0f, angle) * Vector2.up;
 
-            GameObject projectile = Instantiate(RangedAttackProjectilePrefab, transform.position, Quaternion.identity);
-            Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
-            EnemyProjectileScript epScript = projectile.GetComponent<EnemyProjectileScript>();
-            epScript.InitializeProjectile(_rangedAttackDamage);
-            rb.AddForce(direction * 300);
-            rb.AddTorque(500f);
+        //    GameObject projectile = Instantiate(RangedAttackProjectilePrefab, transform.position, Quaternion.identity);
+        //    Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
+        //    EnemyProjectileScript epScript = projectile.GetComponent<EnemyProjectileScript>();
+        //    epScript.InitializeProjectile(_rangedAttackDamage);
+        //    rb.AddForce(direction * 300);
+        //    rb.AddTorque(500f);
 
-        }
+        //}
+
+        Vector2 direction = _enemyLineOfSight;
+
+        GameObject projectile = Instantiate(RangedAttackProjectilePrefab, transform.position, Quaternion.identity);
+        Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
+        EnemyProjectileScript epScript = projectile.GetComponent<EnemyProjectileScript>();
+        epScript.InitializeProjectile(_rangedAttackDamage);
+        rb.AddForce(direction * 300);
+        rb.AddTorque(500f);
     }
 
     protected void OnCollisionEnter2D(Collision2D collision)
@@ -325,7 +334,7 @@ public class EnemyScript : MonoBehaviour
     protected void DropBurger()
     {
         int randval = GameManager.Instance.Rand.Next(1, 100);
-        float dropChance = 5 + PlayerScript.Instance.BurgerDropChanceMultiplier;
+        float dropChance = 2 + PlayerScript.Instance.BurgerDropChanceMultiplier;
 
         if(randval <= dropChance) 
         {

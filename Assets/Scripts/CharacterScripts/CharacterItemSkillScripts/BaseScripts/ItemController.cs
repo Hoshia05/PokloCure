@@ -86,20 +86,26 @@ public class ItemController : MonoBehaviour, IItemController
 
     protected virtual void ApplyStats()
     {
-        _currentDamage = RoundValue(ItemSO.BaseDamage * ((ItemData.DamageMultiplier *  PlayerScript.Instance.CurrentAttackMultiplier) + _localDamageBuff));
+
+        float CooldownBuff = 1f;
+        float WeaponTypeDamageMultiplier = 1f;
+        if (ItemData.WeaponType == WeaponType.MELEE)
+        {
+            CooldownBuff = PlayerScript.Instance.MeleeCooldownBuff;
+            WeaponTypeDamageMultiplier = PlayerScript.Instance.MeleeAttackBonus;
+        }
+        else if (ItemData.WeaponType == WeaponType.RANGED)
+        {
+            CooldownBuff = PlayerScript.Instance.RangedCooldownBuff;
+            WeaponTypeDamageMultiplier = PlayerScript.Instance.RangedAttackBonus;
+        }
+
+        _currentDamage = RoundValue(ItemSO.BaseDamage * ((ItemData.DamageMultiplier *  PlayerScript.Instance.CurrentAttackMultiplier * WeaponTypeDamageMultiplier) + _localDamageBuff));
         _currentSizeScale = _localSizeBuff + ItemData.Area * PlayerScript.Instance.CurrentAttackSizeBuff;
         _currentSpeed = ItemData.Speed + _localSpeedBuff;
         _currentPierce = ItemData.Pierce + _additionalPierce;
         _currentDeathtime = ItemData.Deathtime + _localDeathTimebuff;
 
-        float CooldownBuff = 1f;
-        if(ItemData.WeaponType == WeaponType.MELEE)
-        {
-            CooldownBuff = PlayerScript.Instance.MeleeCooldownBuff;
-        }else if(ItemData.WeaponType == WeaponType.RANGED)
-        {
-            CooldownBuff = PlayerScript.Instance.RangedCooldownBuff;
-        }
 
         _cooldownWaitUntilProjectileDeath = ItemData.CooldownWaitUntilProjectileDeath;
         _weaponDestroyedAfterPierce = ItemData.WeaponDestroyedAfterPierce;

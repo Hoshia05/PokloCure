@@ -56,6 +56,19 @@ public class PlayerScript : MonoBehaviour
     {
         get => _currentAttackMultiplier;
     }
+
+    private float _meleeAttackBonus = 0;
+    public float MeleeAttackBonus
+    {
+        get => _meleeAttackBonus;
+    }
+
+    private float _rangedAttackBonus = 0;
+    public float RangedAttackBonus
+    {
+        get => _rangedAttackBonus;
+    }
+
     private float _currentCriticalMultiplier;
     private float _currentCriticalChance => _currentCriticalMultiplier + CharacterBase._baseCriticalChance;
     private float _currentCriticalDamage;
@@ -466,6 +479,9 @@ public class PlayerScript : MonoBehaviour
 
         BurgerDropChanceMultiplier = 0f;
 
+        _meleeAttackBonus = 0f;
+        _rangedAttackBonus = 0f;
+
         _rangedProjectileBuff = 0;
         _rangedCooldownBuff = 1f;
         _meleeCooldownBuff = 1f;
@@ -487,6 +503,10 @@ public class PlayerScript : MonoBehaviour
             _eatDistanceMultiplier += buff.EatDistanceMultiplier;
 
             BurgerDropChanceMultiplier += buff.BurgerDropChance;
+
+
+            _meleeAttackBonus += buff.MeleeAttackBonus;
+            _rangedAttackBonus += buff.RangedAttackBonus;
 
             _rangedProjectileBuff += buff.RangedProjectileBuff;
             _rangedCooldownBuff -= buff.RangedCooldownBuff;
