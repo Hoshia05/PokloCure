@@ -321,6 +321,8 @@ public class EnemyScript : MonoBehaviour
 
 
         //Destroy(gameObject);
+        DamageList = new();
+        StopAllCoroutines();
         StageManager.Instance.EnemyDeathEvent(gameObject);
         //StageManager.Instance.CurrentEnemyCount--;
 
@@ -412,7 +414,7 @@ public class EnemyScript : MonoBehaviour
 
     public void BuffEnemy()
     {
-        _buffMultiplier += 0.2f;
+        _buffMultiplier += 0.35f;
         InitializeWithSO(_enemyData);
     }
 }

@@ -57,13 +57,13 @@ public class PlayerScript : MonoBehaviour
         get => _currentAttackMultiplier;
     }
 
-    private float _meleeAttackBonus = 0;
+    private float _meleeAttackBonus = 1;
     public float MeleeAttackBonus
     {
         get => _meleeAttackBonus;
     }
 
-    private float _rangedAttackBonus = 0;
+    private float _rangedAttackBonus = 1;
     public float RangedAttackBonus
     {
         get => _rangedAttackBonus;
@@ -479,8 +479,8 @@ public class PlayerScript : MonoBehaviour
 
         BurgerDropChanceMultiplier = 0f;
 
-        _meleeAttackBonus = 0f;
-        _rangedAttackBonus = 0f;
+        _meleeAttackBonus = 1f;
+        _rangedAttackBonus = 1f;
 
         _rangedProjectileBuff = 0;
         _rangedCooldownBuff = 1f;

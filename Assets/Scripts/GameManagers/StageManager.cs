@@ -567,13 +567,16 @@ public class StageManager : MonoBehaviour
 
         List<EnemyBase> enemyBaseList = _enemyPool.Keys.ToList().Where(x => x.EnemyClass == enemyClass).ToList();
 
-        if(enemyBaseList.Count == 1)
+        if (enemyBaseList.Count == 0 || enemyBaseList == null)
+            return;
+
+        if (enemyBaseList.Count == 1)
         {
             enemyType = enemyBaseList[0];
         }
         else
         {
-            enemyType = enemyBaseList[GameManager.Instance.Rand.Next(0, enemyBaseList.Count - 1)];
+            enemyType = enemyBaseList[GameManager.Instance.Rand.Next(0, enemyBaseList.Count)];
         }
 
         List<GameObject> enemyQueue = _enemyPool[enemyType];

@@ -26,6 +26,9 @@ public class ShotgunController : ItemController
 
     IEnumerator FireGun()
     {
+
+        Vector2 AttackDirection = PlayerControl.Instance.PlayerLineOfSight;
+
         for (int i = 0; i < _projectileNum; i++)
         {
             //GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
@@ -36,7 +39,12 @@ public class ShotgunController : ItemController
 
             ItemBehaviour projectileBehaviour = InstantiateProjectile();
             Rigidbody2D projectileRB = projectileBehaviour.GetComponent<Rigidbody2D>();
-            projectileRB.AddForce(CreateSpread(PlayerControl.Instance.PlayerLineOfSight) * 2500);
+
+            float angle = Mathf.Atan2(AttackDirection.y, AttackDirection.x) * Mathf.Rad2Deg;
+            projectileBehaviour.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+
+
+            projectileRB.AddForce(CreateSpread(PlayerControl.Instance.PlayerLineOfSight) * 2000);
 
         }
 
@@ -52,7 +60,11 @@ public class ShotgunController : ItemController
             {
                 ItemBehaviour projectileBehaviour = InstantiateProjectile();
                 Rigidbody2D projectileRB = projectileBehaviour.GetComponent<Rigidbody2D>();
-                projectileRB.AddForce(CreateSpread(PlayerControl.Instance.PlayerLineOfSight) * 2500);
+
+                float angle = Mathf.Atan2(AttackDirection.y, AttackDirection.x) * Mathf.Rad2Deg;
+                projectileBehaviour.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+
+                projectileRB.AddForce(CreateSpread(PlayerControl.Instance.PlayerLineOfSight) * 2000);
             }
         }
     }

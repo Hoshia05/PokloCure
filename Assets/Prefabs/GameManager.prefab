@@ -47,9 +47,12 @@ MonoBehaviour:
   EnemyPrefab: {fileID: 6866567978285184781, guid: 24482696c81187c46a523a3f943f4753, type: 3}
   BossPrefab: {fileID: 6866567978285184781, guid: 88822052681175f47ba798d893ab2ab5, type: 3}
   EnemyList:
+  - {fileID: 11400000, guid: 094c6a8bda293dd4382b9f5161f511a2, type: 2}
   - {fileID: 11400000, guid: 55d3ee122da72f3458a06636856da46c, type: 2}
   - {fileID: 11400000, guid: 187701d1486cd2f4582edbedd206a6fc, type: 2}
   - {fileID: 11400000, guid: b3a3432202b7d2f45a4fe446ae68e02e, type: 2}
+  - {fileID: 11400000, guid: 69aa683c939febf47aa1c85fa33a9d95, type: 2}
+  - {fileID: 11400000, guid: 8ba09cd47f3873f4ea082757c43ad31b, type: 2}
   ItemList:
   - {fileID: 11400000, guid: c1f500a0f0d1afb4596d44a9f707e9ae, type: 2}
   - {fileID: 11400000, guid: 2dc45de15df932e49962c6dfba86d20b, type: 2}
@@ -76,7 +79,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c02eda36682de2b4788dca43e9651ed7, type: 2}
   DebugItemList:
   - {fileID: 11400000, guid: d411eec8657b7b74797c368ae4d4c8c0, type: 2}
-  - {fileID: 11400000, guid: afae2633339fe7d418e8a1a4a1b88288, type: 2}
+  - {fileID: 11400000, guid: c516085273071da4d9d8b94ee3a6dab4, type: 2}
+  - {fileID: 11400000, guid: f564c1a4ebbe87742b06710d477dd0b8, type: 2}
   PlayerCharacterPrefab: {fileID: 4991815592943155484, guid: 4b0804e9b0ab99e4cade03185f864d6d, type: 3}
   DamagePopUpPrefab: {fileID: 5271240959729347560, guid: f69cb61873c2372468194f31debf07a1, type: 3}
   CriticalDamagePopUpPrefab: {fileID: 5271240959729347560, guid: c88895a7a31c4f14699e99770f1c51a9, type: 3}
@@ -87,5 +91,5 @@ MonoBehaviour:
   HitEffectPrefab: {fileID: 3786841545655333041, guid: 8166554853349dc41a33c86ccdd2cb47, type: 3}
   _greenTiger: {fileID: 11400000, guid: f5838de0fb1587443a0ca9be7fceb468, type: 2}
   _blueTiger: {fileID: 11400000, guid: 01c86b682733d6042949163fbb9a0341, type: 2}
-  _isDebug: 0
+  _isDebug: 1
   _selectedCharacter: {fileID: 11400000, guid: 01c86b682733d6042949163fbb9a0341, type: 2}
