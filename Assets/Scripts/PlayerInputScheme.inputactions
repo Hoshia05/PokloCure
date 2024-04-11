@@ -305,6 +305,17 @@
                 },
                 {
                     "name": "",
+                    "id": "5ac46e7c-e4fd-4562-a637-b757f412c3b6",
+                    "path": "<Keyboard>/f10",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PauseMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "5f967653-1bf9-4b4e-a29c-bf02b64faae2",
                     "path": "<Keyboard>/p",
                     "interactions": "",

@@ -33,4 +33,4 @@ MonoBehaviour:
   _rangedAttackDamage: 5
   RangedAttackDistance: 7
   RangedAttackCooltime: 3
-  EnemyScore: 50
+  EnemyScore: 20
