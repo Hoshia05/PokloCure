@@ -91,5 +91,5 @@ MonoBehaviour:
   HitEffectPrefab: {fileID: 3786841545655333041, guid: 8166554853349dc41a33c86ccdd2cb47, type: 3}
   _greenTiger: {fileID: 11400000, guid: f5838de0fb1587443a0ca9be7fceb468, type: 2}
   _blueTiger: {fileID: 11400000, guid: 01c86b682733d6042949163fbb9a0341, type: 2}
-  _isDebug: 1
+  _isDebug: 0
   _selectedCharacter: {fileID: 11400000, guid: 01c86b682733d6042949163fbb9a0341, type: 2}

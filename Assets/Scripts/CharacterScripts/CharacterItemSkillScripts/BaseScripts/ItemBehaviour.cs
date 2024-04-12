@@ -94,6 +94,10 @@ public class ItemBehaviour : MonoBehaviour
         GameObject enemy = collision.gameObject;
         EnemyScript script = enemy.GetComponent<EnemyScript>();
 
+        if (_stunTime > 0)
+        {
+            script.StunEnemy(_stunTime);
+        }
 
         if (PlayerScript.Instance.CriticalCheck())
         {
@@ -104,10 +108,6 @@ public class ItemBehaviour : MonoBehaviour
             script.TakeDamage(_damage, _knockback, false, _itemName, _hitCooldown);
         }
 
-        if(_stunTime > 0)
-        {
-            script.StunEnemy(_stunTime);
-        }
 
         CheckPierce();
 

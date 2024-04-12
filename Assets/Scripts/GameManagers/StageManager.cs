@@ -90,7 +90,7 @@ public class StageManager : MonoBehaviour
     private int _currentEnemyCount = 0;
 
 
-    public List<ItemSO> ItemExemptList;
+    public List<ItemSO> ItemExemptList = new();
 
 
 
@@ -169,8 +169,6 @@ public class StageManager : MonoBehaviour
 
         UpdateComboCounter();
 
-        ItemExemptList = new();
-
     }
 
     private void Start()
@@ -231,7 +229,7 @@ public class StageManager : MonoBehaviour
 
     private void ExpItemPoolCreate()
     {
-        int Count = 2000;
+        int Count = 4000;
         for(int i = 0; i < Count; i++)
         {
             GameObject newEXPItem = Instantiate(GameManager.Instance.ExpItemPrefab);
@@ -259,7 +257,7 @@ public class StageManager : MonoBehaviour
 
     private void MoneyItemPoolCreate()
     {
-        int Count = 1000;
+        int Count = 2000;
         for (int i = 0; i < Count; i++)
         {
             GameObject newMoneyItem = Instantiate(GameManager.Instance.DiamondPrefab);
@@ -377,6 +375,8 @@ public class StageManager : MonoBehaviour
     private void SetupItemExemptList()
     {
         List<ItemSO> itemList = GameManager.Instance.GetFullList();
+
+        ItemExemptList = new();
 
         foreach (ItemSO item in itemList)
         {
@@ -588,6 +588,9 @@ public class StageManager : MonoBehaviour
         GameObject enemy = enemyQueue.First(x => x.activeSelf == false) ;
 
         if (enemy == null)
+            return;
+
+        if (!_spawnManager.CheckIfIsInBounds(spawnPosition))
             return;
 
         SetEnemyActive(enemy);
@@ -817,6 +820,8 @@ public class StageManager : MonoBehaviour
         CloseCharacterInfoUI();
         _levelUPUI.SetActive(false);
         _darkScreen.SetActive(false);
+
+        PlayerScript.Instance.CheckLevelUp();
     }
 
     public void FieldBoxEvent()

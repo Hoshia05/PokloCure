@@ -525,7 +525,7 @@ public class PlayerScript : MonoBehaviour
         onStatChange.Invoke();
     }
 
-    private void CheckLevelUp()
+    public void CheckLevelUp()
     {
         if( _currentExperience >= _expRequirement)
         {

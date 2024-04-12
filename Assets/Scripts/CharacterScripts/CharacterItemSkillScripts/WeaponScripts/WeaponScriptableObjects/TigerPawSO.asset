@@ -19,22 +19,27 @@ MonoBehaviour:
   - "\uBC1C\uC790\uAD6D\uC774 20% \uCEE4\uC9D1\uB2C8\uB2E4"
   - "\uCFE8\uB2E4\uC6B4\uC774 30% \uAC10\uC18C\uD569\uB2C8\uB2E4"
   - "\uBC1C\uC790\uAD6D\uC774 25% \uCEE4\uC9D1\uB2C8\uB2E4"
-  - "\uBC1C\uC790\uAD6D\uC744 \uBC1F\uC740 \uC801\uC774 0.2\uCD08\uAC04 \uC2A4\uD134
+  - "\uBC1C\uC790\uAD6D\uC744 \uBC1F\uC740 \uC801\uC774 \uC7A0\uC2DC \uC2A4\uD134
     \uB2F9\uD569\uB2C8\uB2E4."
   ItemType: 1
   WeaponType: 2
   ItemImage: {fileID: 21300000, guid: cfb97e7270c8c5c4f9f85b690f78cd9e, type: 3}
   ItemMaxLevel: 5
   characterLabel: 0
-  ProjectileItemPrefab: {fileID: 429641142634744645, guid: f8f361e80d871ee4bacc27af9aed06ab, type: 3}
+  ProjectileItemPrefab: {fileID: 2108570701927071950, guid: f8f361e80d871ee4bacc27af9aed06ab, type: 3}
+  ProjectileSound: {fileID: 0}
+  Volume: 0.5
   ControllerScript: {fileID: 11500000, guid: b1e1d4a3ba24eba418c4b0fd605a83e7, type: 3}
-  Cost: 0
-  DamageMultiplier: 0.6
+  _cost: 0
+  _costMultiplier: 2
+  DamageMultiplier: 0.8
   Speed: 0
-  CooldownDuration: 1.5
-  Pierce: 9999
-  Deathtime: 6
+  CooldownDuration: 0.3
+  Pierce: 2
+  Deathtime: 10
   ProjectileNum: 1
   KnockbackValue: 0
   Area: 0.6
   Priority: 3
+  CooldownWaitUntilProjectileDeath: 0
+  WeaponDestroyedAfterPierce: 1

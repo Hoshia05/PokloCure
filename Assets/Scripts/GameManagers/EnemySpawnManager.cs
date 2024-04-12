@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class EnemySpawnManager : MonoBehaviour 
 {
+    public static EnemySpawnManager Instance;
+
     private Vector2 _min;
     private Vector2 _max;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public void InitializeMinMax(Vector2 min, Vector2 max)
     {

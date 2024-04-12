@@ -551,7 +551,7 @@ GameObject:
   - component: {fileID: 2035335474650225106}
   - component: {fileID: 2198954690372092955}
   - component: {fileID: 8809971591981029059}
-  - component: {fileID: 8877845436431633840}
+  - component: {fileID: 8019795386800630057}
   m_Layer: 7
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -703,7 +703,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &8877845436431633840
+--- !u!58 &8019795386800630057
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

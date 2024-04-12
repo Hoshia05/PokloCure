@@ -49,6 +49,8 @@ public class EnemyScript : MonoBehaviour
     private float _rangedAttackCooltime;
     public float RangedAttackCooltime { get => _rangedAttackCooltime; }
 
+    public Vector2 FreezePosition;
+
 
     [Header("무기슬롯관련")]
     [SerializeField]
@@ -174,20 +176,6 @@ public class EnemyScript : MonoBehaviour
 
         float degreeDif = 360 / _projectileNum;
 
-        //for (int i = 0; i < _projectileNum; i++)
-        //{
-        //    float angle = startOffset + (i * degreeDif);
-        //    Vector2 direction = Quaternion.Euler(0f, 0f, angle) * Vector2.up;
-
-        //    GameObject projectile = Instantiate(RangedAttackProjectilePrefab, transform.position, Quaternion.identity);
-        //    Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
-        //    EnemyProjectileScript epScript = projectile.GetComponent<EnemyProjectileScript>();
-        //    epScript.InitializeProjectile(_rangedAttackDamage);
-        //    rb.AddForce(direction * 300);
-        //    rb.AddTorque(500f);
-
-        //}
-
         Vector2 direction = _enemyLineOfSight;
 
         GameObject projectile = Instantiate(RangedAttackProjectilePrefab, transform.position, Quaternion.identity);
@@ -263,7 +251,7 @@ public class EnemyScript : MonoBehaviour
     {
         SoundFXManager.Instance.PlaySoundFXClip(_damageSoundClip, transform, 0.3f);
 
-        SpriteRenderer.color = Color.red;
+        SpriteRenderer.color = IsStunned ? Color.blue : Color.red;
 
         //GameObject HitEffect = Instantiate(GameManager.Instance.HitEffectPrefab, transform);
         StageManager.Instance.GetHitAnimationFromPool(transform.position);
@@ -351,7 +339,6 @@ public class EnemyScript : MonoBehaviour
         if (randval <= 33)
         {
             StageManager.Instance.GetMoneyItemFromPool(RandomNearPosition());
-            //Instantiate(GameManager.Instance.DiamondPrefab, RandomNearPosition(), Quaternion.identity);
         }
     }
 
@@ -406,6 +393,7 @@ public class EnemyScript : MonoBehaviour
     IEnumerator StunCoroutine(float stunTime)
     {
         IsStunned = true;
+        FreezePosition = transform.position;
 
         yield return new WaitForSeconds(stunTime);
 

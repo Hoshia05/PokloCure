@@ -27,7 +27,11 @@ public class ChaseState: IEnemyState
         {
             _enemyFSM.TransitionToState(_enemyFSM.AttackState);
         }
-        else if(!_enemyScript.IsPatternSpawn && !_enemyScript.IsStunned)
+        else if (_enemyScript.IsStunned)
+        {
+            _enemyFSM.transform.position = _enemyScript.FreezePosition;
+        }
+        else if(!_enemyScript.IsPatternSpawn)
         {
             float step = _enemyScript.CurrentMovementSpeed * Time.deltaTime;
             _enemyFSM.transform.position = Vector2.MoveTowards(_enemyFSM.transform.position, StageManager.Instance.CurrentPlayer.transform.position, step);

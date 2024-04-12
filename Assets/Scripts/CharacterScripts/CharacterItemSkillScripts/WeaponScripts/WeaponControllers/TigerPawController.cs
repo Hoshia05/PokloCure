@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TigerPawController : ItemController
 {
-    private float _hitCooldown = 1f;
+    private float _hitCooldown = 0.5f;
     // Start is called before the first frame update
     protected override void Launch()
     {

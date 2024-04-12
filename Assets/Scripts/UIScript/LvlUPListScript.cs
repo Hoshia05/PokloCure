@@ -12,13 +12,16 @@ public class LvlUPListScript : MonoBehaviour
     [SerializeField]
     private GameObject _itemListBase;
 
-    private GameObject[] _itemList;
+    private List<GameObject> _itemList = new();
 
     private List<ItemSO> exemptList;
 
     public void CreateLvlUpList()
     {
-        _itemList = new GameObject[_itemMaxCount];
+        if (_itemList.Count != 0)
+            DeleteList();
+
+        _itemList = new();
         exemptList = new List<ItemSO>(StageManager.Instance.ItemExemptList);
 
         int count = 0;
@@ -37,18 +40,12 @@ public class LvlUPListScript : MonoBehaviour
 
             int nextLevel = PlayerScript.Instance.CheckItemPossessionLevel(itemSkillSO);
 
-            //이미 만렙인 경우
-            if (nextLevel > itemSkillSO.ItemMaxLevel)
-            {
-                exemptList.Add(itemSkillSO);
-                continue;
-            }
 
             GameObject ListObject = Instantiate(_lvlUpChoicePrefab, _itemListBase.transform);
             LvlUpChoiceScript lvlUpChoiceScript = ListObject.GetComponent<LvlUpChoiceScript>();
-
             lvlUpChoiceScript.InitializeWithData(itemSkillSO, nextLevel, this);
-            _itemList[count] = ListObject;
+
+            _itemList.Add(ListObject);
             exemptList.Add(itemSkillSO);
             count++;
         }
@@ -59,7 +56,7 @@ public class LvlUPListScript : MonoBehaviour
 
     public void DeleteList()
     {
-        foreach(GameObject ListObject in _itemList)
+        foreach (GameObject ListObject in _itemList)
         {
             Destroy(ListObject);
         }

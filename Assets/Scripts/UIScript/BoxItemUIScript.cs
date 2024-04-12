@@ -84,11 +84,11 @@ public class BoxItemUIScript : MonoBehaviour
 
             int nextLevel = PlayerScript.Instance.CheckItemPossessionLevel(itemSkillSO);
 
-            if (nextLevel > itemSkillSO.ItemMaxLevel)
-            {
-                exemptList.Add(itemSkillSO);
-                continue;
-            }
+            //if (nextLevel > itemSkillSO.ItemMaxLevel)
+            //{
+            //    exemptList.Add(itemSkillSO);
+            //    continue;
+            //}
 
             _pulledItemDict.Add(itemSkillSO, nextLevel);
             exemptList.Add(itemSkillSO);
@@ -109,42 +109,6 @@ public class BoxItemUIScript : MonoBehaviour
 
         UpdateDescription(_pulledItemDict.ElementAt(_itemIndex));
 
-        //ItemSO itemSkillSO;
-        //int nextLevel;
-
-        //for (int i = 0; i < ItemNum; i++)
-        //{
-        //    do
-        //    {
-        //        //Get Random item
-        //        itemSkillSO = GameManager.Instance.GetRandomItem();
-
-        //        //Check if player already has it.
-        //        nextLevel = PlayerScript.Instance.CheckItemPossessionLevel(itemSkillSO);
-
-        //        if (nextLevel > itemSkillSO.ItemMaxLevel)
-        //            exemptList.Add(itemSkillSO);
-
-        //    } while (exemptList.Contains(itemSkillSO));
-
-        //    _pulledItemDict.Add(itemSkillSO, nextLevel);
-        //    exemptList.Add(itemSkillSO);
-
-        //    _itemPositions[i].SetActive(true);
-
-
-        //    Image ItemImage = _itemPositions[i].GetComponent<Image>();
-        //    ItemImage.sprite = itemSkillSO.ItemImage;
-
-        //}
-
-
-        //_descriptionWindow.SetActive(true);
-        //_openButton.SetActive(false);
-        //_takeButton.SetActive(true);
-        //_dropButton.SetActive(true);
-
-        //UpdateDescription(_pulledItemDict.ElementAt(_itemIndex));
     }
 
     public void UpdateDescription(KeyValuePair<ItemSO, int> itemData)

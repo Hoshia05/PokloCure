@@ -27,20 +27,14 @@ public class ShotgunController : ItemController
     IEnumerator FireGun()
     {
 
-        Vector2 AttackDirection = PlayerControl.Instance.PlayerLineOfSight;
 
         for (int i = 0; i < _projectileNum; i++)
         {
-            //GameObject projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
-            //Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
-            //ItemBehaviour projectileBehaviour = projectileRB.GetComponent<ItemBehaviour>();
-            //projectileBehaviour.InitializeValue(this, _currentDamage, _currentDeathtime, _currentPierce, _currentSpeed, CurrentLevel, _currentSizeScale, _currentKnockbackValue);
-            //projectileRB.AddForce(CreateSpread(PlayerControl.Instance.PlayerLineOfSight) * 2500);
 
             ItemBehaviour projectileBehaviour = InstantiateProjectile();
             Rigidbody2D projectileRB = projectileBehaviour.GetComponent<Rigidbody2D>();
 
-            float angle = Mathf.Atan2(AttackDirection.y, AttackDirection.x) * Mathf.Rad2Deg;
+            float angle = Mathf.Atan2(PlayerControl.Instance.PlayerLineOfSight.y, PlayerControl.Instance.PlayerLineOfSight.x) * Mathf.Rad2Deg;
             projectileBehaviour.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
 
@@ -61,7 +55,7 @@ public class ShotgunController : ItemController
                 ItemBehaviour projectileBehaviour = InstantiateProjectile();
                 Rigidbody2D projectileRB = projectileBehaviour.GetComponent<Rigidbody2D>();
 
-                float angle = Mathf.Atan2(AttackDirection.y, AttackDirection.x) * Mathf.Rad2Deg;
+                float angle = Mathf.Atan2(PlayerControl.Instance.PlayerLineOfSight.y, PlayerControl.Instance.PlayerLineOfSight.x) * Mathf.Rad2Deg;
                 projectileBehaviour.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
                 projectileRB.AddForce(CreateSpread(PlayerControl.Instance.PlayerLineOfSight) * 2000);
