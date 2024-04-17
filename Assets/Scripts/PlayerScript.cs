@@ -536,7 +536,11 @@ public class PlayerScript : MonoBehaviour
             StageManager.Instance.LevelUpEvent();
 
         }
-        ExperienceBar.Instance.SetEXP(_currentExperience, _level);
+        else
+        {
+            ExperienceBar.Instance.SetEXP(_currentExperience, _level);
+            StageManager.Instance.LevelUpEventEnd();
+        }
     }
 
     public ItemController CheckItemPossession(ItemSO item)

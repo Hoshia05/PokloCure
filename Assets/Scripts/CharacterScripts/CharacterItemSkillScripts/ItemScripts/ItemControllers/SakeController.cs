@@ -42,11 +42,16 @@ public class SakeController : ItemController
         base.Launch();
 
         _buffStack++;
+        ApplyBuff();
+    }
+
+    void ApplyBuff()
+    {
 
         _buff.CritMultiplierBuff = _buffStack * buffValue;
         _buff.AttackMultiplierBuff = _buffStack * buffValue;
-        
-        if(_buffStack >= _maxStack)
+
+        if (_buffStack >= _maxStack)
         {
             _buffStack = _maxStack;
         }
@@ -59,7 +64,7 @@ public class SakeController : ItemController
         _buffStack = _buffStack / 2;
         BreakDrunk();
 
-        UpdateBuff();
+        ApplyBuff();
     }
 
     private void WhenEat()

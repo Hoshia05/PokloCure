@@ -8,16 +8,20 @@ public class ExpItemScript : FieldItemBase
     [SerializeField]
     private float _expValue = 0;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             GameObject player = collision.gameObject;
             PlayerScript script = player.GetComponent<PlayerScript>();
-            script.GainEXP(_expValue);
-            SoundFXManager.Instance.PlaySoundFXClip(_obtainSound, transform, 0.2f);
 
-            Deactivate();
+            if(script != null && !script.IsPaused)
+            {
+                script.GainEXP(_expValue);
+                SoundFXManager.Instance.PlaySoundFXClip(_obtainSound, transform, 0.2f);
+
+                Deactivate();
+            }
         }
     }
 

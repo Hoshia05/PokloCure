@@ -250,6 +250,7 @@ public class ItemController : MonoBehaviour, IItemController
     {
         PlayerScript.Instance.UpdateBuffDictionary(this, _buff);
         BuffUIScript.Instance.UpdateBuff(ItemData, _buffStack);
+        PlayerScript.Instance.UpdateInfoUI();
     }
 
     protected ItemBehaviour InstantiateProjectile(bool independent = false)

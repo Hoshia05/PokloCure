@@ -673,7 +673,7 @@ MonoBehaviour:
       m_Calls: []
   _cursor: {fileID: 2283773156613019154}
   _mouseCursor: {fileID: 6196521406521095591}
-  _cursorDistance: 5
+  _cursorDistance: 3
   IsPaused: 0
   IsDead: 0
 --- !u!50 &8809971591981029059

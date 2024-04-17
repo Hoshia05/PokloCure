@@ -63,16 +63,15 @@ public class LvlUpChoiceScript : MonoBehaviour
             {
                 StageManager.Instance.GainCoins(-_currentCost);
                 StageManager.Instance.GivePlayerItem(_itemSkillData);
-                StageManager.Instance.LevelUpEventEnd();
-                _parentList.DeleteList();
             }
         }
         else
         {
             StageManager.Instance.GivePlayerItem(_itemSkillData);
-            StageManager.Instance.LevelUpEventEnd();
-            _parentList.DeleteList();
         }
+
+        _parentList.DeleteList();
+        PlayerScript.Instance.CheckLevelUp();
 
     }
 

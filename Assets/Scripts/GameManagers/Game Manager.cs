@@ -66,7 +66,6 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
-
         DontDestroyOnLoad(gameObject);
     }
 
@@ -77,17 +76,25 @@ public class GameManager : MonoBehaviour
         return _isDebug ? DebugItemList : ItemList;
     }
 
-    public ItemSO GetRandomItem(List<ItemSO> exemptList = null)
+    public ItemSO GetRandomItem(List<ItemSO> exemptList = null, bool noUpgrades = false)
     {
-        return _isDebug ? GetFromList(DebugItemList, exemptList) : GetFromList(ItemList, exemptList);
+        return _isDebug ? GetFromList(DebugItemList, exemptList, noUpgrades) : GetFromList(ItemList, exemptList, noUpgrades);
     }
 
-    private ItemSO GetFromList(List<ItemSO> targetList, List<ItemSO> exemptList = null)
+    private ItemSO GetFromList(List<ItemSO> targetList, List<ItemSO> exemptList = null, bool noUpgrades = false)
     {
         if (!targetList.Except(exemptList).Any())
             return null;
 
         List<ItemSO> possibleItemList = targetList.Except(exemptList).ToList();
+
+        if (noUpgrades)
+        {
+            possibleItemList.RemoveAll(x => x.ItemType == ItemType.UPGRADE);
+        }
+
+        if (possibleItemList.Count == 0)
+            return null;
 
         int TotalWeight = possibleItemList.Sum(x => x.Priority);
 

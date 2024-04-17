@@ -142,6 +142,8 @@ public class StageManager : MonoBehaviour
     {
         Instance = this;
 
+        Cursor.visible = false;
+
         min = _spawnArea.bounds.min;
         max = _spawnArea.bounds.max;
 
@@ -798,48 +800,68 @@ public class StageManager : MonoBehaviour
     }
 
     //Pause events
+    void PauseStart()
+    {
+        Time.timeScale = 0;
+        Cursor.visible = true;
+        _gamePaused = true;
+        _currentPlayer.IsPaused = true;
+        _darkScreen.SetActive(true);
+    }
+
+    void PauseEnd()
+    {
+        Time.timeScale = 1;
+        Cursor.visible = false;
+        _gamePaused = false;
+        _currentPlayer.IsPaused = false;
+        _darkScreen.SetActive(false);
+    }
+
 
     public void LevelUpEvent()
     {
+        PauseStart();
+
         SoundFXManager.Instance.PlaySoundFXClip(_levelUpSound, transform, 1f);
         _pauseEvent = true;
-        _currentPlayer.IsPaused = true;
-        Time.timeScale = 0;
-        SetupItemExemptList();
         OpenCharacterInfoUI();
-        _darkScreen.SetActive(true);
         _levelUPUI.SetActive(true);
+        SetupItemExemptList();
         _lvlUpListScript.CreateLvlUpList();
+    }
+
+    public void LevelUpSkip()
+    {
+        PlayerScript.Instance.CheckLevelUp();
     }
 
     public void LevelUpEventEnd()
     {
+
+
         _pauseEvent = false;
-        _currentPlayer.IsPaused = false;
-        Time.timeScale = 1;
         CloseCharacterInfoUI();
         _levelUPUI.SetActive(false);
-        _darkScreen.SetActive(false);
 
-        PlayerScript.Instance.CheckLevelUp();
+        PauseEnd();
     }
 
     public void FieldBoxEvent()
     {
+        PauseStart();
+
         _pauseEvent = true;
-        _currentPlayer.IsPaused = true;
-        Time.timeScale = 0;
         SetupItemExemptList();
-        _darkScreen.SetActive(true);
         _BoxItemUI.SetActive(true);
         _boxItemUIScript.InitializeUI();
     }
 
     public void EndBoxUI()
     {
+        PauseEnd();
+
         _pauseEvent = false;
-        _currentPlayer.IsPaused = false;
-        Time.timeScale = 1;
         _BoxItemUI.SetActive(false);
         _darkScreen.SetActive(false);
     }
@@ -850,9 +872,9 @@ public class StageManager : MonoBehaviour
         PlayerControl.Instance.PauseMenu.RemoveListener(PauseMenu);
         PlayerScript.Instance.onTakeDamage.RemoveListener(ComboBreak);
 
+        PauseStart();
 
         _pauseEvent = true;
-        Time.timeScale = 0;
         GameObject AlertPrompt = Instantiate(_gameOverPromptPrefab);
         GameOverPromptScript GOPScript = AlertPrompt.GetComponent<GameOverPromptScript>();
         GOPScript.SetScore(Score);
@@ -865,25 +887,20 @@ public class StageManager : MonoBehaviour
 
         if (_gamePaused)
         {
-            SoundFXManager.Instance.PlaySoundFXClip(_pauseMenuSound, transform, 1f);
-            _gamePaused = false;
-            Time.timeScale = 1;
-            _currentPlayer.IsPaused = false;
+            PauseEnd();
 
+            SoundFXManager.Instance.PlaySoundFXClip(_pauseMenuSound, transform, 1f);
 
             CloseCharacterInfoUI();
-            _darkScreen.SetActive(false);
             _pauseScreen.SetActive(false);
         }
         else
         {
+            PauseStart();
+
             SoundFXManager.Instance.PlaySoundFXClip(_pauseMenuSound, transform, 1f);
-            _gamePaused = true;
-            Time.timeScale = 0;
-            _currentPlayer.IsPaused = true;
 
             OpenCharacterInfoUI();
-            _darkScreen.SetActive(true);
             _pauseScreen.SetActive(true);
         }
     }
