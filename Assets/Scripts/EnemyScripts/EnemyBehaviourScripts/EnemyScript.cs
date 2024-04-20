@@ -324,7 +324,7 @@ public class EnemyScript : MonoBehaviour
     protected void DropBurger()
     {
         int randval = GameManager.Instance.Rand.Next(1, 100);
-        float dropChance = 2 + PlayerScript.Instance.BurgerDropChanceMultiplier;
+        float dropChance = 1 + PlayerScript.Instance.BurgerDropChanceMultiplier;
 
         if(randval <= dropChance) 
         {

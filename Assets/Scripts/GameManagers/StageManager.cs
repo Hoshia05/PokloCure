@@ -178,6 +178,9 @@ public class StageManager : MonoBehaviour
         _enemyList = GameManager.Instance.EnemyList;
 
         SpawnPlayerCharacter();
+
+        //GameObject topPoolParent = new GameObject("TopPoolParent");
+        
         EnemyObjectPoolCreate();
         DamageUIPoolCreate();
         ExpItemPoolCreate();
@@ -200,6 +203,8 @@ public class StageManager : MonoBehaviour
 
     private void EnemyObjectPoolCreate()
     {
+        GameObject enemyObjectPoolParent = new GameObject("enemyObjectPoolParent");
+
         foreach(EnemyBase enemy in _enemyList)
         {
             List<GameObject> enemyList = new();
@@ -217,7 +222,7 @@ public class StageManager : MonoBehaviour
 
             for(int i = 0; i < Count; i++)
             {
-                GameObject newEnemy = Instantiate(GameManager.Instance.EnemyPrefab);
+                GameObject newEnemy = Instantiate(GameManager.Instance.EnemyPrefab, enemyObjectPoolParent.transform);
                 EnemyScript enemyScript = newEnemy.GetComponent<EnemyScript>();
                 enemyScript.InitializeWithSO(enemy);
                 newEnemy.SetActive(false);
@@ -231,10 +236,13 @@ public class StageManager : MonoBehaviour
 
     private void ExpItemPoolCreate()
     {
+
+        GameObject expObjectPoolParent = new GameObject("expObjectPoolParent");
+
         int Count = 4000;
         for(int i = 0; i < Count; i++)
         {
-            GameObject newEXPItem = Instantiate(GameManager.Instance.ExpItemPrefab);
+            GameObject newEXPItem = Instantiate(GameManager.Instance.ExpItemPrefab, expObjectPoolParent.transform);
             newEXPItem.SetActive(false);
 
             _expItemPool.Add(newEXPItem);
@@ -259,10 +267,13 @@ public class StageManager : MonoBehaviour
 
     private void MoneyItemPoolCreate()
     {
+
+        GameObject moneyObjectPoolParent = new GameObject("moneyObjectPoolParent");
+
         int Count = 2000;
         for (int i = 0; i < Count; i++)
         {
-            GameObject newMoneyItem = Instantiate(GameManager.Instance.DiamondPrefab);
+            GameObject newMoneyItem = Instantiate(GameManager.Instance.DiamondPrefab, moneyObjectPoolParent.transform);
             newMoneyItem.SetActive(false);
 
             _moneyItemPool.Add(newMoneyItem);
@@ -283,15 +294,18 @@ public class StageManager : MonoBehaviour
 
     private void DamageUIPoolCreate()
     {
+
+        GameObject damageUIObjectPoolParent = new GameObject("damageUIObjectPoolParent");
+
         int Count = 50;
         for (int i = 0; i < Count; i++)
         {
-            GameObject damageUI = Instantiate(GameManager.Instance.DamagePopUpPrefab);
+            GameObject damageUI = Instantiate(GameManager.Instance.DamagePopUpPrefab, damageUIObjectPoolParent.transform);
             damageUI.SetActive(false);
 
             _damagePopupPool.Add(damageUI);
 
-            GameObject damageCriticalUI = Instantiate(GameManager.Instance.CriticalDamagePopUpPrefab);
+            GameObject damageCriticalUI = Instantiate(GameManager.Instance.CriticalDamagePopUpPrefab, damageUIObjectPoolParent.transform);
             damageCriticalUI.SetActive(false);
 
             _criticalDamagePopupPool.Add(damageCriticalUI);
@@ -332,10 +346,13 @@ public class StageManager : MonoBehaviour
 
     private void EnemyHitAnimationpoolCreate()
     {
+        GameObject hitanimationObjectPoolParent = new GameObject("hitanimationObjectPoolParent");
+
+
         int Count = 100;
         for (int i = 0; i < Count; i++)
         {
-            GameObject hitAnimation = Instantiate(GameManager.Instance.HitEffectPrefab, Vector2.zero, Quaternion.identity);
+            GameObject hitAnimation = Instantiate(GameManager.Instance.HitEffectPrefab, hitanimationObjectPoolParent.transform);
             hitAnimation.SetActive(false);
 
             _enemyHitAnimationPool.Add(hitAnimation);
@@ -806,6 +823,8 @@ public class StageManager : MonoBehaviour
         Cursor.visible = true;
         _gamePaused = true;
         _currentPlayer.IsPaused = true;
+
+
         _darkScreen.SetActive(true);
     }
 
@@ -815,6 +834,8 @@ public class StageManager : MonoBehaviour
         Cursor.visible = false;
         _gamePaused = false;
         _currentPlayer.IsPaused = false;
+
+
         _darkScreen.SetActive(false);
     }
 

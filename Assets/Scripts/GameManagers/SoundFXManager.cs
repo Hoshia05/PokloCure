@@ -88,10 +88,12 @@ public class SoundFXManager : MonoBehaviour
 
     private void CreateSoundClipPool()
     {
+        GameObject soundObjectPoolParent = new GameObject("soundObjectPoolParent");
+
         _soundClipPool = new();
         for (int i = 0; i < 200; i++)
         {
-            AudioSource audioSource = Instantiate(soundFXObject, Vector2.zero, Quaternion.identity);
+            AudioSource audioSource = Instantiate(soundFXObject, soundObjectPoolParent.transform);
             audioSource.gameObject.SetActive(false);
             _soundClipPool.Add(audioSource);
         }
