@@ -38,6 +38,8 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     private GameObject _pauseScreen;
     [SerializeField]
+    private GameObject _soundScreen;
+    [SerializeField]
     private Image _characterThumbnail;
     [SerializeField]
     private GameObject _levelUPUI;
@@ -914,6 +916,7 @@ public class StageManager : MonoBehaviour
 
             CloseCharacterInfoUI();
             _pauseScreen.SetActive(false);
+            _soundScreen.SetActive(false);
         }
         else
         {
@@ -924,6 +927,14 @@ public class StageManager : MonoBehaviour
             OpenCharacterInfoUI();
             _pauseScreen.SetActive(true);
         }
+    }
+
+    public void SoundMenu()
+    {
+        _soundScreen.SetActive(!_soundScreen.activeSelf);
+
+        SoundMenuScript smScript = _soundScreen.GetComponent<SoundMenuScript>();
+        smScript.SetSliders();
     }
 
     public void OpenCharacterInfoUI()

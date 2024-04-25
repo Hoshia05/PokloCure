@@ -27,18 +27,49 @@ public class SoundMixerManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public float GetMasterVolume()
+    {
+        float value;
+        _audioMixer.GetFloat("MasterVolume", out value);
+
+        float calcualtedValue = Mathf.Pow(10, value / 20);
+
+        return calcualtedValue;
+    }
+
     public void SetMasterVolume(float level)
     {
-        _audioMixer.SetFloat("MasterVolume", level);
+        _audioMixer.SetFloat("MasterVolume", Mathf.Log10(level) * 20f);
+    }
+
+    public float GetSoundFXVolume()
+    {
+        float value;
+        _audioMixer.GetFloat("SoundFXVolume", out value);
+
+        float calcualtedValue = Mathf.Pow(10, value / 20);
+
+        return calcualtedValue;
     }
 
     public void SetSoundFXVolume(float level)
     {
-        _audioMixer.SetFloat("SoundFXVolume", level);
+        _audioMixer.SetFloat("SoundFXVolume", Mathf.Log10(level) * 20f);
+    }
+
+
+    public float GetMusicVolume()
+    {
+        float value;
+        _audioMixer.GetFloat("MusicVolume", out value);
+
+        float calcualtedValue = Mathf.Pow(10, value / 20);
+
+        return calcualtedValue;
     }
 
     public void SetMusicVolume(float level)
     {
-        _audioMixer.SetFloat("MusicVolume", level);
+        _audioMixer.SetFloat("MusicVolume", Mathf.Log10(level) * 20f);
     }
 }
