@@ -1,4 +1,4 @@
-# 호샤큐어 (PokloCure) ~뒷산을 지키는 호랑산신령~
+# 호샤큐어 (PokloCure) 뒷산을 지키는 호랑산신령
 
 Unity로 개발한 2D 뱀서라이크(Vampire Survivors-like) 게임입니다.
 기획·설계·구현·배포를 혼자 진행한 개인 프로젝트입니다.
