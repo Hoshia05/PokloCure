@@ -542,7 +542,10 @@ public class PlayerScript : MonoBehaviour
         else
         {
             ExperienceBar.Instance.SetEXP(_currentExperience, _level);
-            StageManager.Instance.LevelUpEventEnd();
+
+            // 레벨업 창이 열려 있을 때만 닫는다 (EXP 획득마다 일시정지가 풀리던 문제)
+            if (StageManager.Instance.IsLevelUpOpen)
+                StageManager.Instance.LevelUpEventEnd();
         }
     }
 

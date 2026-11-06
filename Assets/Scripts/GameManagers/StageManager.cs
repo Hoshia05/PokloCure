@@ -852,6 +852,8 @@ public class StageManager : MonoBehaviour
         _lvlUpListScript.CreateLvlUpList();
     }
 
+    public bool IsLevelUpOpen => _levelUPUI.activeSelf;
+
     public void LevelUpSkip()
     {
         PlayerScript.Instance.CheckLevelUp();
