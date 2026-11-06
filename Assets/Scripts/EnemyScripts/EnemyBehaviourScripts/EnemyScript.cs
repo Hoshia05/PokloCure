@@ -390,7 +390,7 @@ public class EnemyScript : MonoBehaviour
         float range = maxDamage - minDamage;
         double sample = GameManager.Instance.Rand.NextDouble();
 
-        return ItemController.RoundValue((range * (float)sample) + minDamage);
+        return Mathf.Max(1f, ItemController.RoundValue((range * (float)sample) + minDamage));
 
     }
 
