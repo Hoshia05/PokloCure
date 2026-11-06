@@ -1,6 +1,6 @@
 # Projectile pooling experiment (P2-2) — results
 
-Branch: `experiment/projectile-pooling` (not merged into `main`).
+Branch: `experiment/projectile-pooling` — merged into `main` at the owner's request (the gain is modest, see the verdict).
 
 ## What changed
 - `ProjectilePool` (new): one `SimplePool` per projectile prefab. On `Get` it re-parents, resets position / rotation / scale and the Rigidbody2D velocity to the prefab's initial state.
@@ -33,7 +33,7 @@ A/B micro-benchmark (300 shots in one frame, physics off, steady-state rounds):
 So pooling is about 30% cheaper to spawn and produces about 40% less garbage per burst, but the whole spawn+release cost barely changes, because releasing is immediate (`SetActive(false)`) while `Destroy` is deferred. At normal fire rates this is far below what you can see.
 
 ## Verdict
-Works for all 12 weapons with no regressions found, but it is not a visible performance win at current fire rates. Merge only if you expect hundreds of projectiles per second (large projectile-count upgrades), or want the lower GC churn.
+Works for all 12 weapons with no regressions found, but it is not a visible performance win at current fire rates. Merged anyway: it is safe, and it helps if projectile counts grow later. The editor-only `DebugUsePool` switch in `ItemController` can still be used to A/B against the old path.
 
 ## Found on the way (not changed here)
 - `ShotgunHitSO`'s `ShockwaveEffect` root object is never released/destroyed. Observed in Play mode: the child object is deactivated almost immediately (well before the clip's `EndAnimation` event time of 0.32 s), and the root stays active and is never returned to the pool, even 1.5 s later. The original code (`SetActive(false)` in `HitEffectScript.EndAnimation`) did not clean the root up either, so this is not a regression. It leaves one active, empty root per shot (about 1 shot / 6 s). The cause is not investigated; it needs a look at the prefab's two `Animator`/`HitEffectScript` pairs.
