@@ -322,7 +322,7 @@ public class PlayerScript : MonoBehaviour
             _currentStamina += Time.deltaTime * _staminaReplenishRate;
             UIStaminaBar.Instance.UpdateStamina(_currentStamina);
         }
-        else if(_currentStamina <= 0)
+        else if(_currentStamina <= 0 && !_redlineCharging)
         {
             StartCoroutine(StaminaReplenishCoroutine());
         }
