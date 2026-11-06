@@ -36,11 +36,8 @@ public class PlayerControl : MonoBehaviour
 
         _inputActions = GetComponent<PlayerInput>();
         
-        _inputActions.actions["Move"].performed += context => PlayerMovement = context.ReadValue<Vector2>();
-        _inputActions.actions["Move"].canceled += context => PlayerMovement = Vector2.zero;
-
-        _inputActions.actions["Dash"].performed += context => IsDashing = true;
-        _inputActions.actions["Dash"].canceled += context => IsDashing = false;
+        // Move / Dash 는 이벤트로 값을 캐시하지 않고 매 프레임 직접 읽는다.
+        // (캐시 방식은 canceled 이벤트를 놓치면 입력이 계속 눌린 채로 남는다 — 에디터 포커스 이동 등)
 
         _inputActions.actions["PauseMenu"].performed += context => PauseMenu.Invoke();
 
@@ -58,6 +55,9 @@ public class PlayerControl : MonoBehaviour
 
     private void Update()
     {
+        PlayerMovement = _inputActions.actions["Move"].ReadValue<Vector2>();
+        IsDashing = _inputActions.actions["Dash"].IsPressed();
+
         UpdateLoS(_inputActions.actions["Look"].ReadValue<Vector2>());
     }
 
