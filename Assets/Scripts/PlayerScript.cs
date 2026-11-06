@@ -370,7 +370,7 @@ public class PlayerScript : MonoBehaviour
         _xVelocity = PlayerControl.Instance.GetPlayerMovement().x * currentMovement;
         _yVelocity = PlayerControl.Instance.GetPlayerMovement().y * currentMovement;
 
-        _rb.velocity = new Vector2(_xVelocity, _yVelocity);
+        _rb.linearVelocity = new Vector2(_xVelocity, _yVelocity);
     }
 
     void CursorUpdate()

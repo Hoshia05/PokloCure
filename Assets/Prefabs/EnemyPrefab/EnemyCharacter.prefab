@@ -289,6 +289,7 @@ MonoBehaviour:
   EClass: 0
   IsPatternSpawn: 0
   IsStunned: 0
+  FreezePosition: {x: 0, y: 0}
   _weaponSlot: {fileID: 2501353271568022681}
   SpriteRenderer: {fileID: 7725466693573987731}
   _damageSoundClip: {fileID: 8300000, guid: facf2a8976979e84d926c58c36fbf66d, type: 3}

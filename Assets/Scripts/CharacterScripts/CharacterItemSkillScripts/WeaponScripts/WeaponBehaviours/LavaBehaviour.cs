@@ -45,7 +45,7 @@ public class LavaBehaviour : ItemBehaviour
         yield return new WaitForSeconds(1f);
 
         _rb.gravityScale = 0f;
-        _rb.velocity = Vector2.zero;
+        _rb.linearVelocity = Vector2.zero;
 
         _lavaCollider.enabled = true;
         _lavaSprite.enabled = true;
