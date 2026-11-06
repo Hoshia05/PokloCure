@@ -543,12 +543,8 @@ public class StageManager : MonoBehaviour
         float outerRadius = 80f;
         float innerRadius = 60f;
 
-        Vector2 SpawnPosition = EnemySpawnManager.GetRandomPositionInPlayerRadius(outerRadius, innerRadius);
-
-        while (!_spawnManager.CheckIfIsInBounds(SpawnPosition))
-        {
-            SpawnPosition = EnemySpawnManager.GetRandomPositionInPlayerRadius(outerRadius, innerRadius);
-        }
+        if (!_spawnManager.TryGetPositionInPlayerRing(outerRadius, innerRadius, out Vector2 SpawnPosition))
+            return;
 
         Vector2 LastEnemyPosition = SpawnPosition;
 

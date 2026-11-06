@@ -59,12 +59,8 @@ public class EnemySpawnManager : MonoBehaviour
 
     public void SpawnBossEnemy(EnemyBase enemyData, float radius)
     {
-        Vector2 SpawnPosition = GetRandomPositionInPlayerRadius(radius);
-
-        while (!CheckIfIsInBounds(SpawnPosition))
-        {
-            SpawnPosition = GetRandomPositionInPlayerRadius(radius);
-        }
+        if (!TryGetPositionInPlayerRing(radius, 0f, out Vector2 SpawnPosition))
+            return;
 
         GameObject BossEnemy = Instantiate(GameManager.Instance.BossPrefab, SpawnPosition, Quaternion.identity);
         EnemyScript enemyScript = BossEnemy.GetComponent<BossScript>();
@@ -104,14 +100,8 @@ public class EnemySpawnManager : MonoBehaviour
         EnemyBase enemyData = patternSpawnInfo.EnemyData;
         int enemyNum = patternSpawnInfo.AmountSpawned;
 
-        Vector2 SpawnPosition;
-
-        SpawnPosition = GetRandomPositionInPlayerRadius(radius);
-
-        while (!CheckIfIsInBounds(SpawnPosition))
-        {
-            SpawnPosition = GetRandomPositionInPlayerRadius(radius);
-        }
+        if (!TryGetPositionInPlayerRing(radius, 0f, out Vector2 SpawnPosition))
+            return;
 
         for (int i = 0; i < enemyNum; i++)
         {
@@ -162,6 +152,20 @@ public class EnemySpawnManager : MonoBehaviour
         float y = center.y + distance * Mathf.Sin(radians);
 
         return new Vector2(x, y);
+    }
+
+    // 맵 안에 들어오는 위치를 제한된 횟수만 시도해서 찾는다 (무한 루프 방지)
+    public bool TryGetPositionInPlayerRing(float outer, float inner, out Vector2 pos, int maxAttempts = 20)
+    {
+        for (int i = 0; i < maxAttempts; i++)
+        {
+            pos = GetRandomPositionInPlayerRadius(outer, inner);
+            if (CheckIfIsInBounds(pos))
+                return true;
+        }
+
+        pos = default;
+        return false;
     }
 
     public bool CheckIfIsInBounds(Vector2 position)
