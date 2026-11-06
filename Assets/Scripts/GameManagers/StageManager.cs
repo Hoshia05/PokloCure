@@ -111,7 +111,7 @@ public class StageManager : MonoBehaviour
     private SimplePool _moneyItemPool;
     private SimplePool _damagePopupPool;
     private SimplePool _criticalDamagePopupPool;
-    private List<GameObject> _enemyHitAnimationPool = new();
+    private SimplePool _enemyHitAnimationPool;
 
     [Header("Enemy Related")]
     [SerializeField]
@@ -331,22 +331,16 @@ public class StageManager : MonoBehaviour
         GameObject hitanimationObjectPoolParent = new GameObject("hitanimationObjectPoolParent");
 
 
-        int Count = 100;
-        for (int i = 0; i < Count; i++)
-        {
-            GameObject hitAnimation = Instantiate(GameManager.Instance.HitEffectPrefab, hitanimationObjectPoolParent.transform);
-            hitAnimation.SetActive(false);
-
-            _enemyHitAnimationPool.Add(hitAnimation);
-        }
+        // 처음 50개, 최대 150개
+        _enemyHitAnimationPool = new SimplePool(GameManager.Instance.HitEffectPrefab, hitanimationObjectPoolParent.transform, 50, 150);
     }
 
     public void GetHitAnimationFromPool(Vector2 targetPosition)
     {
-        if (!_enemyHitAnimationPool.Any(x => x.activeSelf == false))
-            return;
+        GameObject animationObject = _enemyHitAnimationPool.Get();
 
-        GameObject animationObject = _enemyHitAnimationPool.First(x => x.activeSelf == false);
+        if (animationObject == null)
+            return;
 
         animationObject.transform.position = targetPosition;
 
