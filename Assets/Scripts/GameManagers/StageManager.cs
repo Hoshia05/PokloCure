@@ -140,6 +140,8 @@ public class StageManager : MonoBehaviour
     private bool _gamePaused;
     private bool _pauseEvent;
 
+    private float _nextBuffTime;
+
     private void Awake()
     {
         Instance = this;
@@ -190,6 +192,8 @@ public class StageManager : MonoBehaviour
         EnemyHitAnimationpoolCreate();
 
         InitializeEnhanceFunctions();
+
+        _nextBuffTime = BuffInterval;
 
         StartCoroutine(EnemyCircleSpawnCoroutine());
         StartCoroutine(EnemyMTESpawnCoroutine());
@@ -765,8 +769,11 @@ public class StageManager : MonoBehaviour
 
         _timer.text = timerString;
 
-        if(_currentTime % BuffInterval < 0.3)
+        if (_currentTime >= _nextBuffTime)
+        {
+            _nextBuffTime += BuffInterval;
             EnemyBuffEvent();
+        }
     }
 
     public void UpdateKill(int score)
