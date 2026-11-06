@@ -7,8 +7,9 @@ public class BossScript : EnemyScript
     // Start is called before the first frame update
     public override void CheckDeath()
     {
-        if (_currentMaxHP <= 0)
+        if (_currentMaxHP <= 0 && !_isDying)
         {
+            _isDying = true;
             StartCoroutine(KillBoss());
         }
     }

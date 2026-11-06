@@ -31,6 +31,7 @@ public class EnemyScript : MonoBehaviour
     protected float _dropExpValue;
     protected EnemyType _enemyType;
     protected bool _isBoss;
+    protected bool _isDying;
 
     protected float _buffMultiplier = 1f;
 
@@ -208,6 +209,8 @@ public class EnemyScript : MonoBehaviour
 
     public void TakeDamage(float rawDamage, float knockBack, bool isCritical = false, string damageItem = null, float hitCooldown = 0)
     {
+        if (_isDying)
+            return;
 
         if(DamageList.Contains(damageItem))
         {
@@ -262,8 +265,9 @@ public class EnemyScript : MonoBehaviour
 
     public virtual void CheckDeath()
     {
-        if (_currentMaxHP <= 0)
+        if (_currentMaxHP <= 0 && !_isDying)
         {
+            _isDying = true;
             StartCoroutine(KillEnemy());
         }
     }
