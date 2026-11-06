@@ -30,6 +30,7 @@ public class PlayerControl : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
 
 
