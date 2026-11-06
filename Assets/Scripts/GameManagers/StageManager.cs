@@ -713,20 +713,6 @@ public class StageManager : MonoBehaviour
 
     //적 강화 END
 
-    int GetEnemyNum()
-    {
-        if(_currentTime > 1800f)
-        {
-            return 20;
-        }
-
-        float spawnProbability = Sigmoid(_currentTime / 1800f) - 0.5f;
-
-        int RandomAdd = GameManager.Instance.Rand.Next(1, 5);
-
-        return Mathf.CeilToInt(spawnProbability * 20) + RandomAdd;
-    }
-
     public static float Sigmoid(float x)
     {
         return 1f / (1f + Mathf.Exp(-x));

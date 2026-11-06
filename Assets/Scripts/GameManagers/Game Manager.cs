@@ -168,11 +168,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
-    public void GameOverEvent()
-    {
-
-    }
-
     //Utilities
 
     public bool RollRandom(float chanceValue)
