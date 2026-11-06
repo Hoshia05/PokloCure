@@ -213,6 +213,8 @@ public class PlayerScript : MonoBehaviour
 
         InitializeFromGM();
 
+        _expRequirement = MathRelated.GetNextExpRequirement(_level);
+
         _shield = 0;
 
     }
@@ -220,7 +222,7 @@ public class PlayerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ExperienceBar.Instance.InitializeEXP(100);
+        ExperienceBar.Instance.InitializeEXP(_expRequirement);
         HPBar.Instance.InitializeHPBar(_currentCharacterMaxHP);
         UIStaminaBar.Instance.InitializeStaminaBar(_currentMaxStamina);
 
