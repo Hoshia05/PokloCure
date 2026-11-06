@@ -625,7 +625,6 @@ public class StageManager : MonoBehaviour
         EnemyScript enemyScript = enemy.GetComponent<EnemyScript>();
         enemy.SetActive(true);
         enemyScript.ResetForSpawn();
-        enemyScript.InitializeWithSO(null);
         _currentEnemyCount++;
     }
 

@@ -32,6 +32,9 @@ public class EnemyScript : MonoBehaviour
     protected EnemyType _enemyType;
     protected bool _isBoss;
     protected bool _isDying;
+    protected float _currentHP;
+    protected bool _initialized;
+    protected GameObject _weaponInstance;
 
     protected float _buffMultiplier = 1f;
 
@@ -97,13 +100,31 @@ public class EnemyScript : MonoBehaviour
         if (EnemyData == null)
             EnemyData = _enemyData;
 
-        if(_enemyData == null)
-            _enemyData = EnemyData;
-
-        if (EnemyData == null && _enemyData == null)
+        if (EnemyData == null)
             return;
 
-        _collider.enabled = true;
+        // 1회성 초기화: 데이터 보관, 애니메이터 캐시, 무기 생성
+        if (!_initialized)
+        {
+            if (_enemyData == null)
+                _enemyData = EnemyData;
+
+            _enemyAnim = GetComponent<Animator>();
+
+            if (_enemyData.BasicWeaponController != null && _weaponSlot != null)
+                _weaponInstance = Instantiate(_enemyData.BasicWeaponController, _weaponSlot.transform);
+
+            _initialized = true;
+        }
+
+        ApplyStats();
+        _currentHP = _currentMaxHP;
+    }
+
+    // 버프 배율에 의존하는 수치만 적용한다. 현재 HP를 건드리거나 오브젝트를 생성하지 않는다.
+    protected void ApplyStats()
+    {
+        EnemyBase EnemyData = _enemyData;
 
         EClass = _enemyData.EnemyClass;
 
@@ -131,11 +152,8 @@ public class EnemyScript : MonoBehaviour
 
         transform.localScale = new Vector3(EnemyData.SizeScale, EnemyData.SizeScale, EnemyData.SizeScale);
 
-        if (EnemyData.AnimatorController != null)
+        if (EnemyData.AnimatorController != null && _enemyAnim != null)
             _enemyAnim.runtimeAnimatorController = EnemyData.AnimatorController;
-
-        if (EnemyData.BasicWeaponController != null)
-            _weaponSlot = Instantiate(EnemyData.BasicWeaponController, _weaponSlot.transform);
     }
 
     // 풀에서 꺼내 재사용할 때 이전 생애의 상태(기절, 색, 코루틴 등)를 초기화한다.
@@ -150,6 +168,7 @@ public class EnemyScript : MonoBehaviour
         SpriteRenderer.color = Color.white;
         SpriteRenderer.enabled = true;
         _collider.enabled = true;
+        _currentHP = _currentMaxHP;
     }
 
     public void SetForPatternSpawn(SpawnType type)
@@ -235,7 +254,7 @@ public class EnemyScript : MonoBehaviour
 
             float damage = DamageVariance(rawDamage);
 
-            _currentMaxHP -= damage;
+            _currentHP -= damage;
 
             //적 피격 모션 : 간단하게 한 0.3초 동안 빨갛게 되기
             StartCoroutine(HitAnimation());
@@ -279,7 +298,7 @@ public class EnemyScript : MonoBehaviour
 
     public virtual void CheckDeath()
     {
-        if (_currentMaxHP <= 0 && !_isDying)
+        if (_currentHP <= 0 && !_isDying)
         {
             _isDying = true;
             StartCoroutine(KillEnemy());
@@ -420,7 +439,16 @@ public class EnemyScript : MonoBehaviour
 
     public void BuffEnemy()
     {
+        if (!_initialized)
+            return;
+
+        float oldMax = _currentMaxHP;
         _buffMultiplier += 0.35f;
-        InitializeWithSO(_enemyData);
+        ApplyStats();
+
+        if (gameObject.activeInHierarchy && oldMax > 0)
+            _currentHP *= _currentMaxHP / oldMax;   // 현재 HP 비율 유지
+        else
+            _currentHP = _currentMaxHP;
     }
 }
