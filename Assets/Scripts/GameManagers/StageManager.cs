@@ -109,8 +109,8 @@ public class StageManager : MonoBehaviour
     private Dictionary<EnemyBase, List<GameObject>> _enemyPool = new();
     private SimplePool _expItemPool;
     private SimplePool _moneyItemPool;
-    private List<GameObject> _damagePopupPool = new();
-    private List<GameObject> _criticalDamagePopupPool = new();
+    private SimplePool _damagePopupPool;
+    private SimplePool _criticalDamagePopupPool;
     private List<GameObject> _enemyHitAnimationPool = new();
 
     [Header("Enemy Related")]
@@ -293,31 +293,17 @@ public class StageManager : MonoBehaviour
 
         GameObject damageUIObjectPoolParent = new GameObject("damageUIObjectPoolParent");
 
-        int Count = 50;
-        for (int i = 0; i < Count; i++)
-        {
-            GameObject damageUI = Instantiate(GameManager.Instance.DamagePopUpPrefab, damageUIObjectPoolParent.transform);
-            damageUI.SetActive(false);
-
-            _damagePopupPool.Add(damageUI);
-
-            GameObject damageCriticalUI = Instantiate(GameManager.Instance.CriticalDamagePopUpPrefab, damageUIObjectPoolParent.transform);
-            damageCriticalUI.SetActive(false);
-
-            _criticalDamagePopupPool.Add(damageCriticalUI);
-        }
+        // 처음 50개씩, 최대 150개씩
+        _damagePopupPool = new SimplePool(GameManager.Instance.DamagePopUpPrefab, damageUIObjectPoolParent.transform, 50, 150);
+        _criticalDamagePopupPool = new SimplePool(GameManager.Instance.CriticalDamagePopUpPrefab, damageUIObjectPoolParent.transform, 50, 150);
     }
 
     public void GetDamageUIFromPool(Vector2 position, float DamageValue, bool isCritical)
     {
-        if(isCritical && !_criticalDamagePopupPool.Any(x => x.activeSelf == false))
+        GameObject DamagePopup = isCritical ? _criticalDamagePopupPool.Get() : _damagePopupPool.Get();
+
+        if (DamagePopup == null)
             return;
-
-        if (!isCritical && !_damagePopupPool.Any(x => x.activeSelf == false))
-            return;
-
-
-        GameObject DamagePopup = isCritical ? _criticalDamagePopupPool.First(x => x.activeSelf == false) : _damagePopupPool.First(x => x.activeSelf == false);
 
         DamagePopup.SetActive(true);
         DamagePopup.transform.position = position;
@@ -372,7 +358,7 @@ public class StageManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
-        deactiveObject.SetActive(false);
+        PooledObject.ReleaseOrDeactivate(deactiveObject);
     }
 
     private void InitializeEnhanceFunctions()
