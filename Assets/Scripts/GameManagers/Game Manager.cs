@@ -71,9 +71,10 @@ public class GameManager : MonoBehaviour
 
     public List<ItemSO> GetFullList()
     {
-        ItemList.Shuffle();
+        List<ItemSO> list = _isDebug ? DebugItemList : ItemList;
+        list.Shuffle();
 
-        return _isDebug ? DebugItemList : ItemList;
+        return list;
     }
 
     public ItemSO GetRandomItem(List<ItemSO> exemptList = null, bool noUpgrades = false)
