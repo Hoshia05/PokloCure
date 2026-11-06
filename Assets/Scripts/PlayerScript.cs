@@ -801,24 +801,33 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    // 매 프레임 호출되므로 배열을 새로 할당하지 않고 재사용한다.
+    // 필드 아이템 프리팹은 Default 레이어이고 적은 Enemy 레이어라서, Default만 검사하면 적 수백 마리가 버퍼를 채우지 않는다.
+    private readonly Collider2D[] _eatBuffer = new Collider2D[64];
+    private ContactFilter2D _eatFilter;
+    private bool _eatFilterReady;
+
     public void EatItemRadius()
     {
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, _itemEatDistance);
-
-        if(hitColliders.Length > 0 )
+        if (!_eatFilterReady)
         {
-            foreach(Collider2D collider in hitColliders)
-            {
-                if (collider.gameObject.CompareTag("FieldItem"))
-                {
-                    GameObject Target = collider.gameObject;
-                    FieldItemBase fieldItemBase = Target.GetComponent<FieldItemBase>();
-                    fieldItemBase.PickedByPlayer(transform);
-
-                }
-            }
+            _eatFilter = new ContactFilter2D();
+            _eatFilter.NoFilter();                                     // 트리거 콜라이더도 포함
+            _eatFilter.SetLayerMask(LayerMask.GetMask("Default"));
+            _eatFilterReady = true;
         }
 
+        int hitCount = Physics2D.OverlapCircle(transform.position, _itemEatDistance, _eatFilter, _eatBuffer);
+
+        for (int i = 0; i < hitCount; i++)
+        {
+            Collider2D collider = _eatBuffer[i];
+
+            if (collider != null && collider.CompareTag("FieldItem") && collider.TryGetComponent(out FieldItemBase fieldItemBase))
+            {
+                fieldItemBase.PickedByPlayer(transform);
+            }
+        }
     }
 
     void OnDrawGizmos()
