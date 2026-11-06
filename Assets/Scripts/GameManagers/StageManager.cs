@@ -532,14 +532,9 @@ public class StageManager : MonoBehaviour
 
     private EnemyClass RandomizeEnemyCircleSpawn()
     {
-        int randNum = GameManager.Instance.Rand.Next(1, 10);
-
-        if( randNum < 10)
-        {
-            return EnemyClass.SWARM;
-        }
-
-        return randNum < 10 ? EnemyClass.SWARM : EnemyClass.MEDIUM;
+        // 현재 동작 유지: 원형 소환은 항상 하급(SWARM)만 소환한다.
+        // (이전 코드는 Next(1, 10)이 1~9만 반환해서 사실상 항상 SWARM이었음. 밸런스 변경 시 여기서 조정할 것)
+        return EnemyClass.SWARM;
     }
 
     private void MTESpawn()
