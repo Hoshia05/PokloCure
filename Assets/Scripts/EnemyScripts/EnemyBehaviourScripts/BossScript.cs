@@ -41,11 +41,11 @@ public class BossScript : EnemyScript
 
         StageManager.Instance.GetEXPItemFromPool(transform.position, _dropExpValue);
 
-        //¹ö°Å¼ÒÈ¯
+        //ë²„ê±°ì†Œí™˜
         DropBurger();
-        //´ÙÀÌ¾Æ¼ÒÈ¯
+        //ë‹¤ì´ì•„ì†Œí™˜
         DropDiamond();
-        //¾ÆÀÌÅÛ»óÀÚ ¼ÒÈ¯
+        //ì•„ì´í…œìƒì ì†Œí™˜
         Instantiate(GameManager.Instance.TreasureBoxPrefab, RandomNearPosition(), Quaternion.identity);
 
         Destroy(gameObject);
