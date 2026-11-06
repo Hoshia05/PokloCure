@@ -403,8 +403,11 @@ public class PlayerScript : MonoBehaviour
 
     private void CheckFull()
     {
-        if(_currentCharacterMaxHP >= _characterCurrentHP)
+        if(_characterCurrentHP >= _currentCharacterMaxHP)
         {
+            if (_HPBarDisappearCoroutine != null)
+                StopCoroutine(_HPBarDisappearCoroutine);
+
             _HPBarDisappearCoroutine = StartCoroutine(DisappearHealthBar());
         }
     }
