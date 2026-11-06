@@ -36,6 +36,7 @@ public class EnemyScript : MonoBehaviour
     protected bool _initialized;
     protected GameObject _weaponInstance;
 
+    public const float BuffStep = 0.35f;
     protected float _buffMultiplier = 1f;
 
     //Pattern Spawn 관련
@@ -440,13 +441,25 @@ public class EnemyScript : MonoBehaviour
         IsStunned = false;
     }
 
+    // 풀에서 새로 만든 적이 현재 강화 단계를 바로 따라가도록 배율을 지정한다.
+    public void SetBuffMultiplier(float multiplier)
+    {
+        _buffMultiplier = multiplier;
+
+        if (_initialized)
+        {
+            ApplyStats();
+            _currentHP = _currentMaxHP;
+        }
+    }
+
     public void BuffEnemy()
     {
         if (!_initialized)
             return;
 
         float oldMax = _currentMaxHP;
-        _buffMultiplier += 0.35f;
+        _buffMultiplier += BuffStep;
         ApplyStats();
 
         if (gameObject.activeInHierarchy && oldMax > 0)

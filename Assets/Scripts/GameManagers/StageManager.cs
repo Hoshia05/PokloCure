@@ -106,7 +106,10 @@ public class StageManager : MonoBehaviour
     }
 
     private List<EnemyBase> _enemyList;
-    private Dictionary<EnemyBase, List<GameObject>> _enemyPool = new();
+    private Dictionary<EnemyBase, SimplePool> _enemyPool = new();
+    private Dictionary<EnemyBase, List<EnemyScript>> _enemyScriptsByType = new();
+    private Dictionary<EnemyClass, List<EnemyBase>> _enemyTypesByClass = new();
+    private Dictionary<EnemyClass, float> _classBuffMultiplier = new();
     private SimplePool _expItemPool;
     private SimplePool _moneyItemPool;
     private SimplePool _damagePopupPool;
@@ -219,31 +222,46 @@ public class StageManager : MonoBehaviour
 
         foreach(EnemyBase enemy in _enemyList)
         {
-            List<GameObject> enemyList = new();
+            EnemyBase enemyData = enemy;
+            List<EnemyScript> scripts = new();
 
-            int Count = 3000;
+            // 처음 만들어 두는 개수 (풀은 필요하면 늘어난다. 전체 상한은 ENEMYLIMIT)
+            int prewarm = 300;
 
             if(enemy.EnemyClass == EnemyClass.MEDIUM)
             {
-                Count = 500;
+                prewarm = 50;
             }
             else if(enemy.EnemyClass == EnemyClass.ELITE)
             {
-                Count = 200;
+                prewarm = 20;
             }
 
-            for(int i = 0; i < Count; i++)
+            _enemyScriptsByType.Add(enemyData, scripts);
+
+            if (!_enemyTypesByClass.TryGetValue(enemyData.EnemyClass, out List<EnemyBase> typeList))
             {
-                GameObject newEnemy = Instantiate(GameManager.Instance.EnemyPrefab, enemyObjectPoolParent.transform);
-                EnemyScript enemyScript = newEnemy.GetComponent<EnemyScript>();
-                enemyScript.InitializeWithSO(enemy);
-                newEnemy.SetActive(false);
-
-                enemyList.Add(newEnemy);
+                typeList = new();
+                _enemyTypesByClass.Add(enemyData.EnemyClass, typeList);
             }
+            typeList.Add(enemyData);
 
-            _enemyPool.Add(enemy, enemyList);
+            SimplePool pool = new SimplePool(GameManager.Instance.EnemyPrefab, enemyObjectPoolParent.transform, prewarm, int.MaxValue, newEnemy =>
+            {
+                EnemyScript enemyScript = newEnemy.GetComponent<EnemyScript>();
+                enemyScript.InitializeWithSO(enemyData);
+                // 나중에 만들어진 적도 현재 강화 단계를 적용
+                enemyScript.SetBuffMultiplier(GetClassBuffMultiplier(enemyData.EnemyClass));
+                scripts.Add(enemyScript);
+            });
+
+            _enemyPool.Add(enemyData, pool);
         }
+    }
+
+    private float GetClassBuffMultiplier(EnemyClass enemyClass)
+    {
+        return _classBuffMultiplier.TryGetValue(enemyClass, out float multiplier) ? multiplier : 1f;
     }
 
     private void ExpItemPoolCreate()
@@ -551,9 +569,10 @@ public class StageManager : MonoBehaviour
     {
         EnemyBase enemyType;
 
-        List<EnemyBase> enemyBaseList = _enemyPool.Keys.ToList().Where(x => x.EnemyClass == enemyClass).ToList();
+        if (_currentEnemyCount >= ENEMYLIMIT)
+            return;
 
-        if (enemyBaseList.Count == 0 || enemyBaseList == null)
+        if (!_enemyTypesByClass.TryGetValue(enemyClass, out List<EnemyBase> enemyBaseList) || enemyBaseList.Count == 0)
             return;
 
         if (enemyBaseList.Count == 1)
@@ -565,18 +584,12 @@ public class StageManager : MonoBehaviour
             enemyType = enemyBaseList[GameManager.Instance.Rand.Next(0, enemyBaseList.Count)];
         }
 
-        List<GameObject> enemyQueue = _enemyPool[enemyType];
-
-
-        if (enemyQueue == null || enemyQueue.Count == 0 || !enemyQueue.Any(x => x.activeSelf == false))
+        if (!_spawnManager.CheckIfIsInBounds(spawnPosition))
             return;
 
-        GameObject enemy = enemyQueue.First(x => x.activeSelf == false) ;
+        GameObject enemy = _enemyPool[enemyType].Get();
 
         if (enemy == null)
-            return;
-
-        if (!_spawnManager.CheckIfIsInBounds(spawnPosition))
             return;
 
         SetEnemyActive(enemy);
@@ -597,7 +610,7 @@ public class StageManager : MonoBehaviour
     {
         onEnemyKilled.Invoke();
         _currentEnemyCount--;
-        enemyObject.SetActive(false);
+        PooledObject.ReleaseOrDeactivate(enemyObject);
     }
 
     //적 강화 관련
@@ -664,13 +677,15 @@ public class StageManager : MonoBehaviour
 
     private void BuffEnemy(EnemyClass targetClass)
     {
-        foreach(KeyValuePair<EnemyBase, List<GameObject>> enemyType in _enemyPool)
+        // 이후에 새로 만들어지는 적을 위해 클래스별 배율도 같이 올린다
+        _classBuffMultiplier[targetClass] = GetClassBuffMultiplier(targetClass) + EnemyScript.BuffStep;
+
+        foreach(KeyValuePair<EnemyBase, List<EnemyScript>> enemyType in _enemyScriptsByType)
         {
             if(enemyType.Key.EnemyClass == targetClass)
             {
-                foreach(GameObject enemy in enemyType.Value)
+                foreach(EnemyScript enemyScript in enemyType.Value)
                 {
-                    EnemyScript enemyScript = enemy.GetComponent<EnemyScript>();
                     enemyScript.BuffEnemy();
                 }
             }
