@@ -83,35 +83,43 @@ public class GameManager : MonoBehaviour
 
     private ItemSO GetFromList(List<ItemSO> targetList, List<ItemSO> exemptList = null, bool noUpgrades = false)
     {
-        if (!targetList.Except(exemptList).Any())
-            return null;
-
-        List<ItemSO> possibleItemList = targetList.Except(exemptList).ToList();
+        IEnumerable<ItemSO> candidates = exemptList == null ? targetList : targetList.Except(exemptList);
 
         if (noUpgrades)
         {
-            possibleItemList.RemoveAll(x => x.ItemType == ItemType.UPGRADE);
+            candidates = candidates.Where(x => x.ItemType != ItemType.UPGRADE);
         }
 
-        if (possibleItemList.Count == 0)
-            return null;
+        // 캐릭터 전용 아이템 2배 가중치를 포함한 가중치 목록
+        List<(ItemSO item, int weight)> weightedList = new();
+        int totalWeight = 0;
 
-        int TotalWeight = possibleItemList.Sum(x => x.Priority);
-
-        int priorityCheck = GameManager.Instance.Rand.Next(1, TotalWeight);
-
-        foreach(ItemSO item in possibleItemList)
+        foreach (ItemSO item in candidates)
         {
-            int currentPriority = item.Priority;
-            if(item.characterLabel == _selectedCharacter.characterLabel)
+            int weight = item.Priority;
+            if (_selectedCharacter != null && item.characterLabel == _selectedCharacter.characterLabel)
             {
-                currentPriority *= 2;
+                weight *= 2;
             }
 
-            priorityCheck -= currentPriority;
+            if (weight <= 0)
+                continue;
 
-            if (priorityCheck <= 0)
+            weightedList.Add((item, weight));
+            totalWeight += weight;
+        }
+
+        if (totalWeight <= 0)
+            return null;
+
+        int roll = Rand.Next(0, totalWeight);
+
+        foreach ((ItemSO item, int weight) in weightedList)
+        {
+            if (roll < weight)
                 return item;
+
+            roll -= weight;
         }
 
         return null;
