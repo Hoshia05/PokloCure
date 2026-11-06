@@ -102,6 +102,14 @@ public class BoxItemUIScript : MonoBehaviour
             count++;
         }
 
+        if (_pulledItemDict.Count == 0)
+        {
+            // 줄 수 있는 아이템이 없음: 보상 코인을 주고 상자 UI를 닫는다 (소프트락 방지)
+            StageManager.Instance.GainCoins(50);   // 임시 보상 수치
+            StageManager.Instance.EndBoxUI();
+            return;
+        }
+
         _descriptionWindow.SetActive(true);
         _openButton.SetActive(false);
         _takeButton.SetActive(true);

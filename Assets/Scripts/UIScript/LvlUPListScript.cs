@@ -52,6 +52,12 @@ public class LvlUPListScript : MonoBehaviour
 
         exemptList = new();
 
+        if (_itemList.Count == 0)
+        {
+            // 고를 수 있는 아이템이 없음: 보상 코인을 주고 레벨업 화면을 닫는다 (소프트락 방지)
+            StageManager.Instance.GainCoins(50);   // 임시 보상 수치
+            PlayerScript.Instance.CheckLevelUp();
+        }
     }
 
     public void DeleteList()
