@@ -709,7 +709,7 @@ public class StageManager : MonoBehaviour
 
     public void EnemyBuffEvent()
     {
-        int randNum = (int)((GameManager.Instance.Rand.NextDouble() * 20) % (_enemyEnhanceFuncitons.Count - 1));
+        int randNum = GameManager.Instance.Rand.Next(_enemyEnhanceFuncitons.Count);
 
         string promptText = _enemyEnhanceFuncitons[randNum]();
 
