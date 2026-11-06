@@ -1,4 +1,0 @@
-repository "PokloCure@arkhtyi@cloud"
-  path "/"
-    br "/main"
-    co "/main"
