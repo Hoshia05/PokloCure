@@ -683,8 +683,10 @@ public class StageManager : MonoBehaviour
         _mteSpawnInvterval--;
         _circleSpawnInterval--;
 
-        if (_mteSpawnInvterval == 1)
+        if (_mteSpawnInvterval <= 1f)
         {
+            _mteSpawnInvterval = 1f;
+            _circleSpawnInterval = Mathf.Max(1f, _circleSpawnInterval);
             _enemyEnhanceFuncitons.Remove(ShortenInterval);
         }
 
