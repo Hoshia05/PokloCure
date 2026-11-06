@@ -701,7 +701,7 @@ public class PlayerScript : MonoBehaviour
         if (ResolveDamageNegation(OnDamageTakenBool))
             return;
 
-        float ActualDamage = damage * _currentDamageReducePercentage - _currentDamageReduceValue;
+        float ActualDamage = Mathf.Max(0f, damage * _currentDamageReducePercentage - _currentDamageReduceValue);
 
         if(_shield > 0)
         {
