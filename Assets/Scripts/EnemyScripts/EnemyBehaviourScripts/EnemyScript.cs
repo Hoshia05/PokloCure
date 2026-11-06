@@ -240,14 +240,15 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float rawDamage, float knockBack, bool isCritical = false, string damageItem = null, float hitCooldown = 0)
+    // 반환값: 실제로 피해가 들어갔으면 true, 무시되었으면(사망 중 / 히트 쿨다운) false
+    public bool TakeDamage(float rawDamage, float knockBack, bool isCritical = false, string damageItem = null, float hitCooldown = 0)
     {
         if (_isDying)
-            return;
+            return false;
 
         if(DamageList.Contains(damageItem))
         {
-            return;
+            return false;
         }
         else
         {
@@ -270,6 +271,8 @@ public class EnemyScript : MonoBehaviour
 
             if(hitCooldown > 0)
                 StartCoroutine(DamageCoroutine(damageItem, hitCooldown));
+
+            return true;
         }
 
     }

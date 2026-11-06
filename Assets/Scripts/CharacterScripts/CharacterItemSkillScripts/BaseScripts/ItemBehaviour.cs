@@ -91,27 +91,24 @@ public class ItemBehaviour : MonoBehaviour
 
     private IEnumerator EnemyHitCoroutine(Collider2D collision)
     {
-        GameObject enemy = collision.gameObject;
-        EnemyScript script = enemy.GetComponent<EnemyScript>();
+        EnemyScript script = collision.gameObject.GetComponent<EnemyScript>();
+        if (script == null)
+            yield break;
+
+        bool crit = PlayerScript.Instance.CriticalCheck();
+        float dmg = crit ? PlayerScript.Instance.GetCritDamage(_damage) : _damage;
+
+        // 히트 쿨다운 등으로 무시된 타격은 관통/기절을 소모하지 않는다
+        bool hit = script.TakeDamage(dmg, _knockback, crit, _itemName, _hitCooldown);
+        if (!hit)
+            yield break;
 
         if (_stunTime > 0)
         {
             script.StunEnemy(_stunTime);
         }
 
-        if (PlayerScript.Instance.CriticalCheck())
-        {
-            script.TakeDamage(PlayerScript.Instance.GetCritDamage(_damage), _knockback, true, _itemName, _hitCooldown);
-        }
-        else
-        {
-            script.TakeDamage(_damage, _knockback, false, _itemName, _hitCooldown);
-        }
-
-
         CheckPierce();
-
-        yield return new WaitForSeconds(_hitCooldown);
     }
 
     public void DestroyProjectileImmediately()
