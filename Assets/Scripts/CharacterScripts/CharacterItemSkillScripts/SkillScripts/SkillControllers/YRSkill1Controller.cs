@@ -77,7 +77,8 @@ public class YRSkill1Controller : ItemController
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        PlayerScript.Instance.onEatBurger.RemoveListener(onEatBurger);
+        if (PlayerScript.Instance != null)
+            PlayerScript.Instance.onEatBurger.RemoveListener(onEatBurger);
     }
 
 

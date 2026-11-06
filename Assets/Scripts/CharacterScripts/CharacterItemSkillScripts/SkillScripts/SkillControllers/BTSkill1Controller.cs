@@ -64,8 +64,10 @@ public class BTSkill1Controller : ItemController
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        StageManager.Instance.onEnemyKilled.RemoveListener(onKillEnemy);
-        PlayerScript.Instance.onTakeDamage.RemoveListener(BuffPurge);
+        if (StageManager.Instance != null)
+            StageManager.Instance.onEnemyKilled.RemoveListener(onKillEnemy);
+        if (PlayerScript.Instance != null)
+            PlayerScript.Instance.onTakeDamage.RemoveListener(BuffPurge);
     }
 
 
