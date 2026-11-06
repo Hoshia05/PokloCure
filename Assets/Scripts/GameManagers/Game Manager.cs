@@ -93,8 +93,8 @@ public class GameManager : MonoBehaviour
         }
 
         // 캐릭터 전용 아이템 2배 가중치를 포함한 가중치 목록
-        List<(ItemSO item, int weight)> weightedList = new();
-        int totalWeight = 0;
+        List<ItemSO> candidateItems = new();
+        List<int> weights = new();
 
         foreach (ItemSO item in candidates)
         {
@@ -104,27 +104,13 @@ public class GameManager : MonoBehaviour
                 weight *= 2;
             }
 
-            if (weight <= 0)
-                continue;
-
-            weightedList.Add((item, weight));
-            totalWeight += weight;
+            candidateItems.Add(item);
+            weights.Add(weight);
         }
 
-        if (totalWeight <= 0)
-            return null;
+        int index = WeightedPick.PickIndex(weights, max => Rand.Next(0, max));
 
-        int roll = Rand.Next(0, totalWeight);
-
-        foreach ((ItemSO item, int weight) in weightedList)
-        {
-            if (roll < weight)
-                return item;
-
-            roll -= weight;
-        }
-
-        return null;
+        return index < 0 ? null : candidateItems[index];
     }
 
     //ForSelectScreen
