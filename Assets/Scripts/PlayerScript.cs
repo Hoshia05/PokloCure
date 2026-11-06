@@ -219,6 +219,12 @@ public class PlayerScript : MonoBehaviour
 
     }
 
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

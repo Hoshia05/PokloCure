@@ -14,6 +14,12 @@ public class EnemySpawnManager : MonoBehaviour
         Instance = this;
     }
 
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
+
     public void InitializeMinMax(Vector2 min, Vector2 max)
     {
         _min = min;

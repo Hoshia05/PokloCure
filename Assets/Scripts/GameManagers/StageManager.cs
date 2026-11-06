@@ -177,6 +177,12 @@ public class StageManager : MonoBehaviour
 
     }
 
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
+
     private void Start()
     {
         _enemyList = GameManager.Instance.EnemyList;

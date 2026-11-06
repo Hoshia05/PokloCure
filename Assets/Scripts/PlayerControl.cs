@@ -50,6 +50,12 @@ public class PlayerControl : MonoBehaviour
 #endif
     }
 
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
+
     private void Update()
     {
         UpdateLoS(_inputActions.actions["Look"].ReadValue<Vector2>());

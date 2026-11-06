@@ -162,7 +162,8 @@ public class ItemController : MonoBehaviour, IItemController
 
     protected virtual void OnDestroy()
     {
-        PlayerScript.Instance.onStatChange.RemoveListener(ApplyStats);
+        if (PlayerScript.Instance != null)
+            PlayerScript.Instance.onStatChange.RemoveListener(ApplyStats);
     }
 
     protected virtual void Level1Effect()
