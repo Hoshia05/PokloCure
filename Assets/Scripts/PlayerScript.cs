@@ -439,7 +439,7 @@ public class PlayerScript : MonoBehaviour
 
     public void HealStamina(float HealValue)
     {
-        _currentStamina += HealValue;
+        _currentStamina = Mathf.Min(_currentStamina + HealValue, _currentMaxStamina);
         UIStaminaBar.Instance.UpdateStamina(_currentStamina);
     }
 
