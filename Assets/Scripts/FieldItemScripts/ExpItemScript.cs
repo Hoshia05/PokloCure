@@ -18,9 +18,9 @@ public class ExpItemScript : FieldItemBase
             if(script != null && !script.IsPaused)
             {
                 script.GainEXP(_expValue);
-                SoundFXManager.Instance.PlaySoundFXClip(_obtainSound, transform, 0.2f);
-
                 Deactivate();
+
+                SoundFXManager.Instance.PlaySoundFXClip(_obtainSound, transform, 0.2f);
             }
         }
     }

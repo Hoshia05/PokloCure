@@ -102,7 +102,9 @@ public class SoundFXManager : MonoBehaviour
 
     private AudioSource GetAudioSourceObjectFromPool()
     {
-        AudioSource audioSource = _soundClipPool.First(x => x.gameObject.activeSelf == false);
+        AudioSource audioSource = _soundClipPool.FirstOrDefault(x => x != null && !x.gameObject.activeSelf);
+        if (audioSource == null)
+            return null;               // 풀이 가득 참: 이번 사운드는 생략
         audioSource.gameObject.SetActive(true);
 
         return audioSource;
@@ -110,16 +112,23 @@ public class SoundFXManager : MonoBehaviour
 
     IEnumerator DeactivateAudioSource(AudioSource audiosource, float clipLength)
     {
-        yield return new WaitForSeconds(clipLength);
+        // 일시정지(timeScale = 0) 중에도 반환되도록 실시간 기준으로 대기
+        yield return new WaitForSecondsRealtime(clipLength);
 
-        audiosource.gameObject.SetActive(false);
+        if (audiosource != null)
+            audiosource.gameObject.SetActive(false);
     }
 
 
     // Start is called before the first frame update
     public void PlaySoundFXClip(AudioClip clip, Transform spawnTransform, float volume)
     {
+        if (clip == null || spawnTransform == null)
+            return;
+
         AudioSource audiosource = GetAudioSourceObjectFromPool();
+        if (audiosource == null)
+            return;
 
         audiosource.transform.position = spawnTransform.position;
 
@@ -141,6 +150,6 @@ public class SoundFXManager : MonoBehaviour
 
     public void PlayClickSound()
     {
-        PlaySoundFXClip(_clickSoundClip, transform, 10f);
+        PlaySoundFXClip(_clickSoundClip, transform, 1f);
     }
 }
