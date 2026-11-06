@@ -126,15 +126,9 @@ public class EnemySpawnManager : MonoBehaviour
 
     public static Vector2 GetRandomPositionInRadius(Vector2 targetPosition, float radius)
     {
-        PlayerScript playerScript = StageManager.Instance.CurrentPlayer;
-        Vector2 playerPosition = playerScript.transform.position;
+        float a = Random.Range(0f, Mathf.PI * 2f);
 
-        float currentDegree = 360 / (float)(GameManager.Instance.Rand.NextDouble() % 360f);
-
-        float xPosition = targetPosition.x + radius * Mathf.Cos(currentDegree);
-        float yPosition = targetPosition.y + radius * Mathf.Sin(currentDegree);
-
-        return new Vector2(xPosition, yPosition);
+        return targetPosition + new Vector2(Mathf.Cos(a), Mathf.Sin(a)) * radius;
     }
 
     public static Vector2 GenerateRandomPosition(Vector2 center, float outerRadius, float innerRadius = 0)
