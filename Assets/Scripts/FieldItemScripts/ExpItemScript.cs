@@ -28,7 +28,7 @@ public class ExpItemScript : FieldItemBase
     public void Deactivate()
     {
         isPicked = false;
-        gameObject.SetActive(false);
+        PooledObject.ReleaseOrDeactivate(gameObject);
     }
 
     public void Activate(float expValue)

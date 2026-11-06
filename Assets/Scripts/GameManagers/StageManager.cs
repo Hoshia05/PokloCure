@@ -107,7 +107,7 @@ public class StageManager : MonoBehaviour
 
     private List<EnemyBase> _enemyList;
     private Dictionary<EnemyBase, List<GameObject>> _enemyPool = new();
-    private List<GameObject> _expItemPool = new();
+    private SimplePool _expItemPool;
     private List<GameObject> _moneyItemPool = new();
     private List<GameObject> _damagePopupPool = new();
     private List<GameObject> _criticalDamagePopupPool = new();
@@ -251,30 +251,20 @@ public class StageManager : MonoBehaviour
 
         GameObject expObjectPoolParent = new GameObject("expObjectPoolParent");
 
-        int Count = 4000;
-        for(int i = 0; i < Count; i++)
-        {
-            GameObject newEXPItem = Instantiate(GameManager.Instance.ExpItemPrefab, expObjectPoolParent.transform);
-            newEXPItem.SetActive(false);
-
-            _expItemPool.Add(newEXPItem);
-        }
+        // 필요할 때 늘어나는 풀: 처음 500개, 최대 4000개 (기존 상한 유지)
+        _expItemPool = new SimplePool(GameManager.Instance.ExpItemPrefab, expObjectPoolParent.transform, 500, 4000);
     }
 
     public void GetEXPItemFromPool(Vector2 position, float expValue)
     {
 
-        if (!_expItemPool.Any(x => x.activeSelf == false))
-            return;
-
-
-        GameObject expItem = _expItemPool.First(x => x.activeSelf == false);
+        GameObject expItem = _expItemPool.Get();
 
         if (expItem == null)
             return;
 
-        expItem.GetComponent<ExpItemScript>().Activate(expValue);
         expItem.transform.position = position;
+        expItem.GetComponent<ExpItemScript>().Activate(expValue);
     }
 
     private void MoneyItemPoolCreate()
