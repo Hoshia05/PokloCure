@@ -10,18 +10,21 @@ public class SimplePool
     private readonly Transform _parent;
     private readonly Action<GameObject> _onCreate;
     private readonly int _maxTotal;
+    private readonly bool _reparentOnRelease;
     private readonly Stack<PooledObject> _free = new();
     private int _totalCreated;
 
     // prewarm   : 미리 만들어 둘 개수
     // maxTotal  : 풀이 만들 수 있는 최대 개수 (넘으면 Get()이 null을 반환)
     // onCreate  : 새 인스턴스를 만들 때 1회 호출 (비활성화되기 직전)
-    public SimplePool(GameObject prefab, Transform parent, int prewarm, int maxTotal = int.MaxValue, Action<GameObject> onCreate = null)
+    // reparentOnRelease : 반환할 때 다시 풀의 parent 아래로 옮긴다 (꺼낼 때 다른 부모에 붙여 쓰는 경우)
+    public SimplePool(GameObject prefab, Transform parent, int prewarm, int maxTotal = int.MaxValue, Action<GameObject> onCreate = null, bool reparentOnRelease = false)
     {
         _prefab = prefab;
         _parent = parent;
         _maxTotal = maxTotal;
         _onCreate = onCreate;
+        _reparentOnRelease = reparentOnRelease;
 
         for (int i = 0; i < prewarm && _totalCreated < _maxTotal; i++)
         {
@@ -68,6 +71,10 @@ public class SimplePool
             return;
 
         pooled.InPool = true;
+
+        if (_reparentOnRelease && pooled.transform.parent != _parent)
+            pooled.transform.SetParent(_parent, false);
+
         pooled.gameObject.SetActive(false);
         _free.Push(pooled);
     }

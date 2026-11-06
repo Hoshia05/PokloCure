@@ -37,6 +37,13 @@ public class ItemController : MonoBehaviour, IItemController
 
     public List<ItemBehaviour> CurrentProjectiles = new();
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+    // 벤치마크용 카운터: 발사된 투사체 수 / 실제로 새로 Instantiate 된 수
+    public static int DebugSpawnCount;
+    public static int DebugCreateCount;
+    public static bool DebugUsePool = true;   // 벤치마크용: false 면 예전처럼 Instantiate/Destroy
+#endif
+
     protected delegate void LevelUPEffects();
     protected List<LevelUPEffects> _levelUPEffectsList;
 
@@ -265,16 +272,25 @@ public class ItemController : MonoBehaviour, IItemController
             SoundFXManager.Instance.PlayBasicWhoosh(transform, 1f);
         }
 
+        // Instantiate/Destroy 대신 풀에서 꺼낸다 (독립 투사체는 월드에, 아니면 이 컨트롤러 아래에 붙는다)
         GameObject projectile;
-
-        if (independent)
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        if (!DebugUsePool)
         {
-            projectile = Instantiate(ItemData.ProjectileItemPrefab, transform.position, Quaternion.identity);
+            projectile = independent
+                ? Instantiate(ItemData.ProjectileItemPrefab, transform.position, Quaternion.identity)
+                : Instantiate(ItemData.ProjectileItemPrefab, transform);
+            DebugCreateCount++;
         }
         else
+#endif
         {
-            projectile = Instantiate(ItemData.ProjectileItemPrefab, transform);
+            projectile = ProjectilePool.Instance.Get(ItemData.ProjectileItemPrefab, independent ? null : transform, transform.position);
         }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        DebugSpawnCount++;
+#endif
 
         ItemBehaviour projectileBehaviour = projectile.GetComponent<ItemBehaviour>();
 

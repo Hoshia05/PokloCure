@@ -12,12 +12,21 @@ public class LavaBehaviour : ItemBehaviour
 
     private Collider2D _lavaCollider;
     private Rigidbody2D _rb;
+    private float _baseGravityScale;
 
-
-    private void Start()
+    private void Awake()
     {
         _lavaCollider = GetComponent<Collider2D>();
         _rb = GetComponent<Rigidbody2D>();
+        _baseGravityScale = _rb.gravityScale;
+    }
+
+    // 풀에서 꺼낼 때마다 호출된다 (예전 Start 의 내용 + 재사용을 위한 상태 복원)
+    protected override void OnSpawned()
+    {
+        _rb.gravityScale = _baseGravityScale;
+        _rb.linearVelocity = Vector2.zero;
+        _rb.angularVelocity = 0f;
 
         _lavaCollider.enabled = false;
         _lavaSprite.enabled = false;

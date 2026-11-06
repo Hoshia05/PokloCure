@@ -26,8 +26,18 @@ public class ItemBehaviour : MonoBehaviour
     protected bool _cooldownWaitUntilProjectileDeath;
     public bool CooldownWaitUntilprojectileDeath { set => _cooldownWaitUntilProjectileDeath = value; }
 
+    // 풀로 반환된 상태인지 (중복 반환 방지)
+    private bool _released;
+
     public void InitializeValue(ItemController controller, float damage, float deathtime, int pierce, float speed, int level, float sizeScale, float knockback, float stunTime)
     {
+        // 풀에서 재사용되므로 이전 사용 때의 상태를 전부 초기화한다
+        _released = false;
+        _reachedPierceLimit = false;
+        _weaponDestroyedAfterPierce = false;
+        _cooldownWaitUntilProjectileDeath = false;
+        _hitCooldown = 0f;
+
         _controller = controller;
         _damage = damage;
         _deathTime = deathtime;
@@ -39,9 +49,17 @@ public class ItemBehaviour : MonoBehaviour
 
         _itemName = controller.ItemData.ItemName;
 
+        // 풀이 프리팹 크기로 되돌려 둔 상태에서 더하므로 재사용해도 누적되지 않는다
         transform.localScale += new Vector3(sizeScale - 1f, sizeScale - 1f, 0);
 
         DeathCoroutine = StartCoroutine(DestroyProjectile(_deathTime));
+
+        OnSpawned();
+    }
+
+    // 꺼낼 때마다 호출된다. 예전에 Start() 에서 하던 1회성 초기화는 여기서 한다.
+    protected virtual void OnSpawned()
+    {
     }
 
     public void SetHitCooldown(float hitcooldown)
@@ -124,9 +142,10 @@ public class ItemBehaviour : MonoBehaviour
         EndProcess();
     }
 
+    // 컨트롤러가 목록을 직접 비우는 경로에서 쓴다 (목록을 순회 중에 수정하지 않도록 여기서는 지우지 않는다)
     public void DestroyProjectilesNow()
     {
-        Destroy(gameObject);
+        ReleaseToPool(false);
     }
 
     protected void DisengageWeapon()
@@ -144,9 +163,31 @@ public class ItemBehaviour : MonoBehaviour
 
     public void EndProcess()
     {
+        if (_released)
+            return;
+
         if(_cooldownWaitUntilProjectileDeath)
             ResetCooldown();
-        Destroy(gameObject);
+
+        ReleaseToPool(true);
+    }
+
+    private void ReleaseToPool(bool removeFromController)
+    {
+        if (_released)
+            return;
+
+        _released = true;
+
+        // 풀로 돌아간 뒤에 다른 컨트롤러가 다시 쓸 수 있으므로 옛 컨트롤러 목록에서 반드시 빼 둔다
+        if (removeFromController && _controller != null)
+            _controller.CurrentProjectiles.Remove(this);
+
+        // 풀에서 온 오브젝트면 풀로 반환하고 (비활성화되면서 코루틴도 모두 멈춘다), 아니면 예전처럼 파괴한다
+        if (TryGetComponent(out PooledObject pooled))
+            pooled.Release();
+        else
+            Destroy(gameObject);
     }
 
 }

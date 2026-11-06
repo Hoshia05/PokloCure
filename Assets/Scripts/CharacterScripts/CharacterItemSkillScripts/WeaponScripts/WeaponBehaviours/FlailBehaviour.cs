@@ -10,7 +10,8 @@ public class FlailBehaviour : ItemBehaviour
 
     public UnityEvent OnAnimationEnd;
 
-    private void Start()
+    // 풀에서 꺼낼 때마다 호출된다 (예전 Start 의 내용)
+    protected override void OnSpawned()
     {
         if(_flailAnimation != null)
             _flailAnimation.SetFloat("animSpeed", _speed);

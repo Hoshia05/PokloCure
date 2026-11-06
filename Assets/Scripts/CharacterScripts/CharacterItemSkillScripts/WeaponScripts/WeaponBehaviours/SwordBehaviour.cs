@@ -11,6 +11,12 @@ public class SwordBehaviour : ItemBehaviour
         _collider = GetComponent<Collider2D>();
     }
 
+    // 애니메이션 이벤트가 꺼 둔 콜라이더를 재사용할 때 다시 켠다
+    protected override void OnSpawned()
+    {
+        _collider.enabled = true;
+    }
+
     public void TurnOffCollider()
     {
         _collider.enabled = false;

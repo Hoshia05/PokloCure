@@ -9,12 +9,21 @@ public class HammerBehaviour : ItemBehaviour
     //public float moveSpeed = 5f; // Speed of movement in units per second
     public float circleRadius = 3f; // Radius of the circular path
 
+    private float _baseCircleRadius;
     private float angle = 0f;
 
     private Vector2 _initialPosition;
 
-    private void Start()
+    private void Awake()
     {
+        _baseCircleRadius = circleRadius;
+    }
+
+    // 풀에서 꺼낼 때마다 호출된다 (예전 Start 의 내용 + 재사용을 위한 상태 복원)
+    protected override void OnSpawned()
+    {
+        circleRadius = _baseCircleRadius;
+        angle = 0f;
         _initialPosition = transform.position;
     }
 
