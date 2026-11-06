@@ -108,7 +108,7 @@ public class StageManager : MonoBehaviour
     private List<EnemyBase> _enemyList;
     private Dictionary<EnemyBase, List<GameObject>> _enemyPool = new();
     private SimplePool _expItemPool;
-    private List<GameObject> _moneyItemPool = new();
+    private SimplePool _moneyItemPool;
     private List<GameObject> _damagePopupPool = new();
     private List<GameObject> _criticalDamagePopupPool = new();
     private List<GameObject> _enemyHitAnimationPool = new();
@@ -272,22 +272,16 @@ public class StageManager : MonoBehaviour
 
         GameObject moneyObjectPoolParent = new GameObject("moneyObjectPoolParent");
 
-        int Count = 2000;
-        for (int i = 0; i < Count; i++)
-        {
-            GameObject newMoneyItem = Instantiate(GameManager.Instance.DiamondPrefab, moneyObjectPoolParent.transform);
-            newMoneyItem.SetActive(false);
-
-            _moneyItemPool.Add(newMoneyItem);
-        }
+        // 처음 200개, 최대 2000개 (기존 상한 유지)
+        _moneyItemPool = new SimplePool(GameManager.Instance.DiamondPrefab, moneyObjectPoolParent.transform, 200, 2000);
     }
 
     public void GetMoneyItemFromPool(Vector2 targetPosition)
     {
-        if (!_moneyItemPool.Any(x => x.activeSelf == false))
-            return;
+        GameObject moneyItem = _moneyItemPool.Get();
 
-        GameObject moneyItem = _moneyItemPool.First(x => x.activeSelf == false);
+        if (moneyItem == null)
+            return;
 
         moneyItem.SetActive(true);
         moneyItem.transform.position = targetPosition;

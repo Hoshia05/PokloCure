@@ -40,7 +40,7 @@ public class DiamondScript : FieldItemBase
         {
             StageManager.Instance.GainCoins(_coinValue);
 
-            gameObject.SetActive(false);
+            PooledObject.ReleaseOrDeactivate(gameObject);
         }
     }
 }
