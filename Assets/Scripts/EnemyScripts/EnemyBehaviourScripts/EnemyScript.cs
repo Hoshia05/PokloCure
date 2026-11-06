@@ -138,6 +138,20 @@ public class EnemyScript : MonoBehaviour
             _weaponSlot = Instantiate(EnemyData.BasicWeaponController, _weaponSlot.transform);
     }
 
+    // 풀에서 꺼내 재사용할 때 이전 생애의 상태(기절, 색, 코루틴 등)를 초기화한다.
+    // 반드시 오브젝트가 활성화된 뒤에 호출할 것 (코루틴 정리).
+    public void ResetForSpawn()
+    {
+        StopAllCoroutines();
+        _isDying = false;
+        IsStunned = false;
+        IsPatternSpawn = false;
+        DamageList.Clear();
+        SpriteRenderer.color = Color.white;
+        SpriteRenderer.enabled = true;
+        _collider.enabled = true;
+    }
+
     public void SetForPatternSpawn(SpawnType type)
     {
         IsPatternSpawn = true;

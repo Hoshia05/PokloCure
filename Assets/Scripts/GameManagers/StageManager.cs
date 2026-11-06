@@ -624,8 +624,7 @@ public class StageManager : MonoBehaviour
     {
         EnemyScript enemyScript = enemy.GetComponent<EnemyScript>();
         enemy.SetActive(true);
-        enemy.GetComponent<Collider2D>().enabled = true;
-        enemyScript.SpriteRenderer.enabled = true;
+        enemyScript.ResetForSpawn();
         enemyScript.InitializeWithSO(null);
         _currentEnemyCount++;
     }
