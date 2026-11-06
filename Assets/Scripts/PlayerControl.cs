@@ -44,7 +44,9 @@ public class PlayerControl : MonoBehaviour
         _inputActions.actions["PauseMenu"].performed += context => PauseMenu.Invoke();
 
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
         _inputActions.actions["DebugButton"].performed += context => DebugButton();
+#endif
     }
 
     private void Update()
