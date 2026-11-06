@@ -41,17 +41,26 @@ public class FieldItemBase : MonoBehaviour
 
     public void PickedByPlayer(Transform PlayerTransform)
     {
+        if (isPicked)
+            return;
+
         isPicked = true;
         _playerTransform = PlayerTransform;
+
+        // 둥둥 뜨는 코루틴은 줍는 순간 한 번만 멈춘다
+        if (_floatCoroutine != null)
+        {
+            StopCoroutine(_floatCoroutine);
+            _floatCoroutine = null;
+        }
+
+        _itemSprite.transform.localPosition = startPos;
     }
 
     public void TransformToPlayer()
     {
         if (isPicked)
         {
-            StopCoroutine(_floatCoroutine);
-            _itemSprite.transform.localPosition = startPos;
-
             transform.position = Vector2.MoveTowards(transform.position, _playerTransform.position, _movementSpeed * Time.deltaTime);
         }
     }
