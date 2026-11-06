@@ -236,7 +236,7 @@ public class PlayerScript : MonoBehaviour
         if (!IsPaused && !IsDead)
         {
             EatItemRadius();
-            ApplyMovement();
+            CursorUpdate();
             ApplyFlip();
             StaminaReplenish();
         }
@@ -246,7 +246,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (!IsPaused && !IsDead)
         {
-            CursorUpdate();
+            ApplyMovement();
         }
     }
 
