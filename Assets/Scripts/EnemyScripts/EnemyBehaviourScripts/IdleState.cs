@@ -21,6 +21,10 @@ public class ChaseState: IEnemyState
 
     public void UpdateState()
     {
+        // 플레이어가 죽어서 파괴된 뒤에는 추적을 멈춘다 (MissingReferenceException 방지)
+        if (StageManager.Instance == null || StageManager.Instance.CurrentPlayer == null)
+            return;
+
         float distance = Vector2.Distance(_enemyFSM.transform.position, StageManager.Instance.CurrentPlayer.transform.position);
 
         if(distance < _enemyScript.RangedAttackDistance)

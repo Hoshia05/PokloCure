@@ -61,7 +61,9 @@ public class FieldItemBase : MonoBehaviour
     {
         if (isPicked)
         {
-            transform.position = Vector2.MoveTowards(transform.position, _playerTransform.position, _movementSpeed * Time.deltaTime);
+            // 플레이어가 파괴된 경우(사망) 따라가지 않는다
+            if (_playerTransform != null)
+                transform.position = Vector2.MoveTowards(transform.position, _playerTransform.position, _movementSpeed * Time.deltaTime);
         }
     }
     private IEnumerator FloatItem()

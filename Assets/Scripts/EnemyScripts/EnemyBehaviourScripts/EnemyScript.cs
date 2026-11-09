@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -169,6 +169,9 @@ public class EnemyScript : MonoBehaviour
         SpriteRenderer.color = Color.white;
         SpriteRenderer.enabled = true;
         _collider.enabled = true;
+        // KillEnemy가 속도를 0으로 만들기 때문에, 재사용 시 스탯(이동속도 등)을 다시 적용한다.
+        if (_initialized)
+            ApplyStats();
         _currentHP = _currentMaxHP;
     }
 
