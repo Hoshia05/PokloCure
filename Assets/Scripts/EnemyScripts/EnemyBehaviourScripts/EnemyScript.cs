@@ -169,6 +169,7 @@ public class EnemyScript : MonoBehaviour
         SpriteRenderer.color = Color.white;
         SpriteRenderer.enabled = true;
         _collider.enabled = true;
+        _nextContactHitTime = 0f;
         // KillEnemy가 속도를 0으로 만들기 때문에, 재사용 시 스탯(이동속도 등)을 다시 적용한다.
         if (_initialized)
             ApplyStats();
@@ -224,24 +225,42 @@ public class EnemyScript : MonoBehaviour
         rb.AddTorque(500f);
     }
 
+    // 플레이어와 닿아 있는 동안 ContactHitCooldown 간격으로 계속 피해를 준다.
+    // (Enter에서만 때리면, 피격 무적이 끝난 뒤에도 붙어 있는 적이 더 이상 피해를 주지 못한다.)
+    private const float ContactHitCooldown = 0.5f;
+    private float _nextContactHitTime;
+
+    private void TryContactHit(GameObject other)
+    {
+        if (!other.CompareTag("Player") || Time.time < _nextContactHitTime)
+            return;
+
+        PlayerScript script = other.GetComponent<PlayerScript>();
+        if (script == null)
+            return;
+
+        _nextContactHitTime = Time.time + ContactHitCooldown;
+        script.TakeHit(_currentBodyDamage);
+    }
+
     protected void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            GameObject player = collision.gameObject;
-            PlayerScript script = player.GetComponent<PlayerScript>();
-            script.TakeHit(_currentBodyDamage);
-        }
+        TryContactHit(collision.gameObject);
+    }
+
+    protected void OnCollisionStay2D(Collision2D collision)
+    {
+        TryContactHit(collision.gameObject);
     }
 
     protected void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            GameObject player = collision.gameObject;
-            PlayerScript script = player.GetComponent<PlayerScript>();
-            script.TakeHit(_currentBodyDamage);
-        }
+        TryContactHit(collision.gameObject);
+    }
+
+    protected void OnTriggerStay2D(Collider2D collision)
+    {
+        TryContactHit(collision.gameObject);
     }
 
     // 반환값: 실제로 피해가 들어갔으면 true, 무시되었으면(사망 중 / 히트 쿨다운) false
