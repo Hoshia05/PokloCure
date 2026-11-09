@@ -318,7 +318,8 @@ public class PlayerScript : MonoBehaviour
         CharacterInfoUIScript.Instance.SetAtk(_currentAttackMultiplier);
         CharacterInfoUIScript.Instance.SetSpd(_currentSpeedMultiplier);
         CharacterInfoUIScript.Instance.SetCrt(_currentCriticalMultiplier);
-        CharacterInfoUIScript.Instance.SetHaste(_eatDistanceMultiplier);
+        // Haste는 쿨다운 배율(_currentHasteMultiplier)이 줄어든 만큼이다. (이전에는 아이템 줄기 반경을 대신 보여주고 있었다)
+        CharacterInfoUIScript.Instance.SetHaste(1f + (CharacterBase._baseHaste - _currentHasteMultiplier));
     }
 
     void StaminaReplenish()

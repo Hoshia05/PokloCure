@@ -50,28 +50,23 @@ public class YRSkill1Controller : ItemController
         Vector2 playerPosition = transform.position;
         float radius = 10f;
 
-        RaycastHit2D[] Enemies = Physics2D.CircleCastAll(playerPosition, radius, Vector2.up);
+        // CircleCastAll은 거리 기본값이 무한대라 위쪽 전체를 훑는다. 반경 안만 검사한다.
+        Collider2D[] Enemies = Physics2D.OverlapCircleAll(playerPosition, radius);
 
-        if(Enemies.Length > 0 )
+        foreach (Collider2D enemy in Enemies)
         {
-            foreach(RaycastHit2D enemy in Enemies)
+            GameObject enemyObject = enemy.gameObject;
+            if (enemyObject.CompareTag("Enemy"))
             {
-                GameObject enemyObject = enemy.collider.gameObject;
-                if (enemyObject.CompareTag("Enemy"))
-                {
-                    Vector2 EnemyPosition = enemyObject.transform.position;
+                Vector2 EnemyPosition = enemyObject.transform.position;
 
-                    Vector2 launchVector = (EnemyPosition - playerPosition).normalized;
-                    
-                    EnemyScript enemyScript = enemyObject.GetComponent<EnemyScript>();
+                Vector2 launchVector = (EnemyPosition - playerPosition).normalized;
 
-                    enemyScript.Launch(launchVector * _launchForce);
+                EnemyScript enemyScript = enemyObject.GetComponent<EnemyScript>();
 
-                }
-
+                enemyScript.Launch(launchVector * _launchForce);
             }
         }
-
     }
 
     protected override void OnDestroy()
